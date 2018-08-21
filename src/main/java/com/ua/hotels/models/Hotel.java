@@ -1,10 +1,5 @@
 package com.ua.hotels.models;
 
-import com.ua.hotels.models.enums.Stars;
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
-
 import javax.persistence.*;
 import java.util.List;
 import java.util.Map;
@@ -18,12 +13,13 @@ public class Hotel {
     private int id;
     private String name;
     private Map<String, String> address;
-    private Stars stars;
+    private byte stars;
     private String description;
     private Contacts contacts;
     private List<String> photos;
 
-    private Admin admin;
+    //role have to be admin
+    private Customer admin;
 
     @OneToMany(
             fetch = FetchType.LAZY,
@@ -92,11 +88,11 @@ public class Hotel {
         this.address = address;
     }
 
-    public Stars getStars() {
+    public byte getStars() {
         return stars;
     }
 
-    public void setStars(Stars stars) {
+    public void setStars(byte stars) {
         this.stars = stars;
     }
 
@@ -124,11 +120,11 @@ public class Hotel {
         this.photos = photos;
     }
 
-    public Admin getAdmin() {
+    public Customer getAdmin() {
         return admin;
     }
 
-    public void setAdmin(Admin admin) {
+    public void setAdmin(Customer admin) {
         this.admin = admin;
     }
 
