@@ -247,7 +247,7 @@ String subject = "Activate account";
         String subject = "Hotels - Login";
         user.setCode(UUID.randomUUID().toString());
         customerService.save(user);
-        String text =  "Your login is: "+ user.getUsername() + " <br> Login: <a href='http://localhost:8080/login'>to login</a>";
+        String text =  "Your login is: "+ user.getUsername() + " <br> Login: <a href='http://localhost:8080/login'>to login</a> ";
 
         sendMail(email,subject,text);
         return "registr";
