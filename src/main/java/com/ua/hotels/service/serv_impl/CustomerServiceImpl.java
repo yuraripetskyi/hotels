@@ -1,7 +1,8 @@
-package com.ua.hotels.service;
+package com.ua.hotels.service.serv_impl;
 
 import com.ua.hotels.dao.CustomerDAO;
 import com.ua.hotels.models.Customer;
+import com.ua.hotels.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

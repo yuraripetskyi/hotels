@@ -6,15 +6,28 @@
 </head>
 <body>
 <p>Your Name:</p>
-<span th:text="${user.name}"></span>
-<p>Your Surname:</p>
-<span th:text="${user.surname}"></span>
-<p>Your Age:</p>
-<span th:text="${user.age}"></span>
-<p>Your City:</p>
-<span th:text="${user.city}"></span>
-<p>Your Email:</p>
-<span th:text="${user.email}"></span>
+<span th:text="${user.username}"></span>
+
+<form th:action="@{/create_hotel}">
+
+<p>Please enter hotel name:</p>
+    <input type="text" name="hotel_name" placeholder="name"><br>
+<p>addres:</p>
+    <input type="text" name="city" placeholder="city"><br>
+    <input type="text" name="street" placeholder="street"><br>
+    <input type="text" name="house" placeholder="house"><br>
+ <p>Please enter hotel stars:</p>
+     <input type="text" name="stars" placeholder="stars: 1 - 5"><br>
+ <p>Please enter contacts:</p>
+     <input type="text" name="email" placeholder="email"><br>
+         <input type="text" name="phone" placeholder="phone"><br>
+
+  <!--   <p>photos</p> -->
+   <!--  <input type="file" name="file" placeholder=""> -->
+
+</form>
+
+
 <form th:action="@{/logout}" method="get">
     <input type="submit" value="Logout">
 </form>

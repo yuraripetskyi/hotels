@@ -3,7 +3,7 @@ package com.ua.hotels.controllers;
 import com.ua.hotels.models.Customer;
 import com.ua.hotels.models.enums.Role;
 import com.ua.hotels.service.CustomerService;
-import com.ua.hotels.service.CustomerServiceImpl;
+import com.ua.hotels.service.serv_impl.CustomerServiceImpl;
 import com.ua.hotels.utils.CustomerEditor;
 import com.ua.hotels.utils.CustomerValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -147,14 +147,10 @@ public class MainController {
         String text = "Go to the link, to activate your account : <a href='http://localhost:8080/activate/"+ customer.getCode() +"'>Activate</a>";
 String subject = "Activate account";
 
-
-
         sendMail(customer.getEmail(), subject , text);
-
 
         return "registr";
     }
-
 
 
     private void sendMail(String email, String subject, String text) throws javax.mail.MessagingException {
@@ -238,6 +234,11 @@ String subject = "Activate account";
         sendMail(email,subject,text);
         return "registr";
     }
+
+
+
+
+
 
 
 //    @PostMapping("/upload_avatar")
