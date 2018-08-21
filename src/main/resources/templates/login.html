@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>login</title>
+    <meta charset="utf-8"/>
+</head>
+<body>
+
+
+<form th:action="@{/login}" method="post">
+    <input type="text" name="username" placeholder="Login">
+    <input type="text" name="password" placeholder="Password">
+    <input type="submit" value="Submit!">
+</form>
+
+<form th:action="@{/loginresetsend}" method="get">
+    <!--<input type="submit" value="forgot password">-->
+    <h3>change password</h3>
+    <h4>enter ur email, go to the link on ur mail</h4>
+    <input type="text" name="email" placeholder="email">
+    <input type="submit" th:value="send">
+
+</form>
+
+</body>
+</html>

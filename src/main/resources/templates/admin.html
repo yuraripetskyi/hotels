@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+</head>
+<body>
+<p>Your Name:</p>
+<span th:text="${user.name}"></span>
+<p>Your Surname:</p>
+<span th:text="${user.surname}"></span>
+<p>Your Age:</p>
+<span th:text="${user.age}"></span>
+<p>Your City:</p>
+<span th:text="${user.city}"></span>
+<p>Your Email:</p>
+<span th:text="${user.email}"></span>
+<form th:action="@{/logout}" method="get">
+    <input type="submit" value="Logout">
+</form>
+</body>
+</html>
