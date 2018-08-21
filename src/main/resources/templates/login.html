@@ -13,6 +13,12 @@
     <input type="submit" value="Submit!">
 </form>
 
+<form th:action="@{/}" method="get">
+
+    <p>create new account</p>
+    <input type="submit" th:value="registration">
+
+</form>
 
 <form th:action="@{/loginsend}" method="get">
     <!--<input type="submit" value="forgot password">-->
