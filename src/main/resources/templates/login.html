@@ -13,6 +13,16 @@
     <input type="submit" value="Submit!">
 </form>
 
+
+<form th:action="@{/loginsend}" method="get">
+    <!--<input type="submit" value="forgot password">-->
+    <h3>forgot login?</h3>
+    <h4>enter ur email, receive a message with ur loggin</h4>
+    <input type="text" name="email" placeholder="email">
+    <input type="submit" th:value="send">
+
+</form>
+
 <form th:action="@{/loginresetsend}" method="get">
     <!--<input type="submit" value="forgot password">-->
     <h3>change password</h3>

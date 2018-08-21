@@ -240,6 +240,20 @@ String subject = "Activate account";
         return "other_user";
     }
 
+    @GetMapping("/loginsend")
+    public String  loginforgot(@RequestParam String email) throws MessagingException {
+
+        Customer user = (Customer) customerService.loadUserByEmail(email);
+        String subject = "Hotels - Login";
+        user.setCode(UUID.randomUUID().toString());
+        customerService.save(user);
+        String text =  "Your login is: "+ user.getUsername() + " <br> Login: <a href='http://localhost:8080/login'>to login</a>";
+
+        sendMail(email,subject,text);
+        return "registr";
+    }
+
+
     @PostMapping("/upload_avatar")
     public String upload_avatar(@RequestParam MultipartFile file) throws IOException {
 
