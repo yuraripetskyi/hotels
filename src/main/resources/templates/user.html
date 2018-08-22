@@ -7,17 +7,13 @@
 <body>
 
 
-<div>
-    <img th:src="${user.image}">
-</div>
 
 <form action="/upload_avatar" method="post" enctype="multipart/form-data">
 <h3>change avatar</h3>
     <input type="file" name="file" >
     <input type="submit" value="submit">
 
-</form>
-<span th:text="${user.image}">  </span>
+
 
 <p>Your Name:</p>
 <span th:text="${user.name}"></span>

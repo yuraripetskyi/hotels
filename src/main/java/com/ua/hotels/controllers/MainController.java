@@ -104,17 +104,34 @@ public class MainController {
     }
     @GetMapping("/user/{username}")
     public String user(@PathVariable String username,Model model){
-        Customer user =(Customer) customerServiceImpl.loadUserByUsername(username);
+        if (SecurityContextHolder.getContext().getAuthentication() != null &&
+                SecurityContextHolder.getContext().getAuthentication().isAuthenticated() &&
+                //when Anonymous Authentication is enabled
+                !(SecurityContextHolder.getContext().getAuthentication()
+                        instanceof AnonymousAuthenticationToken) ) {
+            Customer user = (Customer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            model.addAttribute("user", user);
+        }
+/*
+treba dorobyty!!!!
+ */
 
-
-        model.addAttribute("user",user);
         return "user";
     }
 
     @GetMapping("/admin/{username}")
     public String admin(@PathVariable String username,Model model){
-        Customer user =(Customer) customerServiceImpl.loadUserByUsername(username);
-        model.addAttribute("user",user);
+        if (SecurityContextHolder.getContext().getAuthentication() != null &&
+                SecurityContextHolder.getContext().getAuthentication().isAuthenticated() &&
+                //when Anonymous Authentication is enabled
+                !(SecurityContextHolder.getContext().getAuthentication()
+                        instanceof AnonymousAuthenticationToken) ) {
+            Customer user = (Customer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            model.addAttribute("user", user);
+        }
+        /*
+        treba dorobiti tut!!!!!!!!!
+         */
         return "admin";
     }
 

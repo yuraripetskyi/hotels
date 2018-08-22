@@ -23,11 +23,11 @@ public class HotelController {
    @Autowired
    private HotelService hotelService;
 
-   @Autowired
-   private AdressService adressService;
-
-   @Autowired
-   private ContactService contactService;
+//   @Autowired
+//   private AdressService adressService;
+//
+//   @Autowired
+//   private ContactService contactService;
 
     @PostMapping("/admin/create_hotel")
     public String create_hotel(@RequestParam String name ,
@@ -38,9 +38,9 @@ public class HotelController {
                                @RequestParam String email,
                                @RequestParam String phone,
                                @RequestParam String description){
-
-
+        System.out.println("1");
         Hotel hotel = new Hotel();
+
         hotel.setName(name);
         Adress adress = new Adress(city, house, street, hotel);
         hotel.setAdress(adress);
@@ -48,11 +48,15 @@ public class HotelController {
         Contact contact = new Contact(email, phone, hotel);
         hotel.setContacts(contact);
         hotel.setDescription(description);
-
-        contactService.save(contact);
-        adressService.save(adress);
+        System.out.println("______--------------------");
+        System.out.println("______--------------------");
+        System.out.println(hotel);
+        System.out.println("______--------------------");
+        System.out.println("______--------------------");
+//        contactService.save(contact);
+//        adressService.save(adress);
         hotelService.save(hotel);
-        return "admin";
+        return "admin2";
     }
 
 
