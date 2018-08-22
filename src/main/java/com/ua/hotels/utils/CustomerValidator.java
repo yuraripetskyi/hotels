@@ -20,4 +20,5 @@ public class CustomerValidator implements Validator {
             errors.rejectValue("username","message.length.error");
         }
     }
+
 }
