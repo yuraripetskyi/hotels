@@ -1,9 +1,9 @@
 package com.ua.hotels.controllers;
 
 import com.ua.hotels.models.Customer;
-import com.ua.hotels.models.Role;
+import com.ua.hotels.models.enums.Role;
 import com.ua.hotels.service.CustomerService;
-import com.ua.hotels.service.CustomerServiceImpl;
+import com.ua.hotels.service.serv_impl.CustomerServiceImpl;
 import com.ua.hotels.utils.CustomerEditor;
 import com.ua.hotels.utils.CustomerValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,15 +21,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.mail.MessagingException;
-import javax.mail.Multipart;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -99,7 +95,6 @@ public class MainController {
 
     @GetMapping("/login")
     public String login(Customer customer){
-        System.out.println(customer.getImage());
 
         if(customer.isEnabled()){
             return "user";}else {
@@ -146,29 +141,16 @@ public class MainController {
         }
         customerEditor.setValue(customer);
         customer.setCode(UUID.randomUUID().toString());
-customer.setImage(System.getProperty("user.dir")+ File.separator
-        +"src"+File.separator+
-        "main"+File.separator+
-        "resources"+File.separator+
-        "static" +File.separator+
-        "none.jpg"
-);
-
-
 
         customerService.save(customer);
 
         String text = "Go to the link, to activate your account : <a href='http://localhost:8080/activate/"+ customer.getCode() +"'>Activate</a>";
 String subject = "Activate account";
 
-
-
         sendMail(customer.getEmail(), subject , text);
-
 
         return "registr";
     }
-
 
 
     private void sendMail(String email, String subject, String text) throws javax.mail.MessagingException {
@@ -254,24 +236,29 @@ String subject = "Activate account";
     }
 
 
-    @PostMapping("/upload_avatar")
-    public String upload_avatar(@RequestParam MultipartFile file) throws IOException {
 
-       String path =  System.getProperty("user.dir")+ File.separator
-                +"src"+File.separator+
-                "main"+File.separator+
-                "resources"+File.separator+
-                "static" +File.separator+
-                "avatars"+File.separator;
 
-        File avatar = new File(path + file.getOriginalFilename());
-        file.transferTo(avatar);
-        Customer user = (Customer)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        user.setImage(path+file.getOriginalFilename());
-customerService.save(user);
-        return "user";
-    }
+
+
+//    @PostMapping("/upload_avatar")
+//    public String upload_avatar(@RequestParam MultipartFile file) throws IOException {
+//
+//       String path =  System.getProperty("user.dir")+ File.separator
+//                +"src"+File.separator+
+//                "main"+File.separator+
+//                "resources"+File.separator+
+//                "static" +File.separator+
+//                "avatars"+File.separator;
+//
+//        File avatar = new File(path + file.getOriginalFilename());
+//        file.transferTo(avatar);
+//        Customer user = (Customer)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//
+//        user.setImage(path+file.getOriginalFilename());
+//customerService.save(user);
+//        return "user";
+//    }
 
 
 }

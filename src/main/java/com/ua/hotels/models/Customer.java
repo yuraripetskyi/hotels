@@ -1,5 +1,6 @@
 package com.ua.hotels.models;
 
+import com.ua.hotels.models.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -31,17 +32,11 @@ public class Customer implements UserDetails {
     private String surname;
     private int age;
     private String city;
-    private String image;
 
 
 
-    public String getImage() {
-        return image;
-    }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
+
 
     public String getName() {
         return name;
