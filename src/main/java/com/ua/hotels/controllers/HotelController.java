@@ -4,6 +4,8 @@ import com.ua.hotels.models.Adress;
 import com.ua.hotels.models.Contact;
 import com.ua.hotels.models.Hotel;
 import com.ua.hotels.models.Room;
+import com.ua.hotels.service.AdressService;
+import com.ua.hotels.service.ContactService;
 import com.ua.hotels.service.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -21,6 +23,11 @@ public class HotelController {
    @Autowired
    private HotelService hotelService;
 
+   @Autowired
+   private AdressService adressService;
+
+   @Autowired
+   private ContactService contactService;
 
     @PostMapping("/admin/create_hotel")
     public String create_hotel(@RequestParam String name ,
@@ -42,7 +49,8 @@ public class HotelController {
         hotel.setContacts(contact);
         hotel.setDescription(description);
 
-
+        contactService.save(contact);
+        adressService.save(adress);
         hotelService.save(hotel);
         return "admin";
     }
