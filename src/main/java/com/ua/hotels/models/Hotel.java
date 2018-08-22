@@ -12,7 +12,7 @@ import java.util.Objects;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"rooms"})
+@ToString(exclude = {"rooms","contacts","adress"})
 @Entity
 public class Hotel {
 
@@ -20,15 +20,32 @@ public class Hotel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-//    private Map<String, String> address;
+
     private String street;
     private String city;
     private String house;
     private byte stars;
     private String description;
-    //    private Contacts contacts;
-    private String email;
-    private String phone;
+        @OneToOne(
+                fetch = FetchType.LAZY,
+cascade = CascadeType.REFRESH
+        )
+        private Contact contacts;
+
+        @OneToOne(
+              fetch = FetchType.LAZY,
+              cascade = CascadeType.REFRESH
+        )
+private Adress adress;
+
+
+    public Adress getAdress() {
+        return adress;
+    }
+
+    public void setAdress(Adress adress) {
+        this.adress = adress;
+    }
 
     public String getStreet() {
         return street;
@@ -56,21 +73,6 @@ public class Hotel {
 
 
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
 //    private List<String> photos;
 
     //role have to be admin
@@ -83,20 +85,28 @@ public class Hotel {
     )
     private List<Room> rooms;
 
-    public Hotel(String name, Map<String, String> address, byte stars, String description, List<String> photos, Customer admin, List<Room> rooms) {
+    public Hotel(String name, String street, String city, String house, byte stars, String description, Contact contacts, Customer admin, List<Room> rooms) {
         this.name = name;
-//        this.address = address;
+        this.street = street;
+        this.city = city;
+        this.house = house;
         this.stars = stars;
         this.description = description;
-//        this.contacts = contacts;
-//        this.photos = photos;
+        this.contacts = contacts;
         this.admin = admin;
         this.rooms = rooms;
     }
 
-
     public int getId() {
         return id;
+    }
+
+    public Contact getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(Contact contacts) {
+        this.contacts = contacts;
     }
 
     public void setId(int id) {
@@ -111,13 +121,6 @@ public class Hotel {
         this.name = name;
     }
 
-//    public Map<String, String> getAddress() {
-//        return address;
-//    }
-//
-//    public void setAddress(Map<String, String> address) {
-//        this.address = address;
-//    }
 
     public byte getStars() {
         return stars;
@@ -136,14 +139,6 @@ public class Hotel {
     }
 
 
-//
-//    public List<String> getPhotos() {
-//        return photos;
-//    }
-//
-//    public void setPhotos(List<String> photos) {
-//        this.photos = photos;
-//    }
 
     public Customer getAdmin() {
         return admin;
