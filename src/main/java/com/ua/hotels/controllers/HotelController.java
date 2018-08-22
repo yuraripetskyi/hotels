@@ -56,22 +56,6 @@ public class HotelController {
     }
 
 
-
-//    <p>Please enter hotel name:</p>
-//    <input type="text" name="name" placeholder="name"><br>
-//<p>addres:</p>
-//    <input type="text" name="city" placeholder="city"><br>
-//    <input type="text" name="street" placeholder="street"><br>
-//    <input type="text" name="house" placeholder="house"><br>
-//    <p>Please enter hotel stars:</p>
-//     <input type="text" name="stars" placeholder="stars: 1 - 5"><br>
-//    <p>Please enter contacts:</p>
-//     <input type="text" name="email" placeholder="email"><br>
-//         <input type="text" name="phone" placeholder="phone"><br>
-//
-//    <input type="text" name="description" placeholder="description"><br>
-
-
     @PostMapping("/admin/add-room-to-hotel")
     public String add_room(@RequestParam String hotel_name, Room room){
         List<Hotel> hotels = hotelService.findAll();
