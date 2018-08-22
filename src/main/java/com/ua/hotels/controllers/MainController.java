@@ -260,5 +260,9 @@ String subject = "Activate account";
 //        return "user";
 //    }
 
+    @GetMapping("/fblogin")
+    public String index() {
+        return "fblogin";
+    }
 
 }
