@@ -18,9 +18,16 @@ public class Adress {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  int id;
-    private String street;
     private String city;
+    private String street;
     private String house;
+
+    public Adress(String city, String street, String house, Hotel hotel) {
+        this.city = city;
+        this.street = street;
+        this.house = house;
+        this.hotel = hotel;
+    }
 
     @OneToOne(
             cascade = CascadeType.REFRESH,

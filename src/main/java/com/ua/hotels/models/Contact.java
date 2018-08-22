@@ -25,6 +25,12 @@ public class Contact {
     )
     private Hotel hotel;
 
+    public Contact(String phone, String email, Hotel hotel) {
+        this.phone = phone;
+        this.email = email;
+        this.hotel = hotel;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

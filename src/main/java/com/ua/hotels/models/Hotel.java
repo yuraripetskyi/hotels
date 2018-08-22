@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Objects;
 
 
-@NoArgsConstructor
+
 @AllArgsConstructor
 @ToString(exclude = {"rooms","contacts","adress"})
 @Entity
@@ -26,7 +26,11 @@ public class Hotel {
     private String house;
     private byte stars;
     private String description;
-        @OneToOne(
+
+    public Hotel() {
+    }
+
+    @OneToOne(
                 fetch = FetchType.LAZY,
 cascade = CascadeType.REFRESH
         )
