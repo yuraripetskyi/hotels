@@ -21,8 +21,8 @@ public class Room {
     private int id;
     private Type type;
     private String description;
-//    private List<String> photos;
     private double price;
+    //    private List<String> photos;
 
     @ManyToOne(
             cascade = CascadeType.PERSIST,
