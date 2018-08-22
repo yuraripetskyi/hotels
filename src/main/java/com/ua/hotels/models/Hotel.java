@@ -21,9 +21,56 @@ public class Hotel {
     private int id;
     private String name;
 //    private Map<String, String> address;
+    private String street;
+    private String city;
+    private String house;
     private byte stars;
     private String description;
-//    private Contacts contacts;
+    //    private Contacts contacts;
+    private String email;
+    private String phone;
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getHouse() {
+        return house;
+    }
+
+    public void setHouse(String house) {
+        this.house = house;
+    }
+
+
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 //    private List<String> photos;
 
     //role have to be admin
@@ -36,7 +83,7 @@ public class Hotel {
     )
     private List<Room> rooms;
 
-    public Hotel(String name, Map<String, String> address, byte stars, String description, Contacts contacts, List<String> photos, Customer admin, List<Room> rooms) {
+    public Hotel(String name, Map<String, String> address, byte stars, String description, List<String> photos, Customer admin, List<Room> rooms) {
         this.name = name;
 //        this.address = address;
         this.stars = stars;
@@ -47,27 +94,6 @@ public class Hotel {
         this.rooms = rooms;
     }
 
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Hotel hotel = (Hotel) o;
-        return id == hotel.id &&
-                Objects.equals(name, hotel.name) &&
-//                Objects.equals(address, hotel.address) &&
-                Objects.equals(stars, hotel.stars) &&
-                Objects.equals(description, hotel.description) &&
-//                Objects.equals(contacts, hotel.contacts) &&
-//                Objects.equals(photos, hotel.photos) &&
-                Objects.equals(admin, hotel.admin) &&
-                Objects.equals(rooms, hotel.rooms);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, /*address,*/ stars, description, /*contacts, photos,*/ admin, rooms);
-    }
 
     public int getId() {
         return id;
@@ -109,13 +135,7 @@ public class Hotel {
         this.description = description;
     }
 
-//    public Contacts getContacts() {
-//        return contacts;
-//    }
-//
-//    public void setContacts(Contacts contacts) {
-//        this.contacts = contacts;
-//    }
+
 //
 //    public List<String> getPhotos() {
 //        return photos;
