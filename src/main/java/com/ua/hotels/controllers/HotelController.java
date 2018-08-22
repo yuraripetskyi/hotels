@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class HotelController {
 
 
-//   @Autowired
-//   private HotelService hotelService;
-//
-//
-//    @PostMapping("/create_hotel")
-//    public String create_hotel(Hotel hotel){
-//
-//        hotelService.save(hotel);
-//        return "admin";
-//    }
+   @Autowired
+   private HotelService hotelService;
+
+
+    @PostMapping("/create_hotel")
+    public String create_hotel(Hotel hotel){
+
+        hotelService.save(hotel);
+        return "admin";
+    }
 }
