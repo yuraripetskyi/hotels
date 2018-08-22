@@ -13,19 +13,23 @@ import java.util.List;
 import java.util.stream.Stream;
 
 @Controller
-public class HotelController {
+public class    HotelController {
 
 
    @Autowired
    private HotelService hotelService;
 
 
-    @PostMapping("/admin/create_hotel")
-    public String create_hotel(Hotel hotel){
-
-        hotelService.save(hotel);
-        return "admin";
-    }
+//    @PostMapping("/admin/create_hotel")
+//    public String create_hotel()
+////            @RequestParam String name,
+////                               @RequestParam String city,
+////                               @RequestParam String street,
+////                               @Re){
+////
+////        hotelService.save(hotel);
+//        return ;
+//    }
 
 
 

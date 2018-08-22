@@ -1,4 +1,4 @@
 package com.ua.hotels.models;
 
-public class Adress {
+public class Contacts {
 }
