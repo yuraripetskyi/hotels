@@ -72,7 +72,7 @@ private Adress adress;
         this.contacts = contacts;
         this.adress = adress;
 //        this.admin = admin;
-        this.rooms = rooms;
+//        this.rooms = rooms;
     }
 
     public int getId() {
@@ -126,11 +126,11 @@ private Adress adress;
 //        this.admin = admin;
 //    }
 
-    public List<Room> getRooms() {
-        return rooms;
-    }
-
-    public void setRooms(List<Room> rooms) {
-        this.rooms = rooms;
-    }
+//    public List<Room> getRooms() {
+//        return rooms;
+//    }
+//
+//    public void setRooms(List<Room> rooms) {
+//        this.rooms = rooms;
+//    }
 }
