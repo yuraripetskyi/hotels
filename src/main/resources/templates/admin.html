@@ -8,7 +8,7 @@
 <p>Your Name:</p>
 <span th:text="${user.username}"></span>
 
-<form th:action="@{/admin/create_hotel}">
+<form th:action="@{/admin/create_hotel}" method="post">
 
 <p>Please enter hotel name:</p>
     <input type="text" name="name" placeholder="name"><br>

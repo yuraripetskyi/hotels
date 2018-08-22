@@ -1,15 +1,15 @@
 package com.ua.hotels.controllers;
 
-import com.ua.hotels.models.Adress;
-import com.ua.hotels.models.Contact;
-import com.ua.hotels.models.Hotel;
-import com.ua.hotels.models.Room;
+import com.ua.hotels.models.*;
 import com.ua.hotels.service.AdressService;
 import com.ua.hotels.service.ContactService;
 import com.ua.hotels.service.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -37,26 +37,44 @@ public class HotelController {
                                @RequestParam byte stars,
                                @RequestParam String email,
                                @RequestParam String phone,
-                               @RequestParam String description){
-        System.out.println("1");
-        Hotel hotel = new Hotel();
+                               @RequestParam String description,
+                               Model model){
+        if (SecurityContextHolder.getContext().getAuthentication() != null &&
+                SecurityContextHolder.getContext().getAuthentication().isAuthenticated() &&
+                //when Anonymous Authentication is enabled
+                !(SecurityContextHolder.getContext().getAuthentication()
+                        instanceof AnonymousAuthenticationToken) ) {
+            Customer user = (Customer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            model.addAttribute("user", user);
 
-        hotel.setName(name);
-        Adress adress = new Adress(city, house, street, hotel);
-        hotel.setAdress(adress);
-        hotel.setStars(stars);
-        Contact contact = new Contact(email, phone, hotel);
-        hotel.setContacts(contact);
-        hotel.setDescription(description);
-        System.out.println("______--------------------");
-        System.out.println("______--------------------");
-        System.out.println(hotel);
-        System.out.println("______--------------------");
-        System.out.println("______--------------------");
+/*
+
+dorobyty!!!
+ */
+
+            System.out.println("1");
+            Hotel hotel = new Hotel();
+
+            hotel.setName(name);
+            Adress adress = new Adress(city, house, street, hotel);
+            hotel.setAdress(adress);
+            hotel.setStars(stars);
+//            hotel.setAdmin(user);
+            Contact contact = new Contact(email, phone, hotel);
+            hotel.setContacts(contact);
+            hotel.setDescription(description);
+            System.out.println("______--------------------");
+            System.out.println("______--------------------");
+            System.out.println(hotel);
+            System.out.println(hotel.getAdress());
+            System.out.println(hotel.getContacts());
+            System.out.println("______--------------------");
+            System.out.println("______--------------------");
 //        contactService.save(contact);
 //        adressService.save(adress);
-        hotelService.save(hotel);
-        return "admin2";
+            hotelService.save(hotel);
+        }
+        return "admin";
     }
 
 

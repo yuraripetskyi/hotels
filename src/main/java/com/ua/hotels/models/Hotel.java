@@ -20,9 +20,6 @@ public class Hotel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    private String street;
-    private String city;
-    private String house;
     private byte stars;
     private String description;
 
@@ -50,36 +47,16 @@ private Adress adress;
         this.adress = adress;
     }
 
-    public String getStreet() {
-        return street;
-    }
 
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getHouse() {
-        return house;
-    }
-
-    public void setHouse(String house) {
-        this.house = house;
-    }
 
 
 
 //    private List<String> photos;
 
     //role have to be admin
-    private Customer admin;
+
+
+//    private Customer admin;
 
     @OneToMany(
             fetch = FetchType.LAZY,
@@ -88,15 +65,13 @@ private Adress adress;
     )
     private List<Room> rooms;
 
-    public Hotel(String name, String street, String city, String house, byte stars, String description, Contact contacts, Customer admin, List<Room> rooms) {
+    public Hotel(String name, byte stars, String description, Contact contacts, Adress adress, Customer admin, List<Room> rooms) {
         this.name = name;
-        this.street = street;
-        this.city = city;
-        this.house = house;
         this.stars = stars;
         this.description = description;
         this.contacts = contacts;
-        this.admin = admin;
+        this.adress = adress;
+//        this.admin = admin;
         this.rooms = rooms;
     }
 
@@ -143,13 +118,13 @@ private Adress adress;
 
 
 
-    public Customer getAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(Customer admin) {
-        this.admin = admin;
-    }
+//    public Customer getAdmin() {
+//        return admin;
+//    }
+//
+//    public void setAdmin(Customer admin) {
+//        this.admin = admin;
+//    }
 
     public List<Room> getRooms() {
         return rooms;
