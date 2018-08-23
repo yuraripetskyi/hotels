@@ -38,6 +38,15 @@ public class Hotel {
         this.stars = stars;
         this.description = description;
     }
+
+    public List<Room> getRooms() {
+        return rooms;
+    }
+
+    public void setRooms(List<Room> rooms) {
+        this.rooms = rooms;
+    }
+
     @OneToMany(
             fetch = FetchType.LAZY,
             cascade = CascadeType.REFRESH,
