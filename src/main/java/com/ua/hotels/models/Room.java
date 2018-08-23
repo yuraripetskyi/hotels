@@ -19,7 +19,7 @@ public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private Type type;
+    private String type;
     private String description;
     private double price;
     //    private List<String> photos;
@@ -30,7 +30,13 @@ public class Room {
     )
     private Hotel hotel;
 
-    public Room(Type type, String description, List<String> photos, double price, Hotel hotel) {
+    public Room(String type, String description, double price) {
+        this.type = type;
+        this.description = description;
+        this.price = price;
+    }
+
+    public Room(String type, String description, List<String> photos, double price, Hotel hotel) {
         this.type = type;
         this.description = description;
 //        this.photos = photos;
@@ -64,11 +70,11 @@ public class Room {
         this.id = id;
     }
 
-    public Type getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(Type type) {
+    public void setType(String  type) {
         this.type = type;
     }
 
