@@ -3,6 +3,7 @@ package com.ua.hotels.controllers;
 import com.ua.hotels.models.*;
 import com.ua.hotels.service.AdressService;
 import com.ua.hotels.service.ContactService;
+import com.ua.hotels.service.CustomerService;
 import com.ua.hotels.service.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -22,6 +23,8 @@ public class HotelController {
 
    @Autowired
    private HotelService hotelService;
+   @Autowired
+   private CustomerService customerService;
 
 //   @Autowired
 //   private AdressService adressService;
@@ -53,25 +56,11 @@ dorobyty!!!
  */
 
             System.out.println("1");
-            Hotel hotel = new Hotel();
+            Hotel hotel = new Hotel(name, city,street, house, email, phone, stars, description);
+            hotel.setAdmin(user);
 
-            hotel.setName(name);
-            Adress adress = new Adress(city, house, street, hotel);
-            hotel.setAdress(adress);
-            hotel.setStars(stars);
-//            hotel.setAdmin(user);
-            Contact contact = new Contact(email, phone, hotel);
-            hotel.setContacts(contact);
-            hotel.setDescription(description);
-            System.out.println("______--------------------");
-            System.out.println("______--------------------");
             System.out.println(hotel);
-            System.out.println(hotel.getAdress());
-            System.out.println(hotel.getContacts());
-            System.out.println("______--------------------");
-            System.out.println("______--------------------");
-//        contactService.save(contact);
-//        adressService.save(adress);
+
             hotelService.save(hotel);
         }
         return "admin";

@@ -34,9 +34,19 @@ public class Customer implements UserDetails {
     private String city;
 
 
+    @OneToOne(
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.REFRESH
+    )
+    private Hotel hotel;
 
+    public Hotel getHotel() {
+        return hotel;
+    }
 
-
+    public void setHotel(Hotel hotel) {
+        this.hotel = hotel;
+    }
 
     public String getName() {
         return name;
