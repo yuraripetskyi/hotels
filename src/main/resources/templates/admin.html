@@ -30,9 +30,11 @@
 </form>
 
 
-<form action="@{/admin/add-room-to-hotel}">
+<form th:action="@{/admin/add-room-to-hotel}" method="post">
 <p>Please enter hotel name:</p>
     <input type="text" name="hotel_name" placeholder="name"><br>
+    <br>
+    <input type="text" name="type" placeholder="type"><br>
     <input type="text" name="description" placeholder="description"><br>
     <input type="text" name="price" placeholder="price"><br>
     <input type="submit">

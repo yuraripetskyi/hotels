@@ -135,6 +135,21 @@ treba dorobyty!!!!
         return "admin";
     }
 
+//    @GetMapping("/admin")
+//    public String adminPage(@PathVariable String username,Model model){
+//        if (SecurityContextHolder.getContext().getAuthentication() != null &&
+//                SecurityContextHolder.getContext().getAuthentication().isAuthenticated() &&
+//                //when Anonymous Authentication is enabled
+//                !(SecurityContextHolder.getContext().getAuthentication()
+//                        instanceof AnonymousAuthenticationToken) ) {
+//            Customer user = (Customer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//            model.addAttribute("user", user);
+//        }
+//        /*
+//        treba dorobiti tut!!!!!!!!!
+//         */
+//        return "admin";
+//    }
     @GetMapping("/logout")
     public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
