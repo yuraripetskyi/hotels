@@ -159,6 +159,9 @@ treba dorobyty!!!!
         customerEditor.setValue(customer);
         customer.setCode(UUID.randomUUID().toString());
 
+//        customer.setRole(Role.ROLE_ADMIN);
+//        customer.setEnabled(true);
+
         customerService.save(customer);
 
         String text = "Go to the link, to activate your account : <a href='http://localhost:8080/activate/"+ customer.getCode() +"'>Activate</a>";
