@@ -1,20 +1,23 @@
 package com.ua.hotels.models;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import com.ua.hotels.models.enums.Role;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 
 import javax.persistence.*;
+import java.nio.channels.Channels;
 import java.util.*;
 
 @Entity
-@ToString(exclude = "channels")
+@ToString(exclude = {"hotels","rooms","channels"})
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
+@Getter
+@Setter
 public class Customer implements UserDetails {
 
     @Id
@@ -31,17 +34,27 @@ public class Customer implements UserDetails {
     private String surname;
     private int age;
     private String city;
-    private String image;
 
+    @OneToMany(
+            cascade = CascadeType.REFRESH,
+            fetch = FetchType.LAZY,
+            mappedBy = "customer"
+    )
+    private List<Hotel> hotels ;
 
+    @ManyToMany(
+            cascade = CascadeType.REFRESH,
+            fetch = FetchType.LAZY,
+            mappedBy = "customers"
+    )
+    private List<Room> rooms ;
 
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
+    @ManyToMany(
+            cascade = CascadeType.REFRESH,
+            fetch = FetchType.LAZY,
+            mappedBy = "customers"
+    )
+    private List<Channel> channels ;
 
     public String getName() {
         return name;
@@ -83,9 +96,6 @@ public class Customer implements UserDetails {
         return code;
     }
 
-    public void setChannels(List<Channel> channels) {
-        this.channels = channels;
-    }
 
     public Customer(String username, String password, String email) {
         this.username = username;
@@ -103,11 +113,6 @@ public class Customer implements UserDetails {
     }
 
     private Role role = Role.ROLE_USER;
-    @ManyToMany(
-            cascade = CascadeType.REFRESH,
-            fetch = FetchType.LAZY
-    )
-    private List<Channel> channels = new LinkedList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
