@@ -72,7 +72,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .failureUrl("/unsuccess");
-        //.successForwardUrl("/success")
+                .failureUrl("/unsuccess")
+                .successForwardUrl("/success");
     }
 }

@@ -54,7 +54,7 @@ public class MainController {
     @GetMapping("/")
     public String index(Model model) {
         Customer user = findActiveUser();
-        if (user != null) {
+        if (user != null && user.isEnabled()) {
             model.addAttribute("user", user);
             Role role = user.getRole();
             if (role.equals(Role.ROLE_USER)) {
@@ -73,7 +73,7 @@ public class MainController {
     @PostMapping("/success")
     public String success(Model model) {
         Customer user = findActiveUser();
-        if (user != null) {
+        if (user != null && user.isEnabled()) {
             model.addAttribute("user", user);
             Role role = user.getRole();
             if (role.equals(Role.ROLE_USER)) {
@@ -88,13 +88,8 @@ public class MainController {
     }
 
     @GetMapping("/login")
-    public String login(Customer customer) {
-        if (customer.isEnabled()) {
-            return "user";
-        } else {
-            return "login";
-        }
-
+    public String login() {
+        return "login";
     }
 
     @GetMapping("/user/{username}")

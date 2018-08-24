@@ -1,46 +1,38 @@
 package com.ua.hotels.models;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(exclude = "customers")
+@ToString(exclude = {"customers","hotel"})
+@Getter
+@Setter
+@Builder
 public class Channel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     private String name;
 
     @ManyToMany(
             cascade = CascadeType.REFRESH,
-            fetch = FetchType.LAZY,
-            mappedBy = "channels"
+            fetch = FetchType.LAZY
     )
-    private List<Customer> customers = new LinkedList<>();
+    private List<Customer> customers ;
 
-    public int getId() {
-        return id;
-    }
+    @OneToOne(
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "channel"
+    )
+    private Hotel hotel;
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
 }
