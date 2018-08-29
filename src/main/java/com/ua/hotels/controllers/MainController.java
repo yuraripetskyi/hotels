@@ -26,6 +26,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.util.List;
 import java.util.UUID;
 
@@ -136,6 +137,7 @@ public class MainController {
         }
         customerEditor.setValue(customer);
         customer.setCode(UUID.randomUUID().toString());
+
         customerService.save(customer);
         String text = "Go to the link, to activate your account : <a href='http://localhost:8080/activate/" + customer.getCode() + "'>Activate</a>";
         String subject = "Activate account";
@@ -163,7 +165,19 @@ public class MainController {
         return "login";
     }
 
-    @GetMapping("/loginresetsend")
+    @GetMapping("/login/forgotten")
+    public String loginforgot(@RequestParam String email) throws MessagingException {
+
+        Customer user = (Customer) customerService.loadUserByEmail(email);
+        String subject = "Hotels - Login";
+        user.setCode(UUID.randomUUID().toString());
+        customerService.save(user);
+        String text = "Your login is: " + user.getUsername() + " <br> Login: <a href='http://localhost:8080/login'>to login</a>";
+        sendMail(email, subject, text);
+        return "registr";
+    }
+
+    @GetMapping("/password/forgotten")
     public String restorePassword(@RequestParam String email) throws MessagingException {
         Customer user = (Customer) customerService.loadUserByEmail(email);
         String subject = "Change password";
@@ -206,17 +220,6 @@ public class MainController {
         return "other_user";
     }
 
-    @GetMapping("/loginsend")
-    public String loginforgot(@RequestParam String email) throws MessagingException {
-
-        Customer user = (Customer) customerService.loadUserByEmail(email);
-        String subject = "Hotels - Login";
-        user.setCode(UUID.randomUUID().toString());
-        customerService.save(user);
-        String text = "Your login is: " + user.getUsername() + " <br> Login: <a href='http://localhost:8080/login'>to login</a>";
-        sendMail(email, subject, text);
-        return "registr";
-    }
 
     public Customer findActiveUser() {
         if (SecurityContextHolder.getContext().getAuthentication() != null &&
