@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Create hotel</title>
+</head>
+<body>
+
+<form th:action="@{/save/hotel}" method="post">
+    <p>Please enter your Name:</p>
+    <input type="" name="name" placeholder="Name"><br>
+    <p>Please enter your City:</p>
+    <input type="" name="city" placeholder="City"><br>
+    <p>Please enter your Street:</p>
+    <input type="" name="street" placeholder="Street"><br>
+    <p>Please enter your Email:</p>
+    <input type="email" name="email" placeholder="Email"><br>
+    <input type="submit" value="Submit!">
+</form>
+
+</body>
+</html>

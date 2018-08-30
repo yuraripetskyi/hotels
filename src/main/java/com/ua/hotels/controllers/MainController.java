@@ -1,6 +1,7 @@
 package com.ua.hotels.controllers;
 
 import com.ua.hotels.models.Customer;
+import com.ua.hotels.models.Hotel;
 import com.ua.hotels.models.enums.Role;
 import com.ua.hotels.service.CustomerService;
 import com.ua.hotels.service.CustomerServiceImpl;
@@ -114,6 +115,7 @@ public class MainController {
         return "hoteladmin";
     }
 
+
     @GetMapping("/logout")
     public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -221,7 +223,7 @@ public class MainController {
     }
 
 
-    public Customer findActiveUser() {
+    public static Customer findActiveUser() {
         if (SecurityContextHolder.getContext().getAuthentication() != null &&
                 SecurityContextHolder.getContext().getAuthentication().isAuthenticated() &&
                 //when Anonymous Authentication is enabled
