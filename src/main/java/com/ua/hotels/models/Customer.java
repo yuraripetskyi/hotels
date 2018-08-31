@@ -104,6 +104,11 @@ public class Customer implements UserDetails {
 
     }
 
+    public Customer(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }

@@ -1,5 +1,7 @@
 package com.ua.hotels.config;
 
+import com.ua.hotels.models.Customer;
+import com.ua.hotels.models.enums.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -43,22 +45,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth,
                                 AuthenticationProvider provider) throws Exception {
 
-        inMemoryConfigurer()
-                .withUser("a")
-                .password("a")
+        ( inMemoryConfigurer())
+                .withUser("admin")
+                .password("{noop}admin").roles("ADMIN")
                 .authorities("ADMIN")
                 .and()
                 .configure(auth);
         auth.authenticationProvider(provider);
 
     }
-
-    /*@Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .inMemoryAuthentication()
-                .withUser("ad").password("ad").roles(String.valueOf(Role.ROLE_ADMIN));
-    }*/
 
 
     @Override

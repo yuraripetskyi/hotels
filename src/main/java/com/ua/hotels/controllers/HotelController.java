@@ -10,6 +10,7 @@ import com.ua.hotels.utils.CustomerValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,9 +48,9 @@ public class HotelController {
 
     @PostMapping("/save/hotel")
     public String saveHotel(Hotel hotel){
-        Customer user = MainController.findActiveUser();
+        Customer user =  MainController.findActiveUser();
         hotel.setCustomer(user);
         hotelDAO.save(hotel);
-        return "redirect:/user/" + user.getUsername();
+        return "redirect:/hoteladmin/" + user.getUsername();
     }
 }

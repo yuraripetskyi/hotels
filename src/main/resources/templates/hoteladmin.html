@@ -16,10 +16,18 @@
 <span th:text="${user.city}"></span>
 <p>Your Email:</p>
 <span th:text="${user.email}"></span>
+
 <form th:action="@{/logout}" method="get">
     <input type="submit" value="Logout">
 </form>
 
+<form th:action="@{/create/hotel}" method="get">
+    <input type="submit" value="Create Hotel">
+</form>
+
+<form th:action="@{/create/hotel}" method="get">
+    <input type="submit" value="Create Hotel">
+</form>
 
 </body>
 </html>

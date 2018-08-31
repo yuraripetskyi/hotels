@@ -139,7 +139,6 @@ public class MainController {
         }
         customerEditor.setValue(customer);
         customer.setCode(UUID.randomUUID().toString());
-
         customerService.save(customer);
         String text = "Go to the link, to activate your account : <a href='http://localhost:8080/activate/" + customer.getCode() + "'>Activate</a>";
         String subject = "Activate account";
@@ -213,13 +212,6 @@ public class MainController {
         } else {
             return "/change_password/" + customer.getCode();
         }
-    }
-
-    @GetMapping("/user/{id}/other")
-    public String user_friend(@PathVariable int id, Model model) {
-        Customer user = (Customer) customerServiceImpl.loadUserById(id);
-        model.addAttribute("user", user);
-        return "other_user";
     }
 
 
