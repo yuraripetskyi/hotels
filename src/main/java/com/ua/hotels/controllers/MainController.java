@@ -44,7 +44,6 @@ public class MainController {
     @Autowired
     private CustomerServiceImpl customerServiceImpl;
 
-
     @Autowired
     private CustomerEditor customerEditor;
 
@@ -56,15 +55,8 @@ public class MainController {
         Customer user = findActiveUser();
         if (user != null && user.isEnabled()) {
             model.addAttribute("user", user);
-            Role role = user.getRole();
-            if (role.equals(Role.ROLE_USER)) {
-                return "redirect:/user/" + user.getUsername();
-            } else if (role.equals(Role.ROLE_ADMIN)) {
-                System.out.println();
-                return "redirect:/admin/" + user.getUsername();
-            } else {
-                return "redirect:/hoteladmin/" + user.getUsername();
-            }
+            String path = returnPath(user);
+            return path;
         } else {
             return "index";
         }
@@ -75,14 +67,8 @@ public class MainController {
         Customer user = findActiveUser();
         if (user != null && user.isEnabled()) {
             model.addAttribute("user", user);
-            Role role = user.getRole();
-            if (role.equals(Role.ROLE_USER)) {
-                return "redirect:/user/" + user.getUsername();
-            } else if (role.equals(Role.ROLE_ADMIN)) {
-                return "redirect:/admin/" + user.getUsername();
-            } else {
-                return "redirect:/hoteladmin/" + user.getUsername();
-            }
+            String path = returnPath(user);
+            return path;
         }
         return "index";
     }
@@ -155,6 +141,18 @@ public class MainController {
             return user;
         } else {
             return null;
+        }
+    }
+
+    public String returnPath(Customer user)
+    {
+        Role role = user.getRole();
+        if (role.equals(Role.ROLE_USER)) {
+            return "redirect:/user/" + user.getUsername();
+        } else if (role.equals(Role.ROLE_ADMIN)) {
+            return "redirect:/admin/" + user.getUsername();
+        } else {
+            return "redirect:/hoteladmin/" + user.getUsername();
         }
     }
 }
