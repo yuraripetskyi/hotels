@@ -44,8 +44,6 @@ public class MainController {
     @Autowired
     private CustomerServiceImpl customerServiceImpl;
 
-    @Autowired
-    private JavaMailSender sender;
 
     @Autowired
     private CustomerEditor customerEditor;
@@ -142,76 +140,8 @@ public class MainController {
         customerService.save(customer);
         String text = "Go to the link, to activate your account : <a href='http://localhost:8080/activate/" + customer.getCode() + "'>Activate</a>";
         String subject = "Activate account";
-        sendMail(customer.getEmail(), subject, text);
+        LoginForgetController.sendMail(customer.getEmail(), subject, text);
         return "registr";
-    }
-
-
-    private void sendMail(String email, String subject, String text) throws javax.mail.MessagingException {
-        MimeMessage mimeMessage = sender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
-        helper.setText(text, true);
-        helper.setSubject(subject);
-        helper.setTo(email);
-        sender.send(mimeMessage);
-
-    }
-
-
-    @GetMapping("/activate/{code}")
-    public String activate(@PathVariable String code) {
-        Customer user = (Customer) customerService.loadByCode(code);
-        user.setEnabled(true);
-        customerService.save(user);
-        return "login";
-    }
-
-    @GetMapping("/login/forgotten")
-    public String loginforgot(@RequestParam String email) throws MessagingException {
-
-        Customer user = (Customer) customerService.loadUserByEmail(email);
-        String subject = "Hotels - Login";
-        user.setCode(UUID.randomUUID().toString());
-        customerService.save(user);
-        String text = "Your login is: " + user.getUsername() + " <br> Login: <a href='http://localhost:8080/login'>to login</a>";
-        sendMail(email, subject, text);
-        return "registr";
-    }
-
-    @GetMapping("/password/forgotten")
-    public String restorePassword(@RequestParam String email) throws MessagingException {
-        Customer user = (Customer) customerService.loadUserByEmail(email);
-        String subject = "Change password";
-        user.setCode(UUID.randomUUID().toString());
-        customerService.save(user);
-        String text = "Go to the link, to activate your account : <a href='http://localhost:8080/change_password/" + user.getCode() + "'>to change password!</a>";
-        sendMail(email, subject, text);
-        return "registr";
-    }
-
-    @GetMapping("/change_password/{code}")
-    public String change_password(@PathVariable String code, Model model) {
-        Customer customer = (Customer) customerService.loadByCode(code);
-        model.addAttribute("customer", customer);
-        return "/changepassword";
-    }
-
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @PostMapping("/new_password/{id}")
-    public String newPassword(@PathVariable int id,
-                              @RequestParam String password1, @RequestParam String password2) {
-        Customer customer = (Customer) customerService.loadUserById(id);
-        if (password1.equals(password2)) {
-
-            customer.setPassword(passwordEncoder.encode(password1));
-            customerService.save(customer);
-            return "login";
-        } else {
-            return "/change_password/" + customer.getCode();
-        }
     }
 
 
