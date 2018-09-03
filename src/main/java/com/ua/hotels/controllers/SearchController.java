@@ -2,12 +2,14 @@ package com.ua.hotels.controllers;
 
 import com.ua.hotels.dao.CustomerDAO;
 import com.ua.hotels.models.Customer;
+import com.ua.hotels.service.CustomerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.HashSet;
@@ -19,6 +21,9 @@ public class SearchController {
 
     @Autowired
     private CustomerDAO customerDAO;
+
+    @Autowired
+    private CustomerServiceImpl customerServiceImpl;
 
     @GetMapping("/findUsers")
     public String findUsers(@RequestParam("user") String user , Model model){
@@ -77,5 +82,30 @@ public class SearchController {
             }
         }
         return list;
+    }
+
+    @GetMapping("/guest/{username}")
+    public String guestPage(@PathVariable String username, Model model) {
+        Customer user = (Customer) customerServiceImpl.loadUserByUsername(username);
+        model.addAttribute("user", user);
+        return "guest";
+    }
+
+    @GetMapping("/block/{username}")
+    public String blockUser(@PathVariable String username) {
+        Customer activeUser = MainController.findActiveUser();
+        Customer user = (Customer) customerServiceImpl.loadUserByUsername(username);
+        user.setEnabled(false);
+        customerDAO.save(user);
+        return "redirect:/admin/"+activeUser.getUsername();
+    }
+
+    @GetMapping("/unblock/{username}")
+    public String unblockUser(@PathVariable String username) {
+        Customer user = (Customer) customerServiceImpl.loadUserByUsername(username);
+        user.setEnabled(true);
+        customerDAO.save(user);
+        Customer activeUser = MainController.findActiveUser();
+        return "redirect:/admin/"+activeUser.getUsername();
     }
 }

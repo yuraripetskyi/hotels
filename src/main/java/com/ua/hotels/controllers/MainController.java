@@ -126,8 +126,21 @@ public class MainController {
         customerService.save(customer);
         String text = "Go to the link, to activate your account : <a href='http://localhost:8080/activate/" + customer.getCode() + "'>Activate</a>";
         String subject = "Activate account";
-        LoginForgetController.sendMail(customer.getEmail(), subject, text);
+        sendMail(customer.getEmail(), subject, text);
         return "registr";
+    }
+
+    @Autowired
+    private JavaMailSender sender;
+
+    public void sendMail(String email, String subject, String text) throws javax.mail.MessagingException {
+        MimeMessage mimeMessage = sender.createMimeMessage();
+        System.out.println();
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+        helper.setText(text, true);
+        helper.setSubject(subject);
+        helper.setTo(email);
+        sender.send(mimeMessage);
     }
 
 

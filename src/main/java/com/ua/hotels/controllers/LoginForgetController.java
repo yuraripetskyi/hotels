@@ -28,10 +28,10 @@ public class LoginForgetController {
     private CustomerServiceImpl customerServiceImpl;
 
     @Autowired
-    private static JavaMailSender sender;
+    private JavaMailSender sender;
 
 
-    public static void sendMail(String email, String subject, String text) throws javax.mail.MessagingException {
+    public void sendMail(String email, String subject, String text) throws javax.mail.MessagingException {
         MimeMessage mimeMessage = sender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
         helper.setText(text, true);
@@ -55,7 +55,7 @@ public class LoginForgetController {
         String subject = "Hotels - Login";
         user.setCode(UUID.randomUUID().toString());
         customerService.save(user);
-        String text = "Your login is: " + user.getUsername() + " <br> Login: <a href='http://localhost:8080/login'>to login</a>";
+        String text = "Your login is: " + user.getUsername() + " <br> Login: <a href='http://localhost:8080/login'>Login</a>";
         sendMail(email, subject, text);
         return "registr";
     }
@@ -66,7 +66,7 @@ public class LoginForgetController {
         String subject = "Change password";
         user.setCode(UUID.randomUUID().toString());
         customerService.save(user);
-        String text = "Go to the link, to activate your account : <a href='http://localhost:8080/change_password/" + user.getCode() + "'>to change password!</a>";
+        String text = "Go to the link, to change password from your account : <a href='http://localhost:8080/change_password/" + user.getCode() + "'>Change password!</a>";
         sendMail(email, subject, text);
         return "registr";
     }
@@ -75,7 +75,7 @@ public class LoginForgetController {
     public String change_password(@PathVariable String code, Model model) {
         Customer customer = (Customer) customerService.loadByCode(code);
         model.addAttribute("customer", customer);
-        return "/changepassword";
+        return "changepassword";
     }
 
 
@@ -87,7 +87,6 @@ public class LoginForgetController {
                               @RequestParam String password1, @RequestParam String password2) {
         Customer customer = (Customer) customerService.loadUserById(id);
         if (password1.equals(password2)) {
-
             customer.setPassword(passwordEncoder.encode(password1));
             customerService.save(customer);
             return "login";
