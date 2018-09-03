@@ -36,19 +36,10 @@ import java.util.UUID;
 public class MainController {
 
     @Autowired
-    private Environment environment;
-
-    @Autowired
     private CustomerService customerService;
 
     @Autowired
     private CustomerServiceImpl customerServiceImpl;
-
-    @Autowired
-    private CustomerEditor customerEditor;
-
-    @Autowired
-    private CustomerValidator customerValidator;
 
     @GetMapping("/")
     public String index(Model model) {
@@ -107,40 +98,6 @@ public class MainController {
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
         return "redirect:/login?logout";
-    }
-
-    @PostMapping("/save")
-    public String save(Customer customer, BindingResult result, Model model) throws javax.mail.MessagingException {
-        customerValidator.validate(customer, result);
-        if (result.hasErrors()) {
-            String errors = "";
-            List<ObjectError> allErrors = result.getAllErrors();
-            for (ObjectError error : allErrors) {
-                errors += " " + environment.getProperty(error.getCode());
-            }
-            model.addAttribute("error", errors);
-            return "index";
-        }
-        customerEditor.setValue(customer);
-        customer.setCode(UUID.randomUUID().toString());
-        customerService.save(customer);
-        String text = "Go to the link, to activate your account : <a href='http://localhost:8080/activate/" + customer.getCode() + "'>Activate</a>";
-        String subject = "Activate account";
-        sendMail(customer.getEmail(), subject, text);
-        return "registr";
-    }
-
-    @Autowired
-    private JavaMailSender sender;
-
-    public void sendMail(String email, String subject, String text) throws javax.mail.MessagingException {
-        MimeMessage mimeMessage = sender.createMimeMessage();
-        System.out.println();
-        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
-        helper.setText(text, true);
-        helper.setSubject(subject);
-        helper.setTo(email);
-        sender.send(mimeMessage);
     }
 
 
