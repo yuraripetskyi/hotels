@@ -43,25 +43,12 @@ public class MainController {
 
     @GetMapping("/")
     public String index(Model model) {
-        Customer user = findActiveUser();
-        if (user != null && user.isEnabled()) {
-            model.addAttribute("user", user);
-            String path = returnPath(user);
-            return path;
-        } else {
-            return "index";
-        }
+       return findActinveUserPage(model);
     }
 
     @PostMapping("/success")
     public String success(Model model) {
-        Customer user = findActiveUser();
-        if (user != null && user.isEnabled()) {
-            model.addAttribute("user", user);
-            String path = returnPath(user);
-            return path;
-        }
-        return "index";
+        return findActinveUserPage(model);
     }
 
     @GetMapping("/login")
@@ -98,6 +85,24 @@ public class MainController {
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
         return "redirect:/login?logout";
+    }
+
+    public String findActinveUserPage(Model model) {
+        String page = "index";
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            Object principal = auth.getPrincipal();
+            if (principal.toString().contains("Username: admin")) {
+                page = "admin_memory";
+            } else {
+                Customer principal_ = (Customer) principal;
+                Customer user = (Customer) customerService.loadUserByUsername(principal_.getUsername());
+                model.addAttribute("user", user);
+                String path = returnPath(user);
+                page = path;
+            }
+        }
+        return page;
     }
 
 
