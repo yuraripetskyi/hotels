@@ -2,6 +2,7 @@ package com.ua.hotels.controllers;
 
 import com.ua.hotels.dao.CustomerDAO;
 import com.ua.hotels.models.Customer;
+import com.ua.hotels.models.enums.Role;
 import com.ua.hotels.service.CustomerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -30,6 +31,9 @@ public class SearchController {
 
     @GetMapping("/findUsers")
     public String findUsers(@RequestParam("user") String user, Model model) {
+        model.addAttribute("admin_role", Role.ROLE_ADMIN);
+        model.addAttribute("user_role", Role.ROLE_USER);
+        model.addAttribute("role_hoteladmin", Role.ROLE_HOTELADMIN);
         String[] param = user.split(" ");
         String path = "admin";
         if(!isMemoryAdmin()){
@@ -137,23 +141,8 @@ public class SearchController {
         return "guest";
     }
 
-    @GetMapping("/block/{username}")
-    public String blockUser(@PathVariable String username) {
-        Customer activeUser = MainController.findActiveUser();
-        Customer user = (Customer) customerServiceImpl.loadUserByUsername(username);
-        user.setEnabled(false);
-        customerDAO.save(user);
-        return "redirect:/admin/" + activeUser.getUsername();
-    }
 
-    @GetMapping("/unblock/{username}")
-    public String unblockUser(@PathVariable String username) {
-        Customer user = (Customer) customerServiceImpl.loadUserByUsername(username);
-        user.setEnabled(true);
-        customerDAO.save(user);
-        Customer activeUser = MainController.findActiveUser();
-        return "redirect:/admin/" + activeUser.getUsername();
-    }
+
 
     public boolean isMemoryAdmin() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

@@ -199,4 +199,7 @@ public class Customer implements UserDetails {
     public void setEnabled(boolean enabled) {
         isEnabled = enabled;
     }
+
+
+
 }
