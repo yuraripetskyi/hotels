@@ -142,8 +142,6 @@ public class SearchController {
     }
 
 
-
-
     public boolean isMemoryAdmin() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
