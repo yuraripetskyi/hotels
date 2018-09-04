@@ -8,8 +8,10 @@
 
 
 <form th:action="@{/login}" method="post">
-    <input type="text" name="username" placeholder="Login">
-    <input type="text" name="password" placeholder="Password">
+    <input type="text" name="username" placeholder="Login" required oninvalid="setCustomValidity('Введите свой логин')"
+           oninput="setCustomValidity('')">
+    <input type="password" name="password" placeholder="Password" required
+           oninvalid="setCustomValidity('Введите свой пароль')" oninput="setCustomValidity('')">
     <input type="submit" value="Submit!">
 </form>
 

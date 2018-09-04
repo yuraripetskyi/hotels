@@ -44,6 +44,7 @@ public class LoginForgetController {
     @Autowired
     private CustomerValidator customerValidator;
 
+
     public void sendMail(String email, String subject, String text) throws javax.mail.MessagingException {
         MimeMessage mimeMessage = sender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
