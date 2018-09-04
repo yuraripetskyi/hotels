@@ -5,6 +5,7 @@ import com.ua.hotels.models.Customer;
 import com.ua.hotels.service.CustomerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,28 +29,33 @@ public class SearchController {
     private CustomerServiceImpl customerServiceImpl;
 
     @GetMapping("/findUsers")
-    public String findUsers(@RequestParam("user") String user , Model model){
+    public String findUsers(@RequestParam("user") String user, Model model) {
         String[] param = user.split(" ");
-        Customer customer = MainController.findActiveUser();
-        model.addAttribute("user",customer);
-        if (param.length == 1){
+        String path = "admin";
+        if(!isMemoryAdmin()){
+            Customer customer = MainController.findActiveUser();
+            model.addAttribute("user",customer);
+        }else{
+            path = "admin_memory";
+        }
+        if (param.length == 1) {
             String parametr = param[0];
             Set<Customer> byOneParam = findByOneParamByStream(parametr);
             model.addAttribute("users", byOneParam);
-            return "admin" ;
-        }
-        else if (param.length == 2){
+            return path;
+        } else if (param.length == 2) {
             String p1 = param[0];
             String p2 = param[1];
             Set<Customer> byTwoParam = findByTwoParamByStream(p1, p2);
             model.addAttribute("users", byTwoParam);
-            return "admin";
-        }else if(param.length >= 3){
-            model.addAttribute("error","You entered something wrong");
-            return "admin" ;
+            return path;
+        } else if (param.length >= 3) {
+            model.addAttribute("error", "You entered something wrong");
+            return path;
         }
-        return "admin" ;
+        return path;
     }
+
 
 
 //    public Set<Customer> findByOneParam(String parametr){
@@ -69,35 +75,42 @@ public class SearchController {
 //        return allByName1;
 //    }
 
-    public Set<Customer> findByOneParamByStream(String parametr){
+    public Set<Customer> findByOneParamByStream(String parametr) {
         Set<Customer> byOneParam = customerDAO.findAll().stream().filter(customer -> customer.getName().equals(parametr) || customer.getSurname().equals(parametr)).collect(Collectors.toSet());
-        Customer user = MainController.findActiveUser();
-        int id = user.getId();
-        Iterator<Customer> iter = byOneParam.iterator();
-        while (iter.hasNext()){
-            Customer next = iter.next();
-            if(next.getId()== id){
-                iter.remove();
+        if(!isMemoryAdmin()){
+            Customer user = MainController.findActiveUser();
+            int id = user.getId();
+            Iterator<Customer> iter = byOneParam.iterator();
+            System.out.println();
+            while (iter.hasNext()) {
+                Customer next = iter.next();
+                if (next.getId() == id) {
+                    iter.remove();
+                }
             }
+            return byOneParam;
         }
         return byOneParam;
     }
 
-    public Set<Customer> findByTwoParamByStream(String p1 , String p2){
+    public Set<Customer> findByTwoParamByStream(String p1, String p2) {
         Set<Customer> byTwoParam = customerDAO.findAll().stream()
                 .filter(customer -> (customer.getName().equals(p1) && customer.getSurname().equals(p2)) ||
                         (customer.getName().equals(p2) && customer.getSurname().equals(p1))).collect(Collectors.toSet());
-        Customer user = MainController.findActiveUser();
-        int id = user.getId();
-        Iterator<Customer> iter = byTwoParam.iterator();
-        while (iter.hasNext()){
-            Customer next = iter.next();
-            if(next.getId()== id){
-                iter.remove();
+        if(!isMemoryAdmin()) {
+            Customer user = MainController.findActiveUser();
+            int id = user.getId();
+            System.out.println();
+            Iterator<Customer> iter = byTwoParam.iterator();
+            while (iter.hasNext()) {
+                Customer next = iter.next();
+                if (next.getId() == id) {
+                    iter.remove();
+                }
             }
+            return byTwoParam;
         }
         return byTwoParam;
-
     }
 
 //    public Set<Customer> findByTwoParam(String p1 , String p2){
@@ -130,7 +143,7 @@ public class SearchController {
         Customer user = (Customer) customerServiceImpl.loadUserByUsername(username);
         user.setEnabled(false);
         customerDAO.save(user);
-        return "redirect:/admin/"+activeUser.getUsername();
+        return "redirect:/admin/" + activeUser.getUsername();
     }
 
     @GetMapping("/unblock/{username}")
@@ -139,6 +152,21 @@ public class SearchController {
         user.setEnabled(true);
         customerDAO.save(user);
         Customer activeUser = MainController.findActiveUser();
-        return "redirect:/admin/"+activeUser.getUsername();
+        return "redirect:/admin/" + activeUser.getUsername();
     }
+
+    public boolean isMemoryAdmin() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            Object principal = auth.getPrincipal();
+            if (principal.toString().contains("Username: admin")) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
 }

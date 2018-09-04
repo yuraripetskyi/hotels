@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Main Admin</title>
+</head>
+<body>
+Sosi pisos
+
+<form th:action="@{/logout}" method="get">
+    <input type="submit" value="Logout">
+</form>
+<form th:action="@{/findUsers}" method="get">
+    <input type="text" placeholder="Find user" name="user">
+    <input type="submit" value="Submit!">
+</form>
+<ul th:each="user : ${users}">
+    <li>
+        <a th:href="'/guest/'+${user.username}" th:text="'Name - ' + ${user.name} + '; Surname - ' + ${user.surname} + '; Age - ' + ${user.age}"></a>
+        <div th:if="${user.isEnabled()}">
+            <form th:action="@{/block/}+${user.username}" method="get">
+                <input type="submit" value="Block User">
+            </form>
+        </div>
+        <div th:unless="${user.isEnabled()}">
+            <form th:action="@{/unblock/}+${user.username}" method="get">
+                <input type="submit" value="Unblock User">
+            </form>
+        </div>
+
+    </li>
+</ul>
+
+</body>
+</html>

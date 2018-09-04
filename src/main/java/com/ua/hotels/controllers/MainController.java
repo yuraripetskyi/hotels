@@ -52,8 +52,11 @@ public class MainController {
     }
 
     @GetMapping("/login")
-    public String login() {
-        return "login";
+    public String login(Model model) {
+        if (findActinveUserPage(model).equals("index")) {
+            return "login";
+        }
+        return findActinveUserPage(model);
     }
 
     @GetMapping("/user/{username}")
