@@ -25,6 +25,11 @@
     <input type="submit" value="Create Hotel">
 </form>
 
+<ul th:each="hotel : ${hotels}">
+    <li>
+        <a th:href="'/hotel/'+${hotel.id}" th:text="'Name - ' + ${hotel.name} "></a>
+    </li>
+</ul>
 
 </body>
 </html>

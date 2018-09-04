@@ -139,11 +139,10 @@ public class SearchController {
 
     @GetMapping("/block/{username}")
     public String blockUser(@PathVariable String username) {
-        Customer activeUser = MainController.findActiveUser();
         Customer user = (Customer) customerServiceImpl.loadUserByUsername(username);
         user.setEnabled(false);
         customerDAO.save(user);
-        return "redirect:/admin/" + activeUser.getUsername();
+        return "redirect:/" ;
     }
 
     @GetMapping("/unblock/{username}")
@@ -151,8 +150,7 @@ public class SearchController {
         Customer user = (Customer) customerServiceImpl.loadUserByUsername(username);
         user.setEnabled(true);
         customerDAO.save(user);
-        Customer activeUser = MainController.findActiveUser();
-        return "redirect:/admin/" + activeUser.getUsername();
+        return "redirect:/";
     }
 
     public boolean isMemoryAdmin() {
