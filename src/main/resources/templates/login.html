@@ -14,7 +14,9 @@
            oninvalid="setCustomValidity('Введите свой пароль')" oninput="setCustomValidity('')">
     <input type="submit" value="Submit!">
 </form>
-<span th:text="${error}"></span>
+<div th:if="${error}" class="alert alert-danger">
+    [[${error}]]
+</div>
 
 <form th:action="@{/}" method="get">
     <input type="submit" value="Registr new acc!">

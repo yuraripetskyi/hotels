@@ -22,4 +22,8 @@ public class Phone {
             cascade = CascadeType.REFRESH
     )
     private Hotel hotel;
+
+    public Phone(String number) {
+        this.number = number;
+    }
 }
