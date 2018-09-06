@@ -83,8 +83,6 @@ public class MainController {
     public String hoteladmin(@PathVariable String username, Model model) {
         Customer user = (Customer) customerServiceImpl.loadUserByUsername(username);
         List<Hotel> hotels = user.getHotels();
-        System.out.println("----------------------");
-        System.out.println(hotels);
         model.addAttribute("hotels",hotels);
         model.addAttribute("user", user);
         return "hoteladmin";

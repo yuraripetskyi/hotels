@@ -15,10 +15,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,13 +48,13 @@ public class HotelController {
     private PhoneDAO phoneDAO;
 
     @GetMapping("/create/hotel")
-    public String createHotel(){
+    public String createHotel() {
         return "createHotel";
     }
 
     @PostMapping("/save/hotel")
-    public String saveHotel(Hotel hotel , @RequestParam(value = "phones") String[] phones){
-        Customer user =  MainController.findActiveUser();
+    public String saveHotel(Hotel hotel, @RequestParam(value = "phones") String[] phones) {
+        Customer user = MainController.findActiveUser();
         hotel.setCustomer(user);
         hotelDAO.save(hotel);
         for (String phone : phones) {
@@ -69,9 +66,16 @@ public class HotelController {
     }
 
     @GetMapping("/hotel/{id}")
-    public String hotel(@PathVariable String id , Model model){
+    public String hotel(@PathVariable String id, Model model) {
         Hotel hotel = hotelDAO.findById(Integer.parseInt(id)).get();
-        model.addAttribute("hotel",hotel);
+        model.addAttribute("hotel", hotel);
         return "hotel";
+    }
+
+    @DeleteMapping("/delete/hotel/{id}")
+    public String deleteHotel(@PathVariable String id) {
+        hotelDAO.delete(hotelDAO.findById(Integer.parseInt(id)).get());
+        Customer user = MainController.findActiveUser();
+        return "redirect:/hoteladmin/"+user.getUsername();
     }
 }

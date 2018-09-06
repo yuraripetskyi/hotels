@@ -28,6 +28,9 @@
 <ul th:each="hotel : ${hotels}">
     <li>
         <a th:href="'/hotel/'+${hotel.id}" th:text="'Name - ' + ${hotel.name} "></a>
+        <form th:action="@{/delete/hotel/}+${hotel.id}" th:method="DELETE">
+            <input type="submit" value="Delete hotel">
+        </form>
     </li>
 </ul>
 

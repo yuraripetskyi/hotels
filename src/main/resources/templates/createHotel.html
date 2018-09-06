@@ -7,27 +7,24 @@
 <body>
 
 <form th:action="@{/save/hotel}" method="post">
-    <p>Please enter your Name:</p>
+    <p>Please enter Name:</p>
     <input type="" name="name" placeholder="Name"><br>
-    <p>Please enter your City:</p>
+    <p>Please enter City:</p>
     <input type="" name="city" placeholder="City"><br>
-    <p>Please enter your Street:</p>
+    <p>Please enter Street:</p>
     <input type="" name="street" placeholder="Street"><br>
-    <p>Please enter your Email:</p>
+    <p>Please enter Email:</p>
     <input type="email" name="email" placeholder="Email"><br>
-    <p>Please enter your Phone:</p>
-    <input type="" name="phones" placeholder="Phone"><br>
-    <input type="" name="phones" placeholder="Phone 1"><br>
-
-
-
-
-
-
-
-
+    <p>Please enter Phones:</p>
+    <div id="phone_div">
+    <input type="" name="phones" placeholder="Phone">
+    </div>
+    <br>
+    <input type="button" id="addphone" value="Add phone number"><br>
+    <p>Please enter Description:</p>
+    <input type="text" size="50" name="description">
     <input type="submit" value="Submit!">
 </form>
-
+<script type="text/javascript" th:src="@{/js/main.js}"></script>
 </body>
 </html>

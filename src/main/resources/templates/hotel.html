@@ -9,5 +9,12 @@
 <p>Hotel City: <span th:text="${hotel.city}"></span></p>
 <p>Hotel Street: <span th:text="${hotel.street}"></span></p>
 <p>Hotel Email: <span th:text="${hotel.email}"></span></p>
+<p>Hotel Description: <span th:text="${hotel.description}"></span></p>
+<p>Hotel Phones:</p>
+<ul th:each="phone : ${hotel.phone}">
+    <li>
+        <span th:text="${phone.number}"></span>
+    </li>
+</ul>
 </body>
 </html>

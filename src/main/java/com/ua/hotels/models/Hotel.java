@@ -24,7 +24,7 @@ public class Hotel {
     private String street;
     private String email;
     @OneToMany(
-            cascade = CascadeType.REFRESH,
+            cascade = CascadeType.REMOVE,
             fetch = FetchType.LAZY,
             mappedBy = "hotel"
     )
@@ -32,13 +32,13 @@ public class Hotel {
 
     private String description;
     @OneToMany(
-            cascade = CascadeType.REFRESH,
+            cascade = CascadeType.REMOVE,
             fetch = FetchType.LAZY,
             mappedBy = "hotel"
     )
     private List<Stan> stans ;
     @OneToMany(
-            cascade = CascadeType.REFRESH,
+            cascade = CascadeType.REMOVE,
             fetch = FetchType.LAZY,
             mappedBy = "hotel"
     )
