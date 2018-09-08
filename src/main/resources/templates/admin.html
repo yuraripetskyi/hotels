@@ -25,14 +25,35 @@
 <ul th:each="user : ${users}">
     <li>
         <a th:href="'/guest/'+${user.username}" th:text="'Name - ' + ${user.name} + '; Surname - ' + ${user.surname} + '; Age - ' + ${user.age}"></a>
+        <h2 th:text="'Current role - ' + ${user.role}" > </h2>
         <div th:if="${user.isEnabled()}">
             <form th:action="@{/block/}+${user.username}" method="get">
                 <input type="submit" value="Block User">
             </form>
+
         </div>
+
         <div th:unless="${user.isEnabled()}">
             <form th:action="@{/unblock/}+${user.username}" method="get">
                 <input type="submit" value="Unblock User">
+            </form>
+        </div>
+
+        <div th:if="${user.getRole()==user_role}">
+            <form th:action="@{/makeHotelAdmin/}+${user.username}" method="get">
+                <input type="submit" value="Make hotel admin">
+            </form>
+            <form th:action="@{/makeAdmin/}+${user.username}" method="get">
+                <input type="submit" value="Make admin">
+            </form>
+        </div>
+
+        <div th:if="${user.getRole()==role_hoteladmin}">
+            <form th:action="@{/makeUser/}+${user.username}" method="get">
+                <input type="submit" value="Make user">
+            </form>
+            <form th:action="@{/makeAdmin/}+${user.username}" method="get">
+                <input type="submit" value="Make  admin">
             </form>
         </div>
 

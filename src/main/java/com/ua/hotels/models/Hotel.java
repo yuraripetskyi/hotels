@@ -55,4 +55,7 @@ public class Hotel {
     private Channel channel;
 
 
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 }
