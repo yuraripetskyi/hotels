@@ -16,5 +16,14 @@
         <span th:text="${phone.number}"></span>
     </li>
 </ul>
+<form th:action="@{'/upload/photos/hotel/}'+${hotel.id}" method="post">
+<p>Please add photos:</p>
+<div id="image_div">
+    <input type="file" name="images">
+</div>
+<br>
+<input type="button" id="addimg" value="Add one more image"><br>
+</form>
+
 </body>
 </html>

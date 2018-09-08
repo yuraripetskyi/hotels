@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,4 +79,22 @@ public class HotelController {
         Customer user = MainController.findActiveUser();
         return "redirect:/hoteladmin/"+user.getUsername();
     }
+
+    @PostMapping("/upload/photos/hotel/{id}")
+    public String uploadPhotos(@PathVariable int id,
+                               @RequestParam(value = "images") File[] images,
+                               Model model){
+        Hotel hotel = hotelDAO.findById(id).get();
+        model.addAttribute("hotel", hotel);
+
+
+
+
+
+
+        return "hotel";
+    }
+
 }
+
+
