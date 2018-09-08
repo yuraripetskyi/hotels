@@ -52,8 +52,36 @@ public class HotelController {
         return "createHotel";
     }
 
+//    @PostMapping("/save/hotel")
+//    public String saveHotel(Hotel hotel,
+//                            @RequestParam(value = "phones") String[] phones,
+//                            @RequestParam(value = "types") String[] types) {
+//        Customer user = MainController.findActiveUser();
+//        hotel.setCustomer(user);
+//        hotelDAO.save(hotel);
+//        for (String phone : phones) {
+//            Phone phonec = new Phone(phone);
+//            phonec.setHotel(hotel);
+//            phoneDAO.save(phonec);
+//        }
+////        for (int i = 0; i < romos.length; i++) {
+////            String roome = romos[i];
+////            String type = types[i];
+////            String price = prices[i];
+////            System.out.println("------------");
+////            System.out.println("Room - "+roome+"; Type - "+type+"; Price - "+price);
+////            System.out.println("------------");
+////        }
+//        for (String type : types) {
+//            System.out.println("--------");
+//            System.out.println(type);
+//        }
+//        return "redirect:/hoteladmin/" + user.getUsername();
+//    }
+
     @PostMapping("/save/hotel")
-    public String saveHotel(Hotel hotel, @RequestParam(value = "phones") String[] phones) {
+    public String saveHotel(Hotel hotel, @RequestParam(value = "phones") String[] phones
+            ,@RequestParam(value = "types") String[] types) {
         Customer user = MainController.findActiveUser();
         hotel.setCustomer(user);
         hotelDAO.save(hotel);
@@ -61,6 +89,10 @@ public class HotelController {
             Phone phonec = new Phone(phone);
             phonec.setHotel(hotel);
             phoneDAO.save(phonec);
+        }
+        for (String type : types) {
+            System.out.println("-----------------------------");
+            System.out.println(type);
         }
         return "redirect:/hoteladmin/" + user.getUsername();
     }

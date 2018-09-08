@@ -15,15 +15,34 @@
     <input type="" name="street" placeholder="Street"><br>
     <p>Please enter Email:</p>
     <input type="email" name="email" placeholder="Email"><br>
+    <p>Please enter Description:</p>
+    <input type="text" size="50" name="description">
+
+
     <p>Please enter Phones:</p>
     <div id="phone_div">
-    <input type="" name="phones" placeholder="Phone">
+        <input type="" name="phones" placeholder="Phone">
     </div>
     <br>
     <input type="button" id="addphone" value="Add phone number"><br>
-    <p>Please enter Description:</p>
-    <input type="text" size="50" name="description">
-    <input type="submit" value="Submit!">
+
+    <p>Please enter Room info:</p>
+    <div id="room_div">
+        <input type="text" name="prices" placeholder="Enter price of your room 1">
+        <input type="text" name="romos" placeholder="Enter count of your room 1">
+        <input type="" name="types" id="for_types" style="display: none" value="TYPE_ECONOM">
+        <div><select id="select">
+            <option value="TYPE_ECONOM">Econom</option>
+            <option value="TYPE_STANDART">Standart</option>
+            <option value="TYPE_LUXE">Luxe</option>
+        </select>
+        </div>
+        <div id="nonein"></div>
+    </div>
+    <br>
+    <input type="button" id="addroom" value="Add room"><br>
+
+    <input type="submit" id="sb_btn" value="Submit!">
 </form>
 <script type="text/javascript" th:src="@{/js/main.js}"></script>
 </body>

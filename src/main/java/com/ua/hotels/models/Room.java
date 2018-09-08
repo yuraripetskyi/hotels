@@ -24,6 +24,7 @@ public class Room {
     private Type type;
     private Status status;
 
+
     @ManyToMany(
             fetch = FetchType.LAZY,
             cascade = CascadeType.REFRESH
