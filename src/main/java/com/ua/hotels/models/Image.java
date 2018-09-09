@@ -4,6 +4,7 @@ import com.ua.hotels.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
+import java.io.File;
 
 @Entity
 public class Image {
@@ -11,10 +12,6 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    @Autowired
-    private ImageService imageService;
-
-    private String IMAGE_PATH = imageService.UPLOAD_PATH + name;
 
     @ManyToOne(
             cascade =CascadeType.REFRESH,

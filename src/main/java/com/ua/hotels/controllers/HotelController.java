@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,11 +91,12 @@ public class HotelController {
     @PostMapping("/upload/photos/hotel/{id}")
     public String uploadPhotos(@PathVariable int id,
                                @RequestParam(value = "images") MultipartFile[] files,
-                               Model model){
+                               Model model) throws IOException {
         Hotel hotel = hotelDAO.findById(id).get();
         model.addAttribute("hotel", hotel);
         for (MultipartFile file : files) {
             imageService.createImage(file);
+            imageService.save(new Image(file.getOriginalFilename(),hotel));
         }
         return "hotel";
     }

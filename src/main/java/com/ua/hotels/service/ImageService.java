@@ -51,14 +51,10 @@ public class ImageService {
         return resourceLoader.getResource("file:" + UPLOAD_PATH + filename);
     }
 
-    public void createImage(MultipartFile file) {
+    public void createImage(MultipartFile file) throws IOException {
         if (!file.isEmpty()) {
-            try {
+
                 Files.copy(file.getInputStream(), Paths.get(UPLOAD_PATH, file.getOriginalFilename()));
-            } catch (IOException e) {
-                System.out.println("____________________________");
-            }
-            repository.save(new Image(file.getOriginalFilename()));
         }
     }
 

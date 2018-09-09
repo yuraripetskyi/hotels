@@ -16,20 +16,22 @@
         <span th:text="${phone.number}"></span>
     </li>
 </ul>
-<form th:action="@{'/upload/photos/hotel/}'+${hotel.id}" method="post">
+<!--<div th:if="${hotel.images}">-->
+    <!--<ul th:each="image : ${hotel.images}">-->
+        <!--<li>-->
+            <!--<span th:text="${image.IMAGE_PATH}"></span>-->
+        <!--</li>-->
+    <!--</ul>-->
+<!--</div>-->
 
-    <ul th:each="image : ${hotel.images}">
-        <li>
-            <span th:text="${image.IMAGE_PATH}"></span>
-        </li>
-    </ul>
-
+<form th:action="@{/upload/photos/hotel/}+${hotel.id}" method="post" enctype="multipart/form-data">
 <p>To add photos:</p>
 <div id="image_div">
     <input type="file" name="images">
 </div>
 <br>
-<input type="button" id="addimg" value="Add one more image"><br>
+<!--<input type="button" id="addimg" value="Add one more image"><br>-->
+    <input type="submit">
 </form>
 
 </body>
