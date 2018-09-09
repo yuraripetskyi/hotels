@@ -1,5 +1,8 @@
 package com.ua.hotels.models;
 
+import com.ua.hotels.service.ImageService;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.persistence.*;
 
 @Entity
@@ -8,6 +11,10 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
+    @Autowired
+    private ImageService imageService;
+
+    private String IMAGE_PATH = imageService.UPLOAD_PATH + name;
 
     @ManyToOne(
             cascade =CascadeType.REFRESH,
@@ -25,6 +32,11 @@ public class Image {
 
     public Image(String name) {
         this.name = name;
+    }
+
+    public Image(String name, Hotel hotel) {
+        this.name = name;
+        this.hotel = hotel;
     }
 
     public int getId() {

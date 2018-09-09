@@ -17,7 +17,14 @@
     </li>
 </ul>
 <form th:action="@{'/upload/photos/hotel/}'+${hotel.id}" method="post">
-<p>Please add photos:</p>
+
+    <ul th:each="image : ${hotel.images}">
+        <li>
+            <span th:text="${image.IMAGE_PATH}"></span>
+        </li>
+    </ul>
+
+<p>To add photos:</p>
 <div id="image_div">
     <input type="file" name="images">
 </div>

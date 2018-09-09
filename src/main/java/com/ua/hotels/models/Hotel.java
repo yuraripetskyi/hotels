@@ -57,7 +57,7 @@ public class Hotel {
     @OneToMany(
             fetch = FetchType.LAZY,
             cascade = CascadeType.REMOVE,
-            mappedBy = "images"
+            mappedBy = "hotel"
     )
     private List<Image> images;
 

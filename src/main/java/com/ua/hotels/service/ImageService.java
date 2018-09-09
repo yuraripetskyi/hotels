@@ -23,7 +23,7 @@ import java.nio.file.Paths;
 public class ImageService {
     private final ImageDAO repository;
     private final ResourceLoader resourceLoader;
-    private static String UPLOAD_PATH = System.getProperty("user.dir")
+    public static String UPLOAD_PATH = System.getProperty("user.dir")
             + File.separator
             + "src"
             + File.separator
@@ -41,6 +41,11 @@ public class ImageService {
         this.repository = repository;
         this.resourceLoader = resourceLoader;
     }
+
+    public void save(Image image){
+        repository.save(image);
+    }
+
 
     public Resource findOneImage(String filename) {
         return resourceLoader.getResource("file:" + UPLOAD_PATH + filename);
