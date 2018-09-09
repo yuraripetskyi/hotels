@@ -90,8 +90,6 @@ public class HotelController {
 
 
 
-
-
         return "hotel";
     }
 
