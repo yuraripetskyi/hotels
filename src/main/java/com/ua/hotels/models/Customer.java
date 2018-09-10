@@ -200,6 +200,27 @@ public class Customer implements UserDetails {
         isEnabled = enabled;
     }
 
+    public List<Hotel> getHotels() {
+        return hotels;
+    }
 
+    public void setHotels(List<Hotel> hotels) {
+        this.hotels = hotels;
+    }
 
+    public List<Room> getRooms() {
+        return rooms;
+    }
+
+    public void setRooms(List<Room> rooms) {
+        this.rooms = rooms;
+    }
+
+    public List<Channel> getChannels() {
+        return channels;
+    }
+
+    public void setChannels(List<Channel> channels) {
+        this.channels = channels;
+    }
 }

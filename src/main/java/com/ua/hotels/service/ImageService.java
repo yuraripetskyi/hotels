@@ -65,6 +65,7 @@ public class ImageService {
         } catch (IOException e) {
             System.out.println ("----------");
         }
+        repository.deleteById(byName.getId());
     }
 
 

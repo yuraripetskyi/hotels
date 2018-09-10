@@ -74,6 +74,11 @@ public class HotelController {
     public String hotel(@PathVariable String id, Model model) {
         Hotel hotel = hotelDAO.findById(Integer.parseInt(id)).get();
         model.addAttribute("hotel", hotel);
+//        List<Image> images = hotel.getImages();
+//        System.out.println("-----/////----------------------------------------------------------------------------");
+//        System.out.println(images.toString());
+//        System.out.println("------/////---------------------------------------------------------------------------");
+//        model.addAttribute("images", images);
         return "hotel";
     }
 

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.io.File;
+import java.util.Objects;
 
 @Entity
 public class Image {
@@ -12,6 +13,9 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
+
+    public Image() {
+    }
 
     @ManyToOne(
             cascade =CascadeType.REFRESH,
@@ -36,6 +40,10 @@ public class Image {
         this.hotel = hotel;
     }
 
+
+    public String getImage(){
+        return ImageService.UPLOAD_PATH+name;
+    }
     public int getId() {
         return id;
     }
@@ -50,5 +58,27 @@ public class Image {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Image image = (Image) o;
+        return id == image.id &&
+                Objects.equals(name, image.name) &&
+                Objects.equals(hotel, image.hotel);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, hotel);
+    }
+
+    @Override
+    public String toString() {
+        return "Image{" +
+                "id=" + id +
+                ", name='" + name;
     }
 }
