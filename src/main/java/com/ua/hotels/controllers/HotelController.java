@@ -2,9 +2,10 @@ package com.ua.hotels.controllers;
 
 import com.ua.hotels.dao.HotelDAO;
 import com.ua.hotels.dao.PhoneDAO;
-import com.ua.hotels.models.Customer;
-import com.ua.hotels.models.Hotel;
-import com.ua.hotels.models.Phone;
+import com.ua.hotels.dao.RoomDAO;
+import com.ua.hotels.models.*;
+import com.ua.hotels.models.enums.Status;
+import com.ua.hotels.models.enums.Type;
 import com.ua.hotels.service.CustomerService;
 import com.ua.hotels.service.CustomerServiceImpl;
 import com.ua.hotels.utils.CustomerEditor;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +48,9 @@ public class HotelController {
 
     @Autowired
     private PhoneDAO phoneDAO;
+
+    @Autowired
+    private RoomDAO roomDAO;
 
     @GetMapping("/create/hotel")
     public String createHotel() {
@@ -80,8 +85,16 @@ public class HotelController {
 //    }
 
     @PostMapping("/save/hotel")
-    public String saveHotel(Hotel hotel, @RequestParam(value = "phones") String[] phones
-            ,@RequestParam(value = "types") String[] types) {
+    public String saveHotel(@RequestParam("name") String name
+            , @RequestParam("city") String city
+            , @RequestParam("street") String street
+            , @RequestParam("email") String email
+            , @RequestParam("description") String description
+            , @RequestParam("phones") String[] phones
+            , @RequestParam("prices") String[] prices
+            , @RequestParam("rooms") String[] rooms
+            , @RequestParam("types") String[] types) {
+        Hotel hotel = new Hotel(name,city,street,email,description);
         Customer user = MainController.findActiveUser();
         hotel.setCustomer(user);
         hotelDAO.save(hotel);
@@ -90,9 +103,15 @@ public class HotelController {
             phonec.setHotel(hotel);
             phoneDAO.save(phonec);
         }
-        for (String type : types) {
-            System.out.println("-----------------------------");
-            System.out.println(type);
+        for (int i = 0; i < rooms.length; i++) {
+            String room = rooms[i];
+            String price = prices[i];
+            String type = types[i];
+            Type mainType = Type.valueOf(type);
+            Status stan = Status.STATUS_FREE;
+            Room mainRoom = new Room(Integer.parseInt(price),Integer.parseInt(room),mainType,stan);
+            mainRoom.setHotel(hotel);
+            roomDAO.save(mainRoom);
         }
         return "redirect:/hoteladmin/" + user.getUsername();
     }
@@ -108,6 +127,6 @@ public class HotelController {
     public String deleteHotel(@PathVariable String id) {
         hotelDAO.delete(hotelDAO.findById(Integer.parseInt(id)).get());
         Customer user = MainController.findActiveUser();
-        return "redirect:/hoteladmin/"+user.getUsername();
+        return "redirect:/hoteladmin/" + user.getUsername();
     }
 }

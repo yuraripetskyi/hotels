@@ -16,5 +16,14 @@
         <span th:text="${phone.number}"></span>
     </li>
 </ul>
+<ul th:each="room,iter : ${hotel.rooms}">
+    <li>
+        <h3 th:text="'Room '+${iter.index+1}"></h3>
+        <p>Room price: <span th:text="${room.price}"></span></p>
+        <p>Room count: <span th:text="${room.roominess}"></span></p>
+        <p>Room type: <span th:text="${room.type}"></span></p>
+        <p>Room status: <span th:text="${room.status}"></span></p>
+    </li>
+</ul>
 </body>
 </html>

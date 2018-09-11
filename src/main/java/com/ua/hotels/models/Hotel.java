@@ -54,5 +54,15 @@ public class Hotel {
     )
     private Channel channel;
 
+    public Hotel(String name, String city, String street, String email,String description) {
+        this.name = name;
+        this.city = city;
+        this.street = street;
+        this.email = email;
+        this.description = description;
+    }
 
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 }

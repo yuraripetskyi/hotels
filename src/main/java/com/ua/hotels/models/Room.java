@@ -24,6 +24,14 @@ public class Room {
     private Type type;
     private Status status;
 
+    public Room(int price, int roominess, Type type, Status status) {
+        this.price = price;
+        this.roominess = roominess;
+        this.type = type;
+        this.status = status;
+    }
+
+
 
     @ManyToMany(
             fetch = FetchType.LAZY,
