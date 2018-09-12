@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Hotel</title>
+    <link href="/css/div-style.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <p>Hotel Name: <span th:text="${hotel.name}"></span></p>
@@ -18,11 +19,13 @@
 </ul>
 
 
-<!--<ul th:each="image:${hotel.images}">-->
-    <!--<li>-->
-        <!--<span th:text="${image.getImage}"></span>-->
-    <!--</li>-->
-<!--</ul>-->
+<ul th:each="image : ${hotel.images}">
+    <li>
+        <div class="div-images">
+        <img th:src="@{${image.getImage()}}" class="content">
+        </div>
+    </li>
+</ul>
 <!--<div>-->
     <!--<img th:each="image:${images}"-->
          <!--th:src="@{${image.getImage}}" alt="">-->
@@ -37,6 +40,14 @@
     <!--<input type="button" id="addimg" value="Add one more image"><br>-->
     <input type="submit">
 </form>
+
+
+<form th:action="@{/change/hotel/} + ${hotel.id}" method="get">
+    <p> Do some changes in hotel </p>
+    <input type="submit">
+</form>
+
+
 
 </body>
 </html>

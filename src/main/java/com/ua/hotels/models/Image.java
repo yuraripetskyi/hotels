@@ -1,6 +1,7 @@
 package com.ua.hotels.models;
 
 import com.ua.hotels.service.ImageService;
+import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
@@ -8,14 +9,16 @@ import java.io.File;
 import java.util.Objects;
 
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@Builder
 public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-
-    public Image() {
-    }
 
     @ManyToOne(
             cascade =CascadeType.REFRESH,
@@ -42,7 +45,7 @@ public class Image {
 
 
     public String getImage(){
-        return ImageService.UPLOAD_PATH+name;
+        return File.separator+"images"+File.separator+name;
     }
     public int getId() {
         return id;
@@ -75,10 +78,4 @@ public class Image {
         return Objects.hash(id, name, hotel);
     }
 
-    @Override
-    public String toString() {
-        return "Image{" +
-                "id=" + id +
-                ", name='" + name;
-    }
 }

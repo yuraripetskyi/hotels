@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class HotelController {
@@ -74,11 +75,8 @@ public class HotelController {
     public String hotel(@PathVariable String id, Model model) {
         Hotel hotel = hotelDAO.findById(Integer.parseInt(id)).get();
         model.addAttribute("hotel", hotel);
-//        List<Image> images = hotel.getImages();
-//        System.out.println("-----/////----------------------------------------------------------------------------");
-//        System.out.println(images.toString());
-//        System.out.println("------/////---------------------------------------------------------------------------");
-//        model.addAttribute("images", images);
+
+        model.addAttribute("images", hotel.getImages());
         return "hotel";
     }
 
@@ -86,7 +84,7 @@ public class HotelController {
     public String deleteHotel(@PathVariable String id) {
         hotelDAO.delete(hotelDAO.findById(Integer.parseInt(id)).get());
         Customer user = MainController.findActiveUser();
-        return "redirect:/hoteladmin/"+user.getUsername();
+        return "redirect:/hoteladmin/" + user.getUsername();
     }
 
 
@@ -101,11 +99,60 @@ public class HotelController {
         model.addAttribute("hotel", hotel);
         for (MultipartFile file : files) {
             imageService.createImage(file);
-            imageService.save(new Image(file.getOriginalFilename(),hotel));
+            imageService.save(new Image(file.getOriginalFilename(), hotel));
         }
         return "hotel";
     }
 
-}
+    @GetMapping("/change/hotel/{id}")
+    private String changeHotel(@PathVariable int id, Model model) {
+        Hotel hotel = hotelDAO.findById(id).get();
+        model.addAttribute("hotel", hotel);
 
+
+        return "changesHotel";
+    }
+
+    @PostMapping("/save/changes/hotel/{id}")
+    public String saveChangesHotel(@PathVariable int id,
+                                   Model model,
+                                   @RequestParam String name,
+                                   @RequestParam String city,
+                                   @RequestParam String street,
+                                   @RequestParam String email,
+                                   @RequestParam(value = "phones") String[] phones,
+                                   @RequestParam(value = "images") MultipartFile[] files
+    ) {
+        Hotel hotel = hotelDAO.findById(id).get();
+
+        if (name != null) {
+            hotel.setName(name);
+        }
+        if (city != null) {
+            hotel.setCity(city);
+        }
+        if (street != null) {
+            hotel.setStreet(street);
+        }
+        if (email != null) {
+            hotel.setEmail(email);
+        }
+        if (phones != null) {
+            for (String phone : phones) {
+                Phone phonec = new Phone(phone);
+                phonec.setHotel(hotel);
+            }
+//        if(files != null){
+//            for (MultipartFile file : files) {
+//                imageService.createImage(file);
+//                imageService.save(new Image(file.getOriginalFilename(),hotel));
+//            }
+//        }
+        }
+        hotelDAO.save(hotel);
+        model.addAttribute("hotel", hotel);
+        return "hotel";
+
+    }
+}
 

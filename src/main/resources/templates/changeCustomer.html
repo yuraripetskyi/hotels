@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<p>Your Name:</p>
+<span th:text="${user.name}"></span>
+<p>Your Surname:</p>
+<span th:text="${user.surname}"></span>
+<p>Your Age:</p>
+<span th:text="${user.age}"></span>
+<p>Your City:</p>
+<span th:text="${user.city}"></span>
+<p>Your Email:</p>
+<span th:text="${user.email}"></span>
+
+<form th:action="@{/change/customer/}+${user.id}" method="post" enctype="multipart/form-data">
+    <p>Please enter your Login:</p>
+    <input type="" name="username" placeholder="Login" required
+           oninvalid="setCustomValidity('Имя должно содержать 2-4 символов')" oninput="setCustomValidity('')"><br>
+    <p>Please enter your Name:</p>
+    <input type="" name="name" placeholder="Name" required oninvalid="setCustomValidity('Введите свое Имя')"
+           oninput="setCustomValidity('')"><br>
+    <p>Please enter your Surname:</p>
+    <input type="" name="surname" placeholder="Surname" required oninvalid="setCustomValidity('Ведите свою фамилию')"
+           oninput="setCustomValidity('')"><br>
+    <p>Please enter your Age:</p>
+    <input type="number" name="age" min="8" max="150" placeholder="Your age" required
+           oninvalid="setCustomValidity('Введите свой возраст')" oninput="setCustomValidity('')"><br>
+    <p>Please enter your City:</p>
+    <input type="" name="city" placeholder="City" required oninvalid="setCustomValidity('Введите свой город')"
+           oninput="setCustomValidity('')"><br>
+    <p>Please enter your Email:</p>
+    <input type="email" name="email" placeholder="Email" required oninvalid="setCustomValidity('Введите свою почту')"
+           oninput="setCustomValidity('')"><br>
+    <input type="submit" value="Submit!">
+</form>
+</body>
+</html>
