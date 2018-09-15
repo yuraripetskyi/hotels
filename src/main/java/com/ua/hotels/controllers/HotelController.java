@@ -6,8 +6,13 @@ import com.ua.hotels.dao.RoomDAO;
 import com.ua.hotels.models.*;
 import com.ua.hotels.models.enums.Status;
 import com.ua.hotels.models.enums.Type;
+import com.ua.hotels.models.Customer;
+import com.ua.hotels.models.Hotel;
+import com.ua.hotels.models.Image;
+import com.ua.hotels.models.Phone;
 import com.ua.hotels.service.CustomerService;
 import com.ua.hotels.service.CustomerServiceImpl;
+import com.ua.hotels.service.ImageService;
 import com.ua.hotels.utils.CustomerEditor;
 import com.ua.hotels.utils.CustomerValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +22,14 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class HotelController {
@@ -120,6 +129,8 @@ public class HotelController {
     public String hotel(@PathVariable String id, Model model) {
         Hotel hotel = hotelDAO.findById(Integer.parseInt(id)).get();
         model.addAttribute("hotel", hotel);
+
+        model.addAttribute("images", hotel.getImages());
         return "hotel";
     }
 
@@ -129,4 +140,73 @@ public class HotelController {
         Customer user = MainController.findActiveUser();
         return "redirect:/hoteladmin/" + user.getUsername();
     }
+
+
+    @Autowired
+    private ImageService imageService;
+
+    @PostMapping("/upload/photos/hotel/{id}")
+    public String uploadPhotos(@PathVariable int id,
+                               @RequestParam(value = "images") MultipartFile[] files,
+                               Model model) throws IOException {
+        Hotel hotel = hotelDAO.findById(id).get();
+        model.addAttribute("hotel", hotel);
+        for (MultipartFile file : files) {
+            imageService.createImage(file);
+            imageService.save(new Image(file.getOriginalFilename(), hotel));
+        }
+        return "hotel";
+    }
+
+    @GetMapping("/change/hotel/{id}")
+    private String changeHotel(@PathVariable int id, Model model) {
+        Hotel hotel = hotelDAO.findById(id).get();
+        model.addAttribute("hotel", hotel);
+
+
+        return "changesHotel";
+    }
+
+    @PostMapping("/save/changes/hotel/{id}")
+    public String saveChangesHotel(@PathVariable int id,
+                                   Model model,
+                                   @RequestParam String name,
+                                   @RequestParam String city,
+                                   @RequestParam String street,
+                                   @RequestParam String email,
+                                   @RequestParam(value = "phones") String[] phones,
+                                   @RequestParam(value = "images") MultipartFile[] files
+    ) {
+        Hotel hotel = hotelDAO.findById(id).get();
+
+        if (name != null) {
+            hotel.setName(name);
+        }
+        if (city != null) {
+            hotel.setCity(city);
+        }
+        if (street != null) {
+            hotel.setStreet(street);
+        }
+        if (email != null) {
+            hotel.setEmail(email);
+        }
+        if (phones != null) {
+            for (String phone : phones) {
+                Phone phonec = new Phone(phone);
+                phonec.setHotel(hotel);
+            }
+//        if(files != null){
+//            for (MultipartFile file : files) {
+//                imageService.createImage(file);
+//                imageService.save(new Image(file.getOriginalFilename(),hotel));
+//            }
+//        }
+        }
+        hotelDAO.save(hotel);
+        model.addAttribute("hotel", hotel);
+        return "hotel";
+
+    }
 }
+

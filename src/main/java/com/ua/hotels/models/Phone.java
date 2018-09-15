@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @AllArgsConstructor
@@ -25,5 +26,28 @@ public class Phone {
 
     public Phone(String number) {
         this.number = number;
+    }
+
+    public Hotel getHotel() {
+        return hotel;
+    }
+
+    public void setHotel(Hotel hotel) {
+        this.hotel = hotel;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Phone phone = (Phone) o;
+        return id == phone.id &&
+                Objects.equals(number, phone.number) &&
+                Objects.equals(hotel, phone.hotel);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, number, hotel);
     }
 }
