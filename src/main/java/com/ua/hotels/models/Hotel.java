@@ -76,10 +76,6 @@ public class Hotel {
         this.images = images;
     }
 
-    public void setCustomer(Customer customer) {
-
-        this.customer = customer;
-    }
 
     public int getId() {
         return id;

@@ -11,7 +11,6 @@ import com.ua.hotels.models.Hotel;
 import com.ua.hotels.models.Image;
 import com.ua.hotels.models.Phone;
 import com.ua.hotels.service.CustomerService;
-import com.ua.hotels.service.CustomerServiceImpl;
 import com.ua.hotels.service.ImageService;
 import com.ua.hotels.utils.CustomerEditor;
 import com.ua.hotels.utils.CustomerValidator;
@@ -39,9 +38,6 @@ public class HotelController {
 
     @Autowired
     private CustomerService customerService;
-
-    @Autowired
-    private CustomerServiceImpl customerServiceImpl;
 
     @Autowired
     private JavaMailSender sender;
