@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>Hotel Name: <span th:text="${hotel.name}"></span></p>
+<p>Hotel City: <span th:text="${hotel.city}"></span></p>
+<p>Hotel Street: <span th:text="${hotel.street}"></span></p>
+<p>Hotel Email: <span th:text="${hotel.email}"></span></p>
+<p>Hotel Description: <span th:text="${hotel.description}"></span></p>
+<p>Hotel Phones:</p>
+<ul th:each="phone : ${hotel.phone}">
+    <li>
+        <span th:text="${phone.number}"></span>
+    </li>
+</ul>
+
+<form th:action="@{/save/changes/hotel/}+${hotel.id}" method="post" enctype="multipart/form-data">
+    <p>Please enter Name:</p>
+    <input type="" name="name" placeholder="Name"><br>
+    <p>Please enter City:</p>
+    <input type="" name="city" placeholder="City"><br>
+    <p>Please enter Street:</p>
+    <input type="" name="street" placeholder="Street"><br>
+    <p>Please enter Email:</p>
+    <input type="email" name="email" placeholder="Email"><br>
+    <p>Please enter Phones:</p>
+    <div id="phone_div">
+        <input type="" name="phones" placeholder="Phone">
+    </div>
+    <br>
+    <input type="button" id="addphone" value="Add phone number"><br>
+    <p>Please enter Description:</p>
+    <input type="text" size="50" name="description">
+    <input type="submit" value="Submit!">
+</form>
+
+</body>
+</html>

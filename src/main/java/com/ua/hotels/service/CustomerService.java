@@ -5,7 +5,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-public interface CustomerService extends UserDetailsService {
+public interface
+CustomerService extends UserDetailsService {
 
     void save(Customer customer);
 

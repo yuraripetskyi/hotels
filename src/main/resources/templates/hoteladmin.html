@@ -17,14 +17,22 @@
 <p>Your Email:</p>
 <span th:text="${user.email}"></span>
 
-<form th:action="@{/change/user/}+${user.id}" method="get">
-<p>do some changes in user fields</p>
-<input type="submit">
-</form>
 <form th:action="@{/logout}" method="get">
     <input type="submit" value="Logout">
 </form>
 
+<form th:action="@{/create/hotel}" method="get">
+    <input type="submit" value="Create Hotel">
+</form>
+
+<ul th:each="hotel : ${hotels}">
+    <li>
+        <a th:href="'/hotel/'+${hotel.id}" th:text="'Name - ' + ${hotel.name} "></a>
+        <form th:action="@{/delete/hotel/}+${hotel.id}" th:method="DELETE">
+            <input type="submit" value="Delete hotel">
+        </form>
+    </li>
+</ul>
 
 </body>
 </html>

@@ -1,21 +1,23 @@
 package com.ua.hotels.models;
 
 import com.ua.hotels.models.enums.Role;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 
 import javax.persistence.*;
+import java.nio.channels.Channels;
 import java.util.*;
 
 @Entity
-@ToString(exclude = "channels")
+@ToString(exclude = {"hotels","rooms","channels"})
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
+@Getter
+@Setter
 public class Customer implements UserDetails {
 
     @Id
@@ -33,20 +35,26 @@ public class Customer implements UserDetails {
     private int age;
     private String city;
 
-
-    @OneToOne(
+    @OneToMany(
+            cascade = CascadeType.REFRESH,
             fetch = FetchType.LAZY,
-            cascade = CascadeType.REFRESH
+            mappedBy = "customer"
     )
-    private Hotel hotel;
+    private List<Hotel> hotels ;
 
-    public Hotel getHotel() {
-        return hotel;
-    }
+    @ManyToMany(
+            cascade = CascadeType.REFRESH,
+            fetch = FetchType.LAZY,
+            mappedBy = "customers"
+    )
+    private List<Room> rooms ;
 
-    public void setHotel(Hotel hotel) {
-        this.hotel = hotel;
-    }
+    @ManyToMany(
+            cascade = CascadeType.REFRESH,
+            fetch = FetchType.LAZY,
+            mappedBy = "customers"
+    )
+    private List<Channel> channels ;
 
     public String getName() {
         return name;
@@ -88,15 +96,17 @@ public class Customer implements UserDetails {
         return code;
     }
 
-    public void setChannels(List<Channel> channels) {
-        this.channels = channels;
-    }
 
     public Customer(String username, String password, String email) {
         this.username = username;
         this.password = password;
         this.email = email;
 
+    }
+
+    public Customer(String username, String password) {
+        this.username = username;
+        this.password = password;
     }
 
     public void setEmail(String email) {
@@ -108,11 +118,6 @@ public class Customer implements UserDetails {
     }
 
     private Role role = Role.ROLE_USER;
-    @ManyToMany(
-            cascade = CascadeType.REFRESH,
-            fetch = FetchType.LAZY
-    )
-    private List<Channel> channels = new LinkedList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -193,5 +198,29 @@ public class Customer implements UserDetails {
 
     public void setEnabled(boolean enabled) {
         isEnabled = enabled;
+    }
+
+    public List<Hotel> getHotels() {
+        return hotels;
+    }
+
+    public void setHotels(List<Hotel> hotels) {
+        this.hotels = hotels;
+    }
+
+    public List<Room> getRooms() {
+        return rooms;
+    }
+
+    public void setRooms(List<Room> rooms) {
+        this.rooms = rooms;
+    }
+
+    public List<Channel> getChannels() {
+        return channels;
+    }
+
+    public void setChannels(List<Channel> channels) {
+        this.channels = channels;
     }
 }

@@ -1,71 +1,100 @@
 package com.ua.hotels.models;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import com.ua.hotels.models.enums.Stars;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 
-
-@AllArgsConstructor
-@ToString(exclude = {"rooms","contacts","adress"})
 @Entity
+@ToString(exclude = {"rooms","customer","channel","phone","stans"})
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Builder
 public class Hotel {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private String city;
     private String street;
-    private String house;
     private String email;
-    private String phone;
-    private byte stars;
-    private String description;
+    @OneToMany(
+            cascade = CascadeType.REMOVE,
+            fetch = FetchType.LAZY,
+            mappedBy = "hotel"
+    )
+    private List<Phone> phone;
 
-    public Hotel(String name, String city, String street, String house, String email, String phone, byte stars, String description) {
+    private String description;
+    @OneToMany(
+            cascade = CascadeType.REMOVE,
+            fetch = FetchType.LAZY,
+            mappedBy = "hotel"
+    )
+    private List<Stan> stans ;
+    @OneToMany(
+            cascade = CascadeType.REMOVE,
+            fetch = FetchType.LAZY,
+            mappedBy = "hotel"
+    )
+    private List<Room> rooms ;
+    @ManyToOne(
+            cascade = CascadeType.REFRESH,
+            fetch = FetchType.LAZY
+    )
+    private Customer customer;
+    @OneToOne(
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.REMOVE
+    )
+    private Channel channel;
+
+    public Hotel(String name, String city, String street, String email,String description) {
         this.name = name;
         this.city = city;
         this.street = street;
-        this.house = house;
         this.email = email;
-        this.phone = phone;
-        this.stars = stars;
         this.description = description;
     }
-
-    public List<Room> getRooms() {
-        return rooms;
-    }
-
-    public void setRooms(List<Room> rooms) {
-        this.rooms = rooms;
-    }
-
     @OneToMany(
             fetch = FetchType.LAZY,
-            cascade = CascadeType.REFRESH,
+            cascade = CascadeType.REMOVE,
             mappedBy = "hotel"
     )
-    private List<Room> rooms;
+    private List<Image> images;
 
-    @OneToOne(
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.REFRESH
-    )
-    private Customer admin;
-
-    public Customer getAdmin() {
-        return admin;
+    public List<Image> getImages() {
+        return images;
     }
 
-    public void setAdmin(Customer admin) {
-        this.admin = admin;
+    public void setImages(List<Image> images) {
+        this.images = images;
+    }
+
+    public void setCustomer(Customer customer) {
+
+        this.customer = customer;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getCity() {
@@ -84,14 +113,6 @@ public class Hotel {
         this.street = street;
     }
 
-    public String getHouse() {
-        return house;
-    }
-
-    public void setHouse(String house) {
-        this.house = house;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -100,88 +121,12 @@ public class Hotel {
         this.email = email;
     }
 
-    public String getPhone() {
+    public List<Phone> getPhone() {
         return phone;
     }
 
-    public void setPhone(String phone) {
+    public void setPhone(List<Phone> phone) {
         this.phone = phone;
-    }
-
-    public Hotel() {
-    }
-
-//    @OneToOne(
-//                fetch = FetchType.LAZY,
-//cascade = CascadeType.REFRESH
-//        )
-//        private Contact contacts;
-//
-//        @OneToOne(
-//              fetch = FetchType.LAZY,
-//              cascade = CascadeType.REFRESH
-//        )
-//private Adress adress;
-
-
-//    public Adress getAdress() {
-//        return adress;
-//    }
-//
-//    public void setAdress(Adress adress) {
-//        this.adress = adress;
-//    }
-
-//    private List<String> photos;
-
-    //role have to be admin
-
-
-//    private Customer admin;
-
-
-
-    public Hotel(String name, byte stars, String description, Contact contacts, Adress adress, Customer admin, List<Room> rooms) {
-        this.name = name;
-        this.stars = stars;
-        this.description = description;
-//        this.contacts = contacts;
-//        this.adress = adress;
-//        this.admin = admin;
-//        this.rooms = rooms;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-//    public Contact getContacts() {
-//        return contacts;
-//    }
-//
-//    public void setContacts(Contact contacts) {
-//        this.contacts = contacts;
-//    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-
-    public byte getStars() {
-        return stars;
-    }
-
-    public void setStars(byte stars) {
-        this.stars = stars;
     }
 
     public String getDescription() {
@@ -192,21 +137,35 @@ public class Hotel {
         this.description = description;
     }
 
+    public List<Stan> getStans() {
+        return stans;
+    }
 
+    public void setStans(List<Stan> stans) {
+        this.stans = stans;
+    }
 
-//    public Customer getAdmin() {
-//        return admin;
-//    }
-//
-//    public void setAdmin(Customer admin) {
-//        this.admin = admin;
-//    }
+    public List<Room> getRooms() {
+        return rooms;
+    }
 
-//    public List<Room> getRooms() {
-//        return rooms;
-//    }
-//
-//    public void setRooms(List<Room> rooms) {
-//        this.rooms = rooms;
-//    }
+    public void setRooms(List<Room> rooms) {
+        this.rooms = rooms;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public Channel getChannel() {
+        return channel;
+    }
+
+    public void setChannel(Channel channel) {
+        this.channel = channel;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 }

@@ -8,9 +8,18 @@
 
 
 <form th:action="@{/login}" method="post">
-    <input type="text" name="username" placeholder="Login">
-    <input type="text" name="password" placeholder="Password">
+    <input type="text" name="username" placeholder="Login" required oninvalid="setCustomValidity('Введите свой логин')"
+           oninput="setCustomValidity('')">
+    <input type="password" name="password" placeholder="Password" required
+           oninvalid="setCustomValidity('Введите свой пароль')" oninput="setCustomValidity('')">
     <input type="submit" value="Submit!">
+</form>
+<div th:if="${error}" class="alert alert-danger">
+    [[${error}]]
+</div>
+
+<form th:action="@{/}" method="get">
+    <input type="submit" value="Registr new acc!">
 </form>
 
 <form th:action="@{/}" method="get">
@@ -20,7 +29,7 @@
 
 </form>
 
-<form th:action="@{/loginsend}" method="get">
+<form th:action="@{/login/forgotten}" method="get">
     <!--<input type="submit" value="forgot password">-->
     <h3>forgot login?</h3>
     <h4>enter ur email, receive a message with ur loggin
@@ -30,7 +39,7 @@
 
 </form>
 
-<form th:action="@{/loginresetsend}" method="get">
+<form th:action="@{/password/forgotten}" method="get">
     <!--<input type="submit" value="forgot password">-->
     <h3>change password</h3>
     <h4>enter ur email, go to the link on ur mail</h4>

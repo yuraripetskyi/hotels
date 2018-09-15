@@ -1,9 +1,10 @@
 package com.ua.hotels.controllers;
 
 import com.ua.hotels.models.Customer;
+import com.ua.hotels.models.Hotel;
 import com.ua.hotels.models.enums.Role;
 import com.ua.hotels.service.CustomerService;
-import com.ua.hotels.service.serv_impl.CustomerServiceImpl;
+import com.ua.hotels.service.CustomerServiceImpl;
 import com.ua.hotels.utils.CustomerEditor;
 import com.ua.hotels.utils.CustomerValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,266 +36,109 @@ import java.util.UUID;
 public class MainController {
 
     @Autowired
-    private Environment environment;
-
-    @Autowired
     private CustomerService customerService;
 
     @Autowired
     private CustomerServiceImpl customerServiceImpl;
 
-    @Autowired
-    private JavaMailSender sender;
-
-    @Autowired
-    private CustomerEditor customerEditor;
-
-    @Autowired
-    private CustomerValidator customerValidator;
-
     @GetMapping("/")
-    public String index(Model model){
-        if (SecurityContextHolder.getContext().getAuthentication() != null &&
-                SecurityContextHolder.getContext().getAuthentication().isAuthenticated() &&
-                //when Anonymous Authentication is enabled
-                !(SecurityContextHolder.getContext().getAuthentication()
-                        instanceof AnonymousAuthenticationToken) ){
-            Customer user = (Customer)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            model.addAttribute("user",user);
-            //return "success";
-            Role role = user.getRole();
-            if (role.equals(Role.ROLE_USER)){
-                return "redirect:/user/"+user.getUsername();
-            }
-            else{
-                return "redirect:/admin/"+user.getUsername();
-            }
-        }else {
-            return "index";
-        }
+    public String index(Model model) {
+       return findActinveUserPage(model);
     }
 
     @PostMapping("/success")
-    public String success(Model model){
-        if (SecurityContextHolder.getContext().getAuthentication() != null &&
-                SecurityContextHolder.getContext().getAuthentication().isAuthenticated() &&
-                //when Anonymous Authentication is enabled
-                !(SecurityContextHolder.getContext().getAuthentication()
-                        instanceof AnonymousAuthenticationToken) ){
-            Customer user = (Customer)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            model.addAttribute("user",user);
-            Role role = user.getRole();
-            if (role.equals(Role.ROLE_USER)){
-                return "redirect:/user/"+user.getUsername();
-            }
-            else{
-                return "redirect:/admin/"+user.getUsername();
-            }
-        }
-        return "index";
+    public String success(Model model) {
+        return findActinveUserPage(model);
     }
+
+//    @GetMapping("/unsuccess")
+//    public String unsuccess(Model model){
+//        model.addAttribute("error","login.error");
+//        return "login";
+//    }
 
     @GetMapping("/login")
-    public String login(Customer customer){
-
-        if(customer.isEnabled()){
-            return "user";}else {
+    public String login(Model model) {
+        if (findActinveUserPage(model).equals("index")) {
             return "login";
         }
-
+        return findActinveUserPage(model);
     }
-    @GetMapping("/user/{username}")
-    public String user(@PathVariable String username,Model model){
-        if (SecurityContextHolder.getContext().getAuthentication() != null &&
-                SecurityContextHolder.getContext().getAuthentication().isAuthenticated() &&
-                //when Anonymous Authentication is enabled
-                !(SecurityContextHolder.getContext().getAuthentication()
-                        instanceof AnonymousAuthenticationToken) ) {
-            Customer user = (Customer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            model.addAttribute("user", user);
-        }
-/*
-treba dorobyty!!!!
- */
 
+    @GetMapping("/user/{username}")
+    public String user(@PathVariable String username, Model model) {
+        Customer user = (Customer) customerServiceImpl.loadUserByUsername(username);
+        model.addAttribute("user", user);
         return "user";
     }
 
     @GetMapping("/admin/{username}")
-    public String admin(@PathVariable String username,Model model){
-        if (SecurityContextHolder.getContext().getAuthentication() != null &&
-                SecurityContextHolder.getContext().getAuthentication().isAuthenticated() &&
-                //when Anonymous Authentication is enabled
-                !(SecurityContextHolder.getContext().getAuthentication()
-                        instanceof AnonymousAuthenticationToken) ) {
-            Customer user = (Customer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            model.addAttribute("user", user);
-        }
-        /*
-        treba dorobiti tut!!!!!!!!!
-         */
+    public String admin(@PathVariable String username, Model model) {
+        Customer user = (Customer) customerServiceImpl.loadUserByUsername(username);
+        model.addAttribute("user", user);
         return "admin";
     }
 
-//    @GetMapping("/admin")
-//    public String adminPage(@PathVariable String username,Model model){
-//        if (SecurityContextHolder.getContext().getAuthentication() != null &&
-//                SecurityContextHolder.getContext().getAuthentication().isAuthenticated() &&
-//                //when Anonymous Authentication is enabled
-//                !(SecurityContextHolder.getContext().getAuthentication()
-//                        instanceof AnonymousAuthenticationToken) ) {
-//            Customer user = (Customer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//            model.addAttribute("user", user);
-//        }
-//        /*
-//        treba dorobiti tut!!!!!!!!!
-//         */
-//        return "admin";
-//    }
+    @GetMapping("/hoteladmin/{username}")
+    public String hoteladmin(@PathVariable String username, Model model) {
+        Customer user = (Customer) customerServiceImpl.loadUserByUsername(username);
+        List<Hotel> hotels = user.getHotels();
+        model.addAttribute("hotels",hotels);
+        model.addAttribute("user", user);
+        return "hoteladmin";
+    }
+
+
     @GetMapping("/logout")
-    public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
+    public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null){
+        if (auth != null) {
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
         return "redirect:/login?logout";
     }
 
-    @PostMapping("/save")
-    public String save(Customer customer , BindingResult result , Model model) throws javax.mail.MessagingException {
-        customerValidator.validate(customer,result);
-        if (result.hasErrors()) {
-            String errors = "";
-            List<ObjectError> allErrors = result.getAllErrors();
-            for (ObjectError error : allErrors) {
-                errors += " " + environment.getProperty(error.getCode());
+    public String findActinveUserPage(Model model) {
+        String page = "index";
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            Object principal = auth.getPrincipal();
+            if (principal.toString().contains("Username: admin")) {
+                page = "admin_memory";
+            } else {
+                Customer principal_ = (Customer) principal;
+                Customer user = (Customer) customerService.loadUserByUsername(principal_.getUsername());
+                model.addAttribute("user", user);
+                String path = returnPath(user);
+                page = path;
             }
-            model.addAttribute("error", errors);
-            return "index";
         }
-        customerEditor.setValue(customer);
-        customer.setCode(UUID.randomUUID().toString());
-
-//        customer.setRole(Role.ROLE_ADMIN);
-//        customer.setEnabled(true);
-
-        customerService.save(customer);
-
-        String text = "Go to the link, to activate your account : <a href='http://localhost:8080/activate/"+ customer.getCode() +"'>Activate</a>";
-String subject = "Activate account";
-
-        sendMail(customer.getEmail(), subject , text);
-
-        return "registr";
+        return page;
     }
 
 
-    private void sendMail(String email, String subject, String text) throws javax.mail.MessagingException {
-        MimeMessage mimeMessage = sender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage,true);
-
-
-        helper.setText(text,true);
-        helper.setSubject(subject);
-        helper.setTo(email);
-        sender.send(mimeMessage);
-
-    }
-    @GetMapping("/activate/{code}")
-    public String activate(@PathVariable String code){
-
-        Customer user = (Customer) customerService.loadByCode(code);
-        user.setEnabled(true);
-        customerService.save(user);
-        return "login";
-    }
-
-    @GetMapping("/loginresetsend")
-    public String  restorePassword(@RequestParam String email) throws MessagingException {
-
-     Customer user = (Customer) customerService.loadUserByEmail(email);
-     String subject = "Change password";
-        user.setCode(UUID.randomUUID().toString());
-        customerService.save(user);
-     String text =  "Go to the link, to activate your account : <a href='http://localhost:8080/change_password/"+ user.getCode() +"'>to change password!</a>";
-     sendMail(email,subject,text);
-     return "registr";
-    }
-
-    @GetMapping("/change_password/{code}")
-    public String change_password(@PathVariable String code , Model model){
-        Customer customer = (Customer) customerService.loadByCode(code);
-        model.addAttribute("customer",customer);
-        return "/changepassword";
-    }
-
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @PostMapping("/new_password/{id}")
-    public String newPassword(@PathVariable int id,
-            @RequestParam String password1, @RequestParam String password2){
-        Customer customer = (Customer) customerService.loadUserById(id);
-
-        System.out.println("------------");
-        System.out.println(customer);
-        System.out.println("----------------");
-        if(password1.equals(password2)){
-
-            customer.setPassword(passwordEncoder.encode(password1));
-            customerService.save(customer);
-            return "login";
+    public static Customer findActiveUser() {
+        if (SecurityContextHolder.getContext().getAuthentication() != null &&
+                SecurityContextHolder.getContext().getAuthentication().isAuthenticated() &&
+                //when Anonymous Authentication is enabled
+                !(SecurityContextHolder.getContext().getAuthentication()
+                        instanceof AnonymousAuthenticationToken)) {
+            Customer user = (Customer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            return user;
+        } else {
+            return null;
         }
-        else{
-            return "/change_password/"+customer.getCode();
+    }
+
+    public String returnPath(Customer user)
+    {
+        Role role = user.getRole();
+        if (role.equals(Role.ROLE_USER)) {
+            return "redirect:/user/" + user.getUsername();
+        } else if (role.equals(Role.ROLE_ADMIN)) {
+            return "redirect:/admin/" + user.getUsername();
+        } else {
+            return "redirect:/hoteladmin/" + user.getUsername();
         }
-
     }
-    @GetMapping("/user/{id}/other")
-    public String user_friend(@PathVariable int id,Model model){
-        Customer user =(Customer) customerServiceImpl.loadUserById(id);
-        model.addAttribute("user",user);
-        return "other_user";
-    }
-
-    @GetMapping("/loginsend")
-    public String  loginforgot(@RequestParam String email) throws MessagingException {
-
-        Customer user = (Customer) customerService.loadUserByEmail(email);
-        String subject = "Hotels - Login";
-        user.setCode(UUID.randomUUID().toString());
-        customerService.save(user);
-        String text =  "Your login is: "+ user.getUsername() + " <br> Login: <a href='http://localhost:8080/login'>to login</a>";
-
-        sendMail(email,subject,text);
-        return "registr";
-    }
-
-
-
-
-
-
-
-//    @PostMapping("/upload_avatar")
-//    public String upload_avatar(@RequestParam MultipartFile file) throws IOException {
-//
-//       String path =  System.getProperty("user.dir")+ File.separator
-//                +"src"+File.separator+
-//                "main"+File.separator+
-//                "resources"+File.separator+
-//                "static" +File.separator+
-//                "avatars"+File.separator;
-//
-//        File avatar = new File(path + file.getOriginalFilename());
-//        file.transferTo(avatar);
-//        Customer user = (Customer)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//
-//        user.setImage(path+file.getOriginalFilename());
-//customerService.save(user);
-//        return "user";
-//    }
-
-
 }

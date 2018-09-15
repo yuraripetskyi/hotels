@@ -2,18 +2,25 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Registration</title>
+    <title>Title</title>
 </head>
 <body>
-<h1>Registration form : </h1>
-<form th:action="@{/save}" method="post">
+
+<p>Your Name:</p>
+<span th:text="${user.name}"></span>
+<p>Your Surname:</p>
+<span th:text="${user.surname}"></span>
+<p>Your Age:</p>
+<span th:text="${user.age}"></span>
+<p>Your City:</p>
+<span th:text="${user.city}"></span>
+<p>Your Email:</p>
+<span th:text="${user.email}"></span>
+
+<form th:action="@{/change/customer/}+${user.id}" method="post" enctype="multipart/form-data">
     <p>Please enter your Login:</p>
     <input type="" name="username" placeholder="Login" required
            oninvalid="setCustomValidity('Имя должно содержать 2-4 символов')" oninput="setCustomValidity('')"><br>
-    <p>Please enter your Password:</p>
-    <input type="password" name="password" placeholder="Password" required
-           oninvalid="setCustomValidity('Пароль должен содержать минимум 6 символов')"
-           oninput="setCustomValidity('')"><br>
     <p>Please enter your Name:</p>
     <input type="" name="name" placeholder="Name" required oninvalid="setCustomValidity('Введите свое Имя')"
            oninput="setCustomValidity('')"><br>
@@ -31,11 +38,5 @@
            oninput="setCustomValidity('')"><br>
     <input type="submit" value="Submit!">
 </form>
-<form th:action="@{/login}" method="get">
-    <input type="submit" value="Login">
-</form>
-<div th:if="${error}" class="alert alert-danger">
-    [[${error}]]
-</div>
 </body>
 </html>

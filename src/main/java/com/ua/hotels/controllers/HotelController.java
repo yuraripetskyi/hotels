@@ -1,102 +1,212 @@
 package com.ua.hotels.controllers;
 
+import com.ua.hotels.dao.HotelDAO;
+import com.ua.hotels.dao.PhoneDAO;
+import com.ua.hotels.dao.RoomDAO;
 import com.ua.hotels.models.*;
-import com.ua.hotels.service.*;
+import com.ua.hotels.models.enums.Status;
+import com.ua.hotels.models.enums.Type;
+import com.ua.hotels.models.Customer;
+import com.ua.hotels.models.Hotel;
+import com.ua.hotels.models.Image;
+import com.ua.hotels.models.Phone;
+import com.ua.hotels.service.CustomerService;
+import com.ua.hotels.service.CustomerServiceImpl;
+import com.ua.hotels.service.ImageService;
+import com.ua.hotels.utils.CustomerEditor;
+import com.ua.hotels.utils.CustomerValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.core.env.Environment;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
+import java.util.Optional;
 
 @Controller
 public class HotelController {
 
-
-   @Autowired
-   private HotelService hotelService;
-   @Autowired
-   private CustomerService customerService;
+    @Autowired
+    private Environment environment;
 
     @Autowired
-    private RoomService roomService;
+    private CustomerService customerService;
 
-    @PostMapping("/admin/create_hotel")
-    public String create_hotel(@RequestParam String name ,
-                               @RequestParam String city,
-                               @RequestParam String house,
-                               @RequestParam String street,
-                               @RequestParam byte stars,
-                               @RequestParam String email,
-                               @RequestParam String phone,
-                               @RequestParam String description,
-                               Model model){
-        if (SecurityContextHolder.getContext().getAuthentication() != null &&
-                SecurityContextHolder.getContext().getAuthentication().isAuthenticated() &&
-                //when Anonymous Authentication is enabled
-                !(SecurityContextHolder.getContext().getAuthentication()
-                        instanceof AnonymousAuthenticationToken) ) {
-            Customer user = (Customer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            model.addAttribute("user", user);
+    @Autowired
+    private CustomerServiceImpl customerServiceImpl;
 
-/*
+    @Autowired
+    private JavaMailSender sender;
 
-dorobyty!!!
- */
-            System.out.println("1");
-            Hotel hotel = new Hotel(name, city,street, house, email, phone, stars, description);
-            hotel.setAdmin(user);
+    @Autowired
+    private CustomerEditor customerEditor;
 
-            System.out.println(hotel);
+    @Autowired
+    private CustomerValidator customerValidator;
 
-            hotelService.save(hotel);
+    @Autowired
+    private HotelDAO hotelDAO;
+
+    @Autowired
+    private PhoneDAO phoneDAO;
+
+    @Autowired
+    private RoomDAO roomDAO;
+
+    @GetMapping("/create/hotel")
+    public String createHotel() {
+        return "createHotel";
+    }
+
+//    @PostMapping("/save/hotel")
+//    public String saveHotel(Hotel hotel,
+//                            @RequestParam(value = "phones") String[] phones,
+//                            @RequestParam(value = "types") String[] types) {
+//        Customer user = MainController.findActiveUser();
+//        hotel.setCustomer(user);
+//        hotelDAO.save(hotel);
+//        for (String phone : phones) {
+//            Phone phonec = new Phone(phone);
+//            phonec.setHotel(hotel);
+//            phoneDAO.save(phonec);
+//        }
+////        for (int i = 0; i < romos.length; i++) {
+////            String roome = romos[i];
+////            String type = types[i];
+////            String price = prices[i];
+////            System.out.println("------------");
+////            System.out.println("Room - "+roome+"; Type - "+type+"; Price - "+price);
+////            System.out.println("------------");
+////        }
+//        for (String type : types) {
+//            System.out.println("--------");
+//            System.out.println(type);
+//        }
+//        return "redirect:/hoteladmin/" + user.getUsername();
+//    }
+
+    @PostMapping("/save/hotel")
+    public String saveHotel(@RequestParam("name") String name
+            , @RequestParam("city") String city
+            , @RequestParam("street") String street
+            , @RequestParam("email") String email
+            , @RequestParam("description") String description
+            , @RequestParam("phones") String[] phones
+            , @RequestParam("prices") String[] prices
+            , @RequestParam("rooms") String[] rooms
+            , @RequestParam("types") String[] types) {
+        Hotel hotel = new Hotel(name,city,street,email,description);
+        Customer user = MainController.findActiveUser();
+        hotel.setCustomer(user);
+        hotelDAO.save(hotel);
+        for (String phone : phones) {
+            Phone phonec = new Phone(phone);
+            phonec.setHotel(hotel);
+            phoneDAO.save(phonec);
         }
-        return "redirect:/";
+        for (int i = 0; i < rooms.length; i++) {
+            String room = rooms[i];
+            String price = prices[i];
+            String type = types[i];
+            Type mainType = Type.valueOf(type);
+            Status stan = Status.STATUS_FREE;
+            Room mainRoom = new Room(Integer.parseInt(price),Integer.parseInt(room),mainType,stan);
+            mainRoom.setHotel(hotel);
+            roomDAO.save(mainRoom);
+        }
+        return "redirect:/hoteladmin/" + user.getUsername();
+    }
+
+    @GetMapping("/hotel/{id}")
+    public String hotel(@PathVariable String id, Model model) {
+        Hotel hotel = hotelDAO.findById(Integer.parseInt(id)).get();
+        model.addAttribute("hotel", hotel);
+
+        model.addAttribute("images", hotel.getImages());
+        return "hotel";
+    }
+
+    @DeleteMapping("/delete/hotel/{id}")
+    public String deleteHotel(@PathVariable String id) {
+        hotelDAO.delete(hotelDAO.findById(Integer.parseInt(id)).get());
+        Customer user = MainController.findActiveUser();
+        return "redirect:/hoteladmin/" + user.getUsername();
     }
 
 
-    @PostMapping("/admin/add-room-to-hotel")
-    public String add_room(@RequestParam String hotel_name,
-            @RequestParam String type,
-            @RequestParam String description,
-            @RequestParam double price){
-        System.out.println("method add_room");
-        if (SecurityContextHolder.getContext().getAuthentication() != null &&
-                SecurityContextHolder.getContext().getAuthentication().isAuthenticated() &&
-                //when Anonymous Authentication is enabled
-                !(SecurityContextHolder.getContext().getAuthentication()
-                        instanceof AnonymousAuthenticationToken) ) {
-            Customer user = (Customer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    @Autowired
+    private ImageService imageService;
 
-/*
+    @PostMapping("/upload/photos/hotel/{id}")
+    public String uploadPhotos(@PathVariable int id,
+                               @RequestParam(value = "images") MultipartFile[] files,
+                               Model model) throws IOException {
+        Hotel hotel = hotelDAO.findById(id).get();
+        model.addAttribute("hotel", hotel);
+        for (MultipartFile file : files) {
+            imageService.createImage(file);
+            imageService.save(new Image(file.getOriginalFilename(), hotel));
+        }
+        return "hotel";
+    }
 
-dorobyty!!!
- */
-            System.out.println("1st if");
-        List<Hotel> hotels = hotelService.findAll();
-        Stream<Hotel> stream = hotels.stream();
-        Hotel thishotel =  stream.filter(hotel -> hotel.getName().equals(hotel_name)).findAny().get();
-        if(thishotel.getAdmin().equals(user)) {
-            System.out.println("2nd if");
-            List<Room> rooms = thishotel.getRooms();
-            Room room = new Room(type,description,price);
-            System.out.println("-------------------");
-            System.out.println(room);
-            System.out.println("-----------------------");
-            rooms.add(room);
-            roomService.save(room);
-            hotelService.save(thishotel);
-        }else {
-    /*
-    message doroby!!!
-     */
+    @GetMapping("/change/hotel/{id}")
+    private String changeHotel(@PathVariable int id, Model model) {
+        Hotel hotel = hotelDAO.findById(id).get();
+        model.addAttribute("hotel", hotel);
+
+
+        return "changesHotel";
+    }
+
+    @PostMapping("/save/changes/hotel/{id}")
+    public String saveChangesHotel(@PathVariable int id,
+                                   Model model,
+                                   @RequestParam String name,
+                                   @RequestParam String city,
+                                   @RequestParam String street,
+                                   @RequestParam String email,
+                                   @RequestParam(value = "phones") String[] phones,
+                                   @RequestParam(value = "images") MultipartFile[] files
+    ) {
+        Hotel hotel = hotelDAO.findById(id).get();
+
+        if (name != null) {
+            hotel.setName(name);
         }
+        if (city != null) {
+            hotel.setCity(city);
         }
-        return "redirect:/";
+        if (street != null) {
+            hotel.setStreet(street);
+        }
+        if (email != null) {
+            hotel.setEmail(email);
+        }
+        if (phones != null) {
+            for (String phone : phones) {
+                Phone phonec = new Phone(phone);
+                phonec.setHotel(hotel);
+            }
+//        if(files != null){
+//            for (MultipartFile file : files) {
+//                imageService.createImage(file);
+//                imageService.save(new Image(file.getOriginalFilename(),hotel));
+//            }
+//        }
+        }
+        hotelDAO.save(hotel);
+        model.addAttribute("hotel", hotel);
+        return "hotel";
+
     }
 }
+

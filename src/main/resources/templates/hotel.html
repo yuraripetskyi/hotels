@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Hotel</title>
+    <link href="/css/div-style.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<p>Hotel Name: <span th:text="${hotel.name}"></span></p>
+<p>Hotel City: <span th:text="${hotel.city}"></span></p>
+<p>Hotel Street: <span th:text="${hotel.street}"></span></p>
+<p>Hotel Email: <span th:text="${hotel.email}"></span></p>
+<p>Hotel Description: <span th:text="${hotel.description}"></span></p>
+<p>Hotel Phones:</p>
+<ul th:each="phone : ${hotel.phone}">
+    <li>
+        <span th:text="${phone.number}"></span>
+    </li>
+</ul>
+
+
+<ul th:each="image : ${hotel.images}">
+    <li>
+        <div class="div-images">
+        <img th:src="@{${image.getImage()}}" class="content">
+        </div>
+    </li>
+</ul>
+<!--<div>-->
+    <!--<img th:each="image:${images}"-->
+         <!--th:src="@{${image.getImage}}" alt="">-->
+<!--</div>-->
+
+<form th:action="@{/upload/photos/hotel/}+${hotel.id}" method="post" enctype="multipart/form-data">
+    <p>To add photos:</p>
+    <div id="image_div">
+        <input type="file" name="images">
+    </div>
+    <br>
+    <!--<input type="button" id="addimg" value="Add one more image"><br>-->
+    <input type="submit">
+</form>
+
+
+<form th:action="@{/change/hotel/} + ${hotel.id}" method="get">
+    <p> Do some changes in hotel </p>
+    <input type="submit">
+</form>
+
+
+
+<ul th:each="room,iter : ${hotel.rooms}">
+    <li>
+        <h3 th:text="'Room '+${iter.index+1}"></h3>
+        <p>Room price: <span th:text="${room.price}"></span></p>
+        <p>Room count: <span th:text="${room.roominess}"></span></p>
+        <p>Room type: <span th:text="${room.type}"></span></p>
+        <p>Room status: <span th:text="${room.status}"></span></p>
+    </li>
+</ul>
+</body>
+</html>

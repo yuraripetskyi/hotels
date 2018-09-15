@@ -2,43 +2,10 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Admin</title>
+    <title>Main Admin</title>
 </head>
 <body>
-<p>Your Name:</p>
-<span th:text="${user.username}"></span>
-
-<form th:action="@{/admin/create_hotel}" method="post">
-
-<p>Please enter hotel name:</p>
-    <input type="text" name="name" placeholder="name"><br>
-<p>addres:</p>
-    <input type="text" name="city" placeholder="city"><br>
-    <input type="text" name="street" placeholder="street"><br>
-    <input type="text" name="house" placeholder="house"><br>
- <p>Please enter hotel stars:</p>
-     <input type="text" name="stars" placeholder="stars: 1 - 5"><br>
- <p>Please enter contacts:</p>
-     <input type="text" name="email" placeholder="email"><br>
-         <input type="text" name="phone" placeholder="phone"><br>
-
-    <input type="text" name="description" placeholder="description"><br>
-
-  <!--   <p>photos</p> -->
-   <!--  <input type="file" name="file" placeholder=""> -->
-     <input type="submit">
-</form>
-
-
-<form th:action="@{/admin/add-room-to-hotel}" method="post">
-<p>Please enter hotel name:</p>
-    <input type="text" name="hotel_name" placeholder="name"><br>
-    <br>
-    <input type="text" name="type" placeholder="type"><br>
-    <input type="text" name="description" placeholder="description"><br>
-    <input type="text" name="price" placeholder="price"><br>
-    <input type="submit">
-</form>
+Sosi pisos
 
 <form th:action="@{/logout}" method="get">
     <input type="submit" value="Logout">
@@ -81,6 +48,17 @@
                 <input type="submit" value="Make  admin">
             </form>
         </div>
+
+        <div th:if="${user.getRole()==admin_role}">
+            <form th:action="@{/makeUser/}+${user.username}" method="get">
+                <input type="submit" value="Make user">
+            </form>
+            <form th:action="@{/makeHotelAdmin/}+${user.username}" method="get">
+                <input type="submit" value="Make hotel admin">
+            </form>
+        </div>
+
+
 
     </li>
 </ul>
