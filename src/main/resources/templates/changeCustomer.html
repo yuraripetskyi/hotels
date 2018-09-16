@@ -5,37 +5,19 @@
     <title>Title</title>
 </head>
 <body>
-
-<p>Your Name:</p>
-<span th:text="${user.name}"></span>
-<p>Your Surname:</p>
-<span th:text="${user.surname}"></span>
-<p>Your Age:</p>
-<span th:text="${user.age}"></span>
-<p>Your City:</p>
-<span th:text="${user.city}"></span>
-<p>Your Email:</p>
-<span th:text="${user.email}"></span>
-
 <form th:action="@{/change/customer/}+${user.id}" method="post" enctype="multipart/form-data">
-    <p>Please enter your Login:</p>
-    <input type="" name="username" placeholder="Login" required
-           oninvalid="setCustomValidity('Имя должно содержать 2-4 символов')" oninput="setCustomValidity('')"><br>
-    <p>Please enter your Name:</p>
-    <input type="" name="name" placeholder="Name" required oninvalid="setCustomValidity('Введите свое Имя')"
-           oninput="setCustomValidity('')"><br>
-    <p>Please enter your Surname:</p>
-    <input type="" name="surname" placeholder="Surname" required oninvalid="setCustomValidity('Ведите свою фамилию')"
-           oninput="setCustomValidity('')"><br>
-    <p>Please enter your Age:</p>
-    <input type="number" name="age" min="8" max="150" placeholder="Your age" required
-           oninvalid="setCustomValidity('Введите свой возраст')" oninput="setCustomValidity('')"><br>
-    <p>Please enter your City:</p>
-    <input type="" name="city" placeholder="City" required oninvalid="setCustomValidity('Введите свой город')"
-           oninput="setCustomValidity('')"><br>
-    <p>Please enter your Email:</p>
-    <input type="email" name="email" placeholder="Email" required oninvalid="setCustomValidity('Введите свою почту')"
-           oninput="setCustomValidity('')"><br>
+    <p>Change your login</p>
+    <input type="text" name="username" placeholder="Login" th:value="${user.username}">
+    <p>Change your name</p>
+    <input type="text" name="name" placeholder="Name" th:value="${user.name}">
+    <p>Change your surname</p>
+    <input type="text" name="surname" placeholder="Surname" th:value="${user.surname}">
+    <p>Change your age</p>
+    <input type="number" name="age" placeholder="Your age" th:value="${user.age}">
+    <p>Change your city</p>
+    <input type="text" name="city" placeholder="City" th:value="${user.city}">
+    <p>Change your email</p>
+    <input type="email" name="email" placeholder="Email" th:value="${user.email}">
     <input type="submit" value="Submit!">
 </form>
 </body>

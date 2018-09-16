@@ -24,6 +24,14 @@ public class Phone {
     )
     private Hotel hotel;
 
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
     public Phone(String number) {
         this.number = number;
     }

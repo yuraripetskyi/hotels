@@ -21,6 +21,11 @@
     <input type="submit" value="Logout">
 </form>
 
+<form th:action="@{/change/user/}+${user.id}" method="get">
+    <p>do some changes in user fields</p>
+    <input type="submit">
+</form>
+
 <form th:action="@{/create/hotel}" method="get">
     <input type="submit" value="Create Hotel">
 </form>

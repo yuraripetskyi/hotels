@@ -171,6 +171,7 @@ public class HotelController {
                                    @RequestParam String city,
                                    @RequestParam String street,
                                    @RequestParam String email,
+                                   @RequestParam String description,
                                    @RequestParam(value = "phones") String[] phones,
                                    @RequestParam(value = "images") MultipartFile[] files
     ) {
@@ -179,16 +180,20 @@ public class HotelController {
         if (!(name.equals(""))) {
             hotel.setName(name);
         }
-        if (city != null) {
+        if (!(city.equals(""))) {
             hotel.setCity(city);
         }
-        if (street != null) {
+        if (!(street.equals(""))) {
             hotel.setStreet(street);
         }
-        if (email != null) {
+        if (!(email.equals(""))) {
             hotel.setEmail(email);
         }
-        if (phones != null) {
+        if (!(description.equals(""))) {
+            hotel.setDescription(description);
+        }
+        if(!(name.equals("")))
+        if (!(phones.equals(""))) {
             for (String phone : phones) {
                 Phone phonec = new Phone(phone);
                 phonec.setHotel(hotel);
