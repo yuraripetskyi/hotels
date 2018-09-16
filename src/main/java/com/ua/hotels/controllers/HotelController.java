@@ -81,6 +81,7 @@ public class HotelController {
 ////            System.out.println("------------");
 ////            System.out.println("Room - "+roome+"; Type - "+type+"; Price - "+price);
 ////            System.out.println("------------");
+
 ////        }
 //        for (String type : types) {
 //            System.out.println("--------");
@@ -175,7 +176,7 @@ public class HotelController {
     ) {
         Hotel hotel = hotelDAO.findById(id).get();
 
-        if (name != null) {
+        if (!(name.equals(""))) {
             hotel.setName(name);
         }
         if (city != null) {
