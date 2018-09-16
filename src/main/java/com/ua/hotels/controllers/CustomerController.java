@@ -1,12 +1,9 @@
 package com.ua.hotels.controllers;
 
 
-import com.sun.media.sound.MidiOutDeviceProvider;
 import com.ua.hotels.models.Customer;
 import com.ua.hotels.service.CustomerService;
-import org.hibernate.validator.constraints.pl.REGON;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

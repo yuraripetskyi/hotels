@@ -4,7 +4,7 @@ package com.ua.hotels.controllers;
 import com.ua.hotels.dao.CustomerDAO;
 import com.ua.hotels.models.Customer;
 import com.ua.hotels.models.enums.Role;
-import com.ua.hotels.service.CustomerServiceImpl;
+import com.ua.hotels.service.serv_impl.CustomerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

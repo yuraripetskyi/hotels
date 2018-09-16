@@ -43,7 +43,6 @@ public class Image {
         this.hotel = hotel;
     }
 
-
     public String getImage(){
         return File.separator+"images"+File.separator+name;
     }

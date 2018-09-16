@@ -4,32 +4,22 @@ import com.ua.hotels.models.Customer;
 import com.ua.hotels.models.Hotel;
 import com.ua.hotels.models.enums.Role;
 import com.ua.hotels.service.CustomerService;
-import com.ua.hotels.service.CustomerServiceImpl;
-import com.ua.hotels.utils.CustomerEditor;
-import com.ua.hotels.utils.CustomerValidator;
+import com.ua.hotels.service.serv_impl.CustomerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.util.List;
-import java.util.UUID;
 
 @Controller
 @PropertySource("classpath:validation.properties")
