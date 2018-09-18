@@ -5,11 +5,11 @@
     border-radius: 15%;
     border-width: 3px;
     border-style: solid;
-    overflow: auto;
+
 
 }
 .content{
     width: 100%;
     height: 100%;
-    overflow: auto;
+    /*overflow: auto;*/
 }
