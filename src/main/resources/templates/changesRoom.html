@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>Room id: </p>
+<span th:text="${room.id}"></span>
+
+<p> Room fields:</p>
+<form th:action="@{/update/room/}+ ${room.id}" method="post">
+    <p>Price: </p>
+    <input type="text" name="prices" placeholder="Enter price of your room 1" th:value="${room.price}"><br>
+    <p>Roominess</p>
+    <input type="text" name="rooms" placeholder="Enter count of your room 1" th:value="${room.roominess}"><br>
+    <div><select class="select" name="type">
+        <option value="TYPE_ECONOM">Econom</option>
+        <option value="TYPE_STANDART">Standart</option>
+        <option value="TYPE_LUXE">Luxe</option>
+    </select>
+    </div>
+    <input type="submit" value="change">
+</form>
+
+</body>
+</html>

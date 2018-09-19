@@ -100,7 +100,7 @@ public class HotelController {
             , @RequestParam("prices") String[] prices
             , @RequestParam("rooms") String[] rooms
             , @RequestParam("types") String[] types) {
-        Hotel hotel = new Hotel(name,city,street,email,description);
+        Hotel hotel = new Hotel(name, city, street, email, description);
         Customer user = MainController.findActiveUser();
         hotel.setCustomer(user);
         hotelDAO.save(hotel);
@@ -115,7 +115,7 @@ public class HotelController {
             String type = types[i];
             Type mainType = Type.valueOf(type);
             Status stan = Status.STATUS_FREE;
-            Room mainRoom = new Room(Integer.parseInt(price),Integer.parseInt(room),mainType,stan);
+            Room mainRoom = new Room(Integer.parseInt(price), Integer.parseInt(room), mainType, stan);
             mainRoom.setHotel(hotel);
             roomDAO.save(mainRoom);
         }
@@ -160,7 +160,6 @@ public class HotelController {
         Hotel hotel = hotelDAO.findById(id).get();
         model.addAttribute("hotel", hotel);
 
-
         return "changesHotel";
     }
 
@@ -192,23 +191,52 @@ public class HotelController {
         if (!(description.equals(""))) {
             hotel.setDescription(description);
         }
-        if(!(name.equals("")))
-        if (!(phones.equals(""))) {
-            for (String phone : phones) {
-                Phone phonec = new Phone(phone);
-                phonec.setHotel(hotel);
-            }
+        if (!(name.equals("")))
+            if (!(phones.equals(""))) {
+                for (String phone : phones) {
+                    Phone phonec = new Phone(phone);
+                    phonec.setHotel(hotel);
+                }
 //        if(files != null){
 //            for (MultipartFile file : files) {
 //                imageService.createImage(file);
 //                imageService.save(new Image(file.getOriginalFilename(),hotel));
 //            }
 //        }
-        }
+            }
         hotelDAO.save(hotel);
         model.addAttribute("hotel", hotel);
         return "hotel";
-
     }
+
+    @GetMapping("/change/room/{id}")
+    private String changeRoom(@PathVariable int id, Model model
+    ) {
+        Room room = roomDAO.findById(id).get();
+        model.addAttribute("hotel", room.getHotel());
+        model.addAttribute("room", room);
+
+
+        return "changesRoom";
+    }
+
+    @PostMapping("/update/room/{id}")
+    public String updateRoom(@PathVariable int id,
+                             Model model,
+                             @RequestParam int prices,
+                             @RequestParam int rooms,
+                             @RequestParam Type type) {
+
+        Room room = roomDAO.findById(id).get();
+        Hotel hotel = room.getHotel();
+        room.setPrice(prices);
+        room.setRoominess(rooms);
+        room.setType(type);
+        roomDAO.save(room);
+        model.addAttribute("hotel", hotel);
+
+        return "hotel";
+    }
+
 }
 

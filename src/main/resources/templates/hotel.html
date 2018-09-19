@@ -56,6 +56,10 @@
         <p>Room count: <span th:text="${room.roominess}"></span></p>
         <p>Room type: <span th:text="${room.type}"></span></p>
         <p>Room status: <span th:text="${room.status}"></span></p>
+        <form th:action="@{/change/room/}+${room.id}" method="get">
+            <input type="submit">
+        </form>
+
     </li>
 </ul>
 </body>
