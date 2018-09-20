@@ -217,10 +217,7 @@ public class HotelController {
             @RequestParam String type,
             @RequestParam String status,
             Model model){
-            //Не хоче збирати із данних кімнату, дізнатися як передаються із радіобаттонів інформація про вибір, чи передаються стрінги чи Енами
-        System.out.println("--------------------");
-        System.out.println(type  + " " +status);
-        System.out.println("--------------------");
+
         Room room = new Room(price, roominess, Type.valueOf(type), Status.valueOf(status));
             room.setHotel(hotel);
         roomDAO.save(room);
