@@ -45,6 +45,29 @@ public class Room {
     )
     private Hotel hotel;
 
+//    @OneToMany(
+//            fetch = FetchType.LAZY,
+//            cascade = CascadeType.REFRESH,
+//            mappedBy = "book"
+//    )
+//    private List<Book> book;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+//    public List<Book> getBook() {
+//        return book;
+//    }
+//
+//    public void setBook(List<Book> book) {
+//        this.book = book;
+//    }
+
     public int getPrice() {
         return price;
     }
