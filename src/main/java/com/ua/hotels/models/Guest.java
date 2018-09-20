@@ -24,12 +24,12 @@ public class Guest {
     private String surname;
     private String email;
 
-//    @OneToMany(
-//            cascade = CascadeType.REFRESH,
-//            fetch = FetchType.LAZY,
-//            mappedBy = "guest"
-//    )
-//    private List<Book> book;
+    @OneToMany(
+            cascade = CascadeType.REFRESH,
+            fetch = FetchType.LAZY,
+            mappedBy = "guest"
+    )
+    private List<Book> book;
 
     public String getName() {
         return name;
@@ -55,13 +55,13 @@ public class Guest {
         this.email = email;
     }
 
-//    public List<Book> getBook() {
-//        return book;
-//    }
-//
-//    public void setBook(List<Book> book) {
-//        this.book = book;
-//    }
+    public List<Book> getBook() {
+        return book;
+    }
+
+    public void setBook(List<Book> book) {
+        this.book = book;
+    }
 
     @Override
     public String toString() {

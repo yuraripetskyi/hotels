@@ -20,20 +20,20 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private Date from;
-    private Date to;
+    private String  date_from;
+    private String date_to;
 
-//    @ManyToOne(
-//            cascade = CascadeType.REFRESH,
-//            fetch = FetchType.LAZY
-//    )
-//    private Room room;
-//
-//    @ManyToOne(
-//            fetch = FetchType.LAZY,
-//            cascade = CascadeType.REFRESH
-//    )
-//    private Guest guest;
+    @ManyToOne(
+            cascade = CascadeType.REFRESH,
+            fetch = FetchType.LAZY
+    )
+    private Room room;
+
+    @ManyToOne(
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.REFRESH
+    )
+    private Guest guest;
 
 }
 
