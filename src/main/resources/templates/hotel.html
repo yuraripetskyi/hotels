@@ -44,10 +44,20 @@
 
 <form th:action="@{/change/hotel/} + ${hotel.id}" method="get">
     <p> Do some changes in hotel </p>
-    <input type="submit">
+    <input type="submit" >
 </form>
-
-
+<form th:action="@{/add/room}" method="post">
+    <p>Add new room</p>
+    <input type="text" name="price" placeholder="price">
+    <input type="text" name="roominess" placeholder="room count">
+    <p>Type of the Room</p>
+        <div th:each="type : ${types}">
+            <input type="radio" name="type" th:text="${type}" th:value="${type}">
+        </div>
+    <input type="hidden" name="status" value="STATUS_FREE">
+    <input type="hidden" name="hotelId" th:value="${hotel.id}">
+<input type="submit" value="Save Room!">
+</form>
 
 <ul th:each="room,iter : ${hotel.rooms}">
     <li>
@@ -57,9 +67,8 @@
         <p>Room type: <span th:text="${room.type}"></span></p>
         <p>Room status: <span th:text="${room.status}"></span></p>
         <form th:action="@{/change/room/}+${room.id}" method="get">
-            <input type="submit">
+            <input type="submit" value="Change">
         </form>
-
     </li>
 </ul>
 </body>

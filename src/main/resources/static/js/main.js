@@ -41,7 +41,7 @@ roomButton.onclick = function () {
     roomDiv.appendChild(divSelect);
 
     iter1++;
-    if (iter1 >= 2) {
+    if (iter1 >= 1000) {
         roomButton.disabled = true;
     }
 };

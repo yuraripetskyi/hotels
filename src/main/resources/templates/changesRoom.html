@@ -5,9 +5,6 @@
     <title>Title</title>
 </head>
 <body>
-<p>Room id: </p>
-<span th:text="${room.id}"></span>
-
 <p> Room fields:</p>
 <form th:action="@{/update/room/}+ ${room.id}" method="post">
     <p>Price: </p>

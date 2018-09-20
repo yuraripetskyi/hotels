@@ -62,34 +62,6 @@ public class HotelController {
         return "createHotel";
     }
 
-//    @PostMapping("/save/hotel")
-//    public String saveHotel(Hotel hotel,
-//                            @RequestParam(value = "phones") String[] phones,
-//                            @RequestParam(value = "types") String[] types) {
-//        Customer user = MainController.findActiveUser();
-//        hotel.setCustomer(user);
-//        hotelDAO.save(hotel);
-//        for (String phone : phones) {
-//            Phone phonec = new Phone(phone);
-//            phonec.setHotel(hotel);
-//            phoneDAO.save(phonec);
-//        }
-////        for (int i = 0; i < romos.length; i++) {
-////            String roome = romos[i];
-////            String type = types[i];
-////            String price = prices[i];
-////            System.out.println("------------");
-////            System.out.println("Room - "+roome+"; Type - "+type+"; Price - "+price);
-////            System.out.println("------------");
-
-////        }
-//        for (String type : types) {
-//            System.out.println("--------");
-//            System.out.println(type);
-//        }
-//        return "redirect:/hoteladmin/" + user.getUsername();
-//    }
-
     @PostMapping("/save/hotel")
     public String saveHotel(@RequestParam("name") String name
             , @RequestParam("city") String city
@@ -126,7 +98,7 @@ public class HotelController {
     public String hotel(@PathVariable String id, Model model) {
         Hotel hotel = hotelDAO.findById(Integer.parseInt(id)).get();
         model.addAttribute("hotel", hotel);
-
+        model.addAttribute("types", Type.values());
         model.addAttribute("images", hotel.getImages());
         return "hotel";
     }
@@ -236,6 +208,23 @@ public class HotelController {
         model.addAttribute("hotel", hotel);
 
         return "hotel";
+    }
+    @PostMapping("/add/room")
+    public String addRoom(
+            @RequestParam("hotelId") Hotel hotel,
+            @RequestParam int price,
+            @RequestParam int roominess,
+            @RequestParam String type,
+            @RequestParam String status,
+            Model model){
+            //Не хоче збирати із данних кімнату, дізнатися як передаються із радіобаттонів інформація про вибір, чи передаються стрінги чи Енами
+        System.out.println("--------------------");
+        System.out.println(type  + " " +status);
+        System.out.println("--------------------");
+        Room room = new Room(price, roominess, Type.valueOf(type), Status.valueOf(status));
+            room.setHotel(hotel);
+        roomDAO.save(room);
+        return "redirect:/hotel/" + hotel.getId();
     }
 
 }
