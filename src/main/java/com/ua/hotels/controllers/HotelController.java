@@ -187,8 +187,6 @@ public class HotelController {
         Room room = roomDAO.findById(id).get();
         model.addAttribute("hotel", room.getHotel());
         model.addAttribute("room", room);
-
-
         return "changesRoom";
     }
 

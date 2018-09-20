@@ -7,9 +7,18 @@
 <body>
 
 <form th:action="@{/main}" method="get">
-    <input type="text" name="finder">
+    <input type="text" name="finder" placeholder="City or hotel's name">
+    <input type="text" name="countOfGuests" placeholder="Count of Guests">
+    <p>Choose a Filter</p>
+    <div>
+        <select class="select" name="filter">
+            <option name="Descending" value="Descending" selected>Price descending</option>
+            <option value="Ascending">Price ascending</option>
+        </select>
+    </div>
     <input type="submit">
 </form>
+
 <ul th:each="room : ${rooms}">
     <li>
         <span th:text="${room.hotel}"></span>
