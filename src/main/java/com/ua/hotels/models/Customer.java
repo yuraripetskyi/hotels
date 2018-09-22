@@ -56,6 +56,21 @@ public class Customer implements UserDetails {
     )
     private List<Channel> channels ;
 
+    @OneToMany(
+            cascade = CascadeType.REFRESH,
+            fetch = FetchType.LAZY,
+            mappedBy = "customer"
+    )
+    private List<Book> books;
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
+    }
+
     public String getName() {
         return name;
     }

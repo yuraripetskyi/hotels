@@ -3,12 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.js"></script>-->
+    <script>
+      $(function () {
+          $("#date1").datepicker();
+      });
+
+      $(function () {
+          $("#date2").datepicker();
+      })
+    </script>
 </head>
 <body>
 
 <form th:action="@{/main}" method="get">
     <input type="text" name="finder" placeholder="City or hotel's name">
     <input type="text" name="countOfGuests" placeholder="Count of Guests">
+
+    <input id="date1" name="from_date" type="text" size="8" placeholder="from">
+    <input id="date2" name="to_date" type="text" size="8" placeholder="to">
+
     <p>Choose a Filter</p>
     <div>
         <select class="select" name="filter">
@@ -23,8 +40,12 @@
     <li>
         <span th:text="${room.hotel}"></span>
         <span th:text="${room}"></span>
+        <form th:action="@{/book/room/}+${room.id}" method="get">
+            <input type="submit" value="book">
+        </form>
     </li>
 </ul>
+
 
 </body>
 </html>
