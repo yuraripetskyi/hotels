@@ -31,18 +31,19 @@ public class BookingController {
     private BookDAO bookDAO;
 
     @GetMapping("/main")
-    private String Mainpage(){
+    private String Mainpage() {
         return "main";
     }
+
     @PostMapping("/main")
     private String MainPage(@RequestParam(required = false, defaultValue = "") String finder,
-                            @RequestParam(required = false,defaultValue = "") Integer countOfGuests,
+                            @RequestParam(required = false, defaultValue = "") Integer countOfGuests,
                             @RequestParam(required = false, defaultValue = "") String filter,
                             @RequestParam(required = false, defaultValue = "") String from_date,
                             @RequestParam(required = false, defaultValue = "") String to_date,
                             Model model) throws ParseException {
         List<Room> rooms = new ArrayList<>();
-        List<Room> roomList = roomDAO.findAllByRoominessAndHotelCityOrRoominessAndHotelName(countOfGuests,finder,countOfGuests,finder);
+        List<Room> roomList = roomDAO.findAllByRoominessAndHotelCityOrRoominessAndHotelName(countOfGuests, finder, countOfGuests, finder);
         rooms.addAll(filterByPrice(filter, roomList));
         List<Room> free_rooms = commpareDates(rooms, from_date, to_date);
 
@@ -52,7 +53,7 @@ public class BookingController {
 
     @GetMapping("/book/room/{id}")
     public String bookPage(@PathVariable int id,
-                           Model model){
+                           Model model) {
         Room room = roomDAO.findById(id).get();
         model.addAttribute("room", room);
         model.addAttribute("hotel", room.getHotel());
@@ -60,10 +61,9 @@ public class BookingController {
     }
 
 
-
     @PostMapping("/book/room/{id}")
     public String book(@PathVariable int id,
-                       @RequestBody Guest guest){
+                       @RequestBody Guest guest) {
         Customer activeUser = MainController.findActiveUser();
         Room room = roomDAO.findById(id).get();
         Book book = new Book();
@@ -78,38 +78,35 @@ public class BookingController {
 
     private List<Room> commpareDates(List<Room> rooms, String from_date, String to_date) throws ParseException {
 
-            Date from = new SimpleDateFormat("MM/dd/yyyy").parse(from_date);
-
-
-
-            Date to = new SimpleDateFormat("MM/dd/yyyy").parse(to_date);
+        Date from = new SimpleDateFormat("MM/dd/yyyy").parse(from_date);
+        Date to = new SimpleDateFormat("MM/dd/yyyy").parse(to_date);
 
         List<Book> book = bookDAO.findAll();
 
-        for (Room room: rooms) {
+        for (Room room : rooms) {
             List<Book> books = room.getBook();
-            for (Book boo :books) {
+            for (Book boo : books) {
 
-                  Date book_from =  new SimpleDateFormat("MM/dd/yyyy").parse(boo.getDate_from());
-                    Date book_to = new SimpleDateFormat("MM/dd/yyyy").parse(boo.getDate_to());
-
-                if(from.compareTo(book_from) > 0 && from.compareTo(book_to) < 0){
-                    Iterator itr = rooms.iterator();
-                    while (itr.hasNext())
-                    {
-                            itr.remove();
-                    }
-                }
-                if(to.compareTo(book_from) > 0 && to.compareTo(book_to) < 0){
-                    Iterator itr = rooms.iterator();
-                    while (itr.hasNext())
-                    {
+                Date book_from = new SimpleDateFormat("MM/dd/yyyy").parse(boo.getDate_from());
+                Date book_to = new SimpleDateFormat("MM/dd/yyyy").parse(boo.getDate_to());
+                Iterator itr = rooms.iterator();
+                if (from.compareTo(book_from) > 0 && from.compareTo(book_to) < 0) {
+                    while (itr.hasNext()) {
                         itr.remove();
                     }
                 }
-
+                if (to.compareTo(book_from) > 0 && to.compareTo(book_to) < 0) {
+                    while (itr.hasNext()) {
+                        itr.remove();
+                    }
+                }
+                if (to.compareTo(book_from) < 0 && from.compareTo(book_to) > 0)
+                    while (itr.hasNext()) {
+                        itr.remove();
+                    }
             }
         }
+
 
         return rooms;
     }
