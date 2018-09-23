@@ -40,6 +40,17 @@ public class Book {
     )
     private Customer customer;
 
+    public Book(String date_from, String date_to) {
+        this.date_from = date_from;
+        this.date_to = date_to;
+    }
+
+    public Book(String date_from, String date_to, Room room, Guest guest) {
+        this.date_from = date_from;
+        this.date_to = date_to;
+        this.room = room;
+        this.guest = guest;
+    }
 
     public String getDate_from() {
         return date_from;

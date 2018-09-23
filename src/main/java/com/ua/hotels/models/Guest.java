@@ -31,6 +31,12 @@ public class Guest {
     )
     private List<Book> book;
 
+    public Guest(String name, String surname, String email) {
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+    }
+
     public String getName() {
         return name;
     }

@@ -1,6 +1,7 @@
 package com.ua.hotels.controllers;
 
 import com.ua.hotels.dao.BookDAO;
+import com.ua.hotels.dao.GuestDAO;
 import com.ua.hotels.dao.RoomDAO;
 import com.ua.hotels.models.Book;
 import com.ua.hotels.models.Customer;
@@ -30,6 +31,9 @@ public class BookingController {
     @Autowired
     private BookDAO bookDAO;
 
+    private String date_from;
+    private String date_to;
+
     @GetMapping("/main")
     private String Mainpage() {
         return "main";
@@ -46,7 +50,8 @@ public class BookingController {
         List<Room> roomList = roomDAO.findAllByRoominessAndHotelCityOrRoominessAndHotelName(countOfGuests, finder, countOfGuests, finder);
         rooms.addAll(filterByPrice(filter, roomList));
         List<Room> free_rooms = commpareDates(rooms, from_date, to_date);
-
+        date_from = from_date;
+        date_to = to_date;
         model.addAttribute("rooms", free_rooms);
         return "main";
     }
@@ -57,22 +62,33 @@ public class BookingController {
         Room room = roomDAO.findById(id).get();
         model.addAttribute("room", room);
         model.addAttribute("hotel", room.getHotel());
+        model.addAttribute("from", date_from);
+        model.addAttribute("to", date_to);
         return "book";
     }
 
 
+    @Autowired
+    private GuestDAO guestDAO;
     @PostMapping("/book/room/{id}")
     public String book(@PathVariable int id,
-                       @RequestBody Guest guest) {
+                       @RequestParam String from_date,
+                       @RequestParam String to_date,
+                       @RequestParam String name,
+                       @RequestParam String surname,
+                       @RequestParam String email
+                       /*@RequestParam */) {
         Customer activeUser = MainController.findActiveUser();
         Room room = roomDAO.findById(id).get();
-        Book book = new Book();
-        book.setCustomer(activeUser);
-        book.setRoom(room);
-        book.setGuest(guest);
-        room.setStatus(Status.STATUS_BUSY);
-        roomDAO.save(room);
-        return "user";
+        Guest guest = new Guest(name,surname,email);
+        guestDAO.save(guest);
+        Book book = new Book(from_date,to_date,room,guest);
+        if(activeUser != null){
+            book.setCustomer(activeUser);
+        }
+        bookDAO.save(book);
+
+        return "main";
     }
 
 
