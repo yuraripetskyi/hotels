@@ -73,14 +73,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureUrl("/unsuccess")
                 .successForwardUrl("/success");
     }
-    @Configuration
-    public class DefaultView extends WebMvcConfigurerAdapter {
-
-        @Override
-        public void addViewControllers( ViewControllerRegistry registry ) {
-            registry.addViewController( "/" ).setViewName( "main" );
-            registry.setOrder( Ordered.HIGHEST_PRECEDENCE );
-            super.addViewControllers( registry );
-        }
-    }
+//    @Configuration
+//    public class DefaultView extends WebMvcConfigurerAdapter {
+//
+//        @Override
+//        public void addViewControllers( ViewControllerRegistry registry ) {
+//            registry.addViewController( "/" ).setViewName( "main" );
+//            registry.setOrder( Ordered.HIGHEST_PRECEDENCE );
+//            super.addViewControllers( registry );
+//        }
+//    }
 }
