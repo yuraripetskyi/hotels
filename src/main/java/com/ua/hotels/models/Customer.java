@@ -12,7 +12,7 @@ import java.nio.channels.Channels;
 import java.util.*;
 
 @Entity
-@ToString(exclude = {"hotels","rooms","channels"})
+@ToString(exclude = {"hotels","rooms","channels","books"})
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
