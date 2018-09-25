@@ -45,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth,
                                 AuthenticationProvider provider) throws Exception {
 
-        ( inMemoryConfigurer())
+        (inMemoryConfigurer())
                 .withUser("admin")
                 .password("{noop}pidoros").roles("ADMIN")
                 .authorities("ADMIN")
