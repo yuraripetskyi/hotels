@@ -98,33 +98,37 @@ public class BookingController {
         Date to = new SimpleDateFormat("MM/dd/yyyy").parse(to_date);
 
         List<Book> book = bookDAO.findAll();
-
         for (Room room : rooms) {
             List<Book> books = room.getBook();
             for (Book boo : books) {
 
                 Date book_from = new SimpleDateFormat("MM/dd/yyyy").parse(boo.getDate_from());
                 Date book_to = new SimpleDateFormat("MM/dd/yyyy").parse(boo.getDate_to());
-                Iterator itr = rooms.iterator();
+
                 if (from.compareTo(book_from) > 0 && from.compareTo(book_to) < 0) {
-                    while (itr.hasNext()) {
-                        itr.remove();
-                    }
+                   deleteRoomFromList(rooms);
+                    return rooms;
                 }
                 if (to.compareTo(book_from) > 0 && to.compareTo(book_to) < 0) {
-                    while (itr.hasNext()) {
-                        itr.remove();
-                    }
+                    deleteRoomFromList(rooms);
+                    return rooms;
                 }
                 if (to.compareTo(book_from) < 0 && from.compareTo(book_to) > 0)
-                    while (itr.hasNext()) {
-                        itr.remove();
-                    }
+                    deleteRoomFromList(rooms);
+                    return rooms;
             }
         }
-
-
         return rooms;
+    }
+
+    private void deleteRoomFromList(List<Room> rooms){
+        Iterator itr = rooms.iterator();
+        if (itr.hasNext()) {
+            itr.next();
+            itr.remove();
+        }else{
+            itr.remove();
+        }
     }
 
     private List<Room> filterByPrice(String filter, List<Room> roomList){
