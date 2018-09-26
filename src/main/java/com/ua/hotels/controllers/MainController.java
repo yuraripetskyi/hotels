@@ -40,6 +40,10 @@ public class MainController {
     public String success(Model model) {
         return findActinveUserPage(model);
     }
+    @GetMapping("/registration")
+    public String registration(){
+        return "registration";
+    }
 
     @GetMapping("/unsuccess")
     public String unsuccess(Model model){
