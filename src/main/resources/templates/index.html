@@ -1,41 +1,47 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Registration</title>
+    <link href="/css/index.css" rel="stylesheet" type="text/css"/>
+    <link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 </head>
 <body>
-<h1>Registration form : </h1>
+<p>
+<h1 class="text-center">Registration form : </h1>
 <form th:action="@{/save}" method="post">
-    <p>Please enter your Login:</p>
-    <input type="" name="username" placeholder="Login" required
+    <p class="text-center">Please enter your Login:</p>
+    <input class="center-block" type="" name="username" placeholder="Login" required
            oninvalid="setCustomValidity('Имя должно содержать 2-4 символов')" oninput="setCustomValidity('')"><br>
-    <p>Please enter your Password:</p>
-    <input type="password" name="password" placeholder="Password" required
+    <p class="text-center">Please enter your Password:</p>
+    <input class="center-block" type="password" name="password" placeholder="Password" required
            oninvalid="setCustomValidity('Пароль должен содержать минимум 6 символов')"
            oninput="setCustomValidity('')"><br>
-    <p>Please enter your Name:</p>
-    <input type="" name="name" placeholder="Name" required oninvalid="setCustomValidity('Введите свое Имя')"
+    <p class="text-center">Please enter your Name:</p>
+    <input class="center-block" type="" name="name" placeholder="Name" required oninvalid="setCustomValidity('Введите свое Имя')"
            oninput="setCustomValidity('')"><br>
-    <p>Please enter your Surname:</p>
-    <input type="" name="surname" placeholder="Surname" required oninvalid="setCustomValidity('Ведите свою фамилию')"
+    <p class="text-center">Please enter your Surname:</p>
+    <input class="center-block" type="" name="surname" placeholder="Surname" required oninvalid="setCustomValidity('Ведите свою фамилию')"
            oninput="setCustomValidity('')"><br>
-    <p>Please enter your Age:</p>
-    <input type="number" name="age" min="8" max="150" placeholder="Your age" required
+    <p class="text-center">Please enter your Age:</p>
+    <input class="center-block" type="number" name="age" min="8" max="150" placeholder="Your age" required
            oninvalid="setCustomValidity('Введите свой возраст')" oninput="setCustomValidity('')"><br>
-    <p>Please enter your City:</p>
-    <input type="" name="city" placeholder="City" required oninvalid="setCustomValidity('Введите свой город')"
+    <p class="text-center">Please enter your City:</p>
+    <input class="center-block" type="" name="city" placeholder="City" required oninvalid="setCustomValidity('Введите свой город')"
            oninput="setCustomValidity('')"><br>
-    <p>Please enter your Email:</p>
-    <input type="email" name="email" placeholder="Email" required oninvalid="setCustomValidity('Введите свою почту')"
+    <p class="text-center">Please enter your Email:</p>
+    <input class="center-block" type="email" name="email" placeholder="Email" required oninvalid="setCustomValidity('Введите свою почту')"
            oninput="setCustomValidity('')"><br>
-    <input type="submit" value="Submit!">
+    <input class="center-block" type="submit" value="Submit!">
 </form>
 <form th:action="@{/login}" method="get">
-    <input type="submit" value="Login">
+    <input class="center-block" type="submit" value="Login">
 </form>
 <div th:if="${error}" class="alert alert-danger">
-    [[${error}]]
+[[${error}]]
 </div>
 </body>
 </html>

@@ -1,7 +1,5 @@
 package com.ua.hotels.config;
 
-import com.ua.hotels.models.Customer;
-import com.ua.hotels.models.enums.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -72,15 +70,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 .failureUrl("/unsuccess")
                 .successForwardUrl("/success");
-    }
-    @Configuration
-    public class DefaultView extends WebMvcConfigurerAdapter {
-
-        @Override
-        public void addViewControllers( ViewControllerRegistry registry ) {
-            registry.addViewController( "/" ).setViewName( "main" );
-            registry.setOrder( Ordered.HIGHEST_PRECEDENCE );
-            super.addViewControllers( registry );
-        }
     }
 }

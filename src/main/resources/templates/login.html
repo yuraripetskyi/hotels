@@ -3,6 +3,7 @@
 <head>
     <title>login</title>
     <meta charset="utf-8"/>
+    <link href="/css/index.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 
@@ -18,11 +19,9 @@
     [[${error}]]
 </div>
 
-<form th:action="@{/}" method="get">
-    <input type="submit" value="Registr new acc!">
-</form>
 
-<form th:action="@{/}" method="get">
+
+<form th:action="@{/registration}" method="get">
 
     <p>create new account</p>
     <input type="submit" th:value="registration">

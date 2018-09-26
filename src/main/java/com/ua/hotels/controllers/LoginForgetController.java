@@ -2,7 +2,6 @@ package com.ua.hotels.controllers;
 
 import com.ua.hotels.models.Customer;
 import com.ua.hotels.service.CustomerService;
-import com.ua.hotels.service.serv_impl.CustomerServiceImpl;
 import com.ua.hotels.utils.CustomerEditor;
 import com.ua.hotels.utils.CustomerValidator;
 import org.springframework.beans.factory.annotation.Autowired;

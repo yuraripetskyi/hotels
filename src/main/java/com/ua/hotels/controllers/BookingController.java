@@ -7,13 +7,11 @@ import com.ua.hotels.models.Book;
 import com.ua.hotels.models.Customer;
 import com.ua.hotels.models.Guest;
 import com.ua.hotels.models.Room;
-import com.ua.hotels.models.enums.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.GeneratedValue;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
