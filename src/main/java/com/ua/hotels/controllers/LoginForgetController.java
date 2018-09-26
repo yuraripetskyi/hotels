@@ -60,7 +60,7 @@ public class LoginForgetController {
                 errors += " " + environment.getProperty(error.getCode());
             }
             model.addAttribute("error", errors);
-            return "index";
+            return "registration";
         }
         customerEditor.setValue(customer);
         customer.setCode(UUID.randomUUID().toString());

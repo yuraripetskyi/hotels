@@ -33,23 +33,27 @@ public class MainController {
 
     @GetMapping("/")
     public String index(Model model) {
-       return findActinveUserPage(model);
+       return "main";
     }
 
     @PostMapping("/success")
     public String success(Model model) {
         return findActinveUserPage(model);
     }
+    @GetMapping("/registration")
+    public String registration(){
+        return "registration";
+    }
 
-//    @GetMapping("/unsuccess")
-//    public String unsuccess(Model model){
-//        model.addAttribute("error","login.error");
-//        return "login";
-//    }
+    @GetMapping("/unsuccess")
+    public String unsuccess(Model model){
+        model.addAttribute("error","login.error");
+        return "login";
+    }
 
     @GetMapping("/login")
     public String login(Model model) {
-        if (findActinveUserPage(model).equals("index")) {
+        if (findActinveUserPage(model).equals("registration")) {
             return "login";
         }
         return findActinveUserPage(model);
@@ -89,7 +93,7 @@ public class MainController {
     }
 
     public String findActinveUserPage(Model model) {
-        String page = "index";
+        String page = "registration";
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             Object principal = auth.getPrincipal();

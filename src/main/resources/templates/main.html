@@ -19,6 +19,10 @@
 </head>
 <body>
 
+
+<form th:action="@{/login}" method="get">
+    <input type="submit" value="LOGIN">
+</form>
 <form th:action="@{/main}" method="post">
     <input type="text" name="finder" placeholder="City or hotel's name">
     <input type="text" name="countOfGuests" placeholder="Count of Guests">
@@ -45,6 +49,8 @@
         </form>
     </li>
 </ul>
+
+
 
 
 </body>
