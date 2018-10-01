@@ -50,7 +50,7 @@ public class LoginForgetController {
         sender.send(mimeMessage);
     }
 
-    @PostMapping("/save")
+    @PostMapping("/registration")
     public String save(Customer customer, BindingResult result, Model model) throws javax.mail.MessagingException {
         customerValidator.validate(customer, result);
         if (result.hasErrors()) {

@@ -4,6 +4,7 @@ import com.ua.hotels.dao.HotelDAO;
 import com.ua.hotels.dao.PhoneDAO;
 import com.ua.hotels.dao.RoomDAO;
 import com.ua.hotels.models.*;
+import com.ua.hotels.models.enums.Role;
 import com.ua.hotels.models.enums.Status;
 import com.ua.hotels.models.enums.Type;
 import com.ua.hotels.models.Customer;
@@ -17,18 +18,15 @@ import com.ua.hotels.utils.CustomerValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+
+import static com.ua.hotels.controllers.MainController.userRole;
 
 @Controller
 public class HotelController {
@@ -58,7 +56,11 @@ public class HotelController {
     private RoomDAO roomDAO;
 
     @GetMapping("/create/hotel")
-    public String createHotel() {
+    public String createHotel(Model model,
+                              @AuthenticationPrincipal Customer user)
+    {
+        userRole(user,model);
+
         return "createHotel";
     }
 
@@ -72,6 +74,7 @@ public class HotelController {
             , @RequestParam("prices") String[] prices
             , @RequestParam("rooms") String[] rooms
             , @RequestParam("types") String[] types) {
+
         Hotel hotel = new Hotel(name, city, street, email, description);
         Customer user = MainController.findActiveUser();
         hotel.setCustomer(user);
@@ -95,7 +98,10 @@ public class HotelController {
     }
 
     @GetMapping("/hotel/{id}")
-    public String hotel(@PathVariable String id, Model model) {
+    public String hotel(@PathVariable String id,Model model,
+                        @AuthenticationPrincipal Customer user) {
+        userRole(user,model);
+
         Hotel hotel = hotelDAO.findById(Integer.parseInt(id)).get();
         model.addAttribute("hotel", hotel);
         model.addAttribute("types", Type.values());
@@ -128,7 +134,9 @@ public class HotelController {
     }
 
     @GetMapping("/change/hotel/{id}")
-    private String changeHotel(@PathVariable int id, Model model) {
+    private String changeHotel(@PathVariable int id, Model model, @AuthenticationPrincipal Customer user) {
+        userRole(user,model);
+
         Hotel hotel = hotelDAO.findById(id).get();
         model.addAttribute("hotel", hotel);
 
@@ -182,8 +190,10 @@ public class HotelController {
     }
 
     @GetMapping("/change/room/{id}")
-    private String changeRoom(@PathVariable int id, Model model
+    private String changeRoom(@PathVariable int id, Model model, @AuthenticationPrincipal Customer user
     ) {
+       userRole(user,model);
+
         Room room = roomDAO.findById(id).get();
         model.addAttribute("hotel", room.getHotel());
         model.addAttribute("room", room);
@@ -207,6 +217,17 @@ public class HotelController {
 
         return "hotel";
     }
+//    private void userRole(Customer user, Model model){
+//        if(user!=null){
+//            model.addAttribute("user", user);
+//        }else {
+//            model.addAttribute("user", null);
+//        }
+//        model.addAttribute("admin_role", Role.ROLE_ADMIN);
+//        model.addAttribute("user_role", Role.ROLE_USER);
+//        model.addAttribute("hoteladmin_role", Role.ROLE_HOTELADMIN);
+//
+//    }
     @PostMapping("/add/room")
     public String addRoom(
             @RequestParam("hotelId") Hotel hotel,

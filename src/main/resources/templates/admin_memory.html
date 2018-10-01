@@ -40,7 +40,7 @@ Sosi dva pisossa
             </form>
         </div>
 
-        <div th:if="${user.getRole()==role_hoteladmin}">
+        <div th:if="${user.getRole()==hoteladmin_role}">
             <form th:action="@{/makeUser/}+${user.username}" method="get">
                 <input type="submit" value="Make user">
             </form>

@@ -7,7 +7,9 @@ import com.ua.hotels.models.Book;
 import com.ua.hotels.models.Customer;
 import com.ua.hotels.models.Guest;
 import com.ua.hotels.models.Room;
+import com.ua.hotels.models.enums.Role;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +21,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.ua.hotels.controllers.MainController.userRole;
 
 
 @Controller
@@ -33,30 +37,37 @@ public class BookingController {
     private String date_to;
 
     @GetMapping("/main")
-    private String Mainpage() {
+    private String Mainpage(Model model, @AuthenticationPrincipal Customer user) {
+        userRole(user,model);
         return "main";
     }
 
     @PostMapping("/main")
     private String MainPage(@RequestParam(required = false, defaultValue = "") String finder,
                             @RequestParam(required = false, defaultValue = "") Integer countOfGuests,
-                            @RequestParam(required = false, defaultValue = "") String filter,
+//                            @RequestParam(required = false, defaultValue = "") String filter,
                             @RequestParam(required = false, defaultValue = "") String from_date,
                             @RequestParam(required = false, defaultValue = "") String to_date,
+                            @AuthenticationPrincipal Customer user,
                             Model model) throws ParseException {
         List<Room> rooms = new ArrayList<>();
         List<Room> roomList = roomDAO.findAllByRoominessAndHotelCityOrRoominessAndHotelName(countOfGuests, finder, countOfGuests, finder);
-        rooms.addAll(filterByPrice(filter, roomList));
+//        if(filter!="    "){rooms.addAll(filterByPrice(filter, roomList));}else {
+            rooms.addAll(roomList);
+//        }
         List<Room> free_rooms = commpareDates(rooms, from_date, to_date);
         date_from = from_date;
         date_to = to_date;
+        userRole(user,model);
         model.addAttribute("rooms", free_rooms);
         return "main";
     }
 
     @GetMapping("/book/room/{id}")
     public String bookPage(@PathVariable int id,
+                           @AuthenticationPrincipal Customer user,
                            Model model) {
+       userRole(user,model);
         Room room = roomDAO.findById(id).get();
         model.addAttribute("room", room);
         model.addAttribute("hotel", room.getHotel());
@@ -128,7 +139,6 @@ public class BookingController {
             itr.remove();
         }
     }
-
     private List<Room> filterByPrice(String filter, List<Room> roomList){
         List<Room> rooms = new ArrayList<>();
         if(filter.equals("Descending")){

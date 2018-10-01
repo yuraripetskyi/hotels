@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
@@ -32,14 +33,30 @@ public class MainController {
     private CustomerServiceImpl customerServiceImpl;
 
     @GetMapping("/")
-    public String index(Model model) {
-       return "main";
+    public String index(Model model,
+                        @AuthenticationPrincipal Customer user) {
+       userRole(user,model);
+        return "main";
     }
 
-    @PostMapping("/success")
-    public String success(Model model) {
-        return findActinveUserPage(model);
+    static void userRole(Customer user, Model model){
+        if(user!=null){
+            model.addAttribute("user", user);
+        }else {
+            model.addAttribute("user", null);
+        }
+        model.addAttribute("admin_role", Role.ROLE_ADMIN);
+        model.addAttribute("user_role", Role.ROLE_USER);
+        model.addAttribute("hoteladmin_role", Role.ROLE_HOTELADMIN);
+
     }
+    @PostMapping("/success")
+    public String success(Model model,
+                          @AuthenticationPrincipal Customer user) {
+        userRole(user,model);
+        return "redirect:/";
+    }
+
     @GetMapping("/registration")
     public String registration(){
         return "registration";
@@ -52,34 +69,34 @@ public class MainController {
     }
 
     @GetMapping("/login")
-    public String login(Model model) {
+    public String login(Model model,@AuthenticationPrincipal Customer user) {
+        userRole(user,model);
+
         if (findActinveUserPage(model).equals("registration")) {
             return "login";
         }
         return findActinveUserPage(model);
     }
 
-    @GetMapping("/user/{username}")
-    public String user(@PathVariable String username, Model model) {
-        Customer user = (Customer) customerServiceImpl.loadUserByUsername(username);
-        model.addAttribute("user", user);
+    @GetMapping("/user")
+    public String user(@AuthenticationPrincipal Customer user, Model model) {
+
+        userRole(user,model);
         return "user";
     }
 
-    @GetMapping("/admin/{username}")
-    public String admin(@PathVariable String username, Model model) {
-        Customer user = (Customer) customerServiceImpl.loadUserByUsername(username);
-        model.addAttribute("user", user);
-        return "admin";
+    @GetMapping("/admin")
+    public String admin(@AuthenticationPrincipal Customer user,  Model model) {
+            model.addAttribute("user", user);
+            return "admin";
+
     }
 
-    @GetMapping("/hoteladmin/{username}")
-    public String hoteladmin(@PathVariable String username, Model model) {
-        Customer user = (Customer) customerServiceImpl.loadUserByUsername(username);
-        List<Hotel> hotels = user.getHotels();
-        model.addAttribute("hotels",hotels);
-        model.addAttribute("user", user);
-        return "hoteladmin";
+    @GetMapping("/hoteladmin")
+    public String hoteladmin(@AuthenticationPrincipal Customer user, Model model) {
+            model.addAttribute("user", user);
+            return "hoteladmin";
+
     }
 
 
@@ -89,7 +106,7 @@ public class MainController {
         if (auth != null) {
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
-        return "redirect:/login?logout";
+        return "redirect:/";
     }
 
     public String findActinveUserPage(Model model) {
@@ -128,11 +145,11 @@ public class MainController {
     {
         Role role = user.getRole();
         if (role.equals(Role.ROLE_USER)) {
-            return "redirect:/user/" + user.getUsername();
+            return "redirect:/user";
         } else if (role.equals(Role.ROLE_ADMIN)) {
-            return "redirect:/admin/" + user.getUsername();
+            return "redirect:/admin";
         } else {
-            return "redirect:/hoteladmin/" + user.getUsername();
+            return "redirect:/hoteladmin";
         }
     }
 }

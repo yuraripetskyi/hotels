@@ -44,12 +44,7 @@ public class CustomerController {
         if(surname!=null){
             customer.setSurname(surname);
         }
-        if((Integer)age!=null){
-            customer.setAge(age);
-        }
-        if (city!=null){
-            customer.setCity(city);
-        }
+
         if (email!=null){
             customer.setEmail(email);
         }

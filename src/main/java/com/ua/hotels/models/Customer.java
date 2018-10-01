@@ -32,8 +32,7 @@ public class Customer implements UserDetails {
 
     private String name;
     private String surname;
-    private int age;
-    private String city;
+
 
     @OneToMany(
             cascade = CascadeType.REFRESH,
@@ -85,22 +84,6 @@ public class Customer implements UserDetails {
 
     public void setSurname(String surname) {
         this.surname = surname;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
     }
 
     public void setCode(String code) {
@@ -237,5 +220,12 @@ public class Customer implements UserDetails {
 
     public void setChannels(List<Channel> channels) {
         this.channels = channels;
+    }
+    public boolean isAdmin(){
+        boolean bo = false;
+        if (role.equals(Role.ROLE_ADMIN)){
+            bo = true;
+        }
+        return bo;
     }
 }
