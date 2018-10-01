@@ -45,7 +45,7 @@ public class Hotel {
     private List<Room> rooms ;
     @ManyToOne(
             cascade = CascadeType.REFRESH,
-            fetch = FetchType.LAZY
+            fetch = FetchType.EAGER
     )
     private Customer customer;
     @OneToOne(
@@ -62,7 +62,7 @@ public class Hotel {
         this.description = description;
     }
     @OneToMany(
-            fetch = FetchType.LAZY,
+            fetch = FetchType.EAGER,
             cascade = CascadeType.REMOVE,
             mappedBy = "hotel"
     )

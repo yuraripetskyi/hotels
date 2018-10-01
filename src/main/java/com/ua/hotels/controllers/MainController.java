@@ -95,6 +95,8 @@ public class MainController {
     @GetMapping("/hoteladmin")
     public String hoteladmin(@AuthenticationPrincipal Customer user, Model model) {
             model.addAttribute("user", user);
+        System.out.println(user.getHotels());
+            model.addAttribute("hotels", user.getHotels());
             return "hoteladmin";
 
     }

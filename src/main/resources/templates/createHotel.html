@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Create hotel</title>
@@ -52,7 +52,8 @@
 </nav>
 
 
-<form th:action="@{/save/hotel}" method="post">
+<form th:action="@{/create/hotel}" method="post">
+    <div>
     <p>Please enter Name:</p>
     <input type="" name="name" placeholder="Name"><br>
     <p>Please enter City:</p>
@@ -87,9 +88,11 @@
     </div>
     <br>
     <input type="button" id="addroom" value="Add room"><br>
-
+    </div>
     <input type="submit" id="sb_btn" value="Submit!">
 </form>
+
+
 <script type="text/javascript" th:src="@{/js/main.js}"></script>
 <script
         src="https://code.jquery.com/jquery-3.3.1.js"

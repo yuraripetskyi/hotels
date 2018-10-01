@@ -4,13 +4,8 @@ import com.ua.hotels.dao.HotelDAO;
 import com.ua.hotels.dao.PhoneDAO;
 import com.ua.hotels.dao.RoomDAO;
 import com.ua.hotels.models.*;
-import com.ua.hotels.models.enums.Role;
 import com.ua.hotels.models.enums.Status;
 import com.ua.hotels.models.enums.Type;
-import com.ua.hotels.models.Customer;
-import com.ua.hotels.models.Hotel;
-import com.ua.hotels.models.Image;
-import com.ua.hotels.models.Phone;
 import com.ua.hotels.service.CustomerService;
 import com.ua.hotels.service.ImageService;
 import com.ua.hotels.utils.CustomerEditor;
@@ -64,7 +59,7 @@ public class HotelController {
         return "createHotel";
     }
 
-    @PostMapping("/save/hotel")
+    @PostMapping("/create/hotel")
     public String saveHotel(@RequestParam("name") String name
             , @RequestParam("city") String city
             , @RequestParam("street") String street
@@ -73,11 +68,11 @@ public class HotelController {
             , @RequestParam("phones") String[] phones
             , @RequestParam("prices") String[] prices
             , @RequestParam("rooms") String[] rooms
-            , @RequestParam("types") String[] types) {
+            , @RequestParam("types") String[] types,@AuthenticationPrincipal Customer user) {
 
         Hotel hotel = new Hotel(name, city, street, email, description);
-        Customer user = MainController.findActiveUser();
         hotel.setCustomer(user);
+
         hotelDAO.save(hotel);
         for (String phone : phones) {
             Phone phonec = new Phone(phone);
@@ -94,7 +89,7 @@ public class HotelController {
             mainRoom.setHotel(hotel);
             roomDAO.save(mainRoom);
         }
-        return "redirect:/hoteladmin/" + user.getUsername();
+        return "redirect:/hoteladmin";
     }
 
     @GetMapping("/hotel/{id}")
@@ -113,7 +108,7 @@ public class HotelController {
     public String deleteHotel(@PathVariable String id) {
         hotelDAO.delete(hotelDAO.findById(Integer.parseInt(id)).get());
         Customer user = MainController.findActiveUser();
-        return "redirect:/hoteladmin/" + user.getUsername();
+        return "redirect:/hoteladmin";
     }
 
 

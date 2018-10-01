@@ -36,7 +36,7 @@ public class Customer implements UserDetails {
 
     @OneToMany(
             cascade = CascadeType.REFRESH,
-            fetch = FetchType.LAZY,
+            fetch = FetchType.EAGER,
             mappedBy = "customer"
     )
     private List<Hotel> hotels ;
