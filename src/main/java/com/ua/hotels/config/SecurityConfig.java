@@ -71,7 +71,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/login")
                 .failureUrl("/unsuccess")
-                .successForwardUrl("/success");
+                .successForwardUrl("/success")
+                .and()
+                .csrf().disable();
     }
 //    @Configuration
 //    public class DefaultView extends WebMvcConfigurerAdapter {

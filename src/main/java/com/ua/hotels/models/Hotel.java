@@ -1,5 +1,6 @@
 package com.ua.hotels.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ua.hotels.models.enums.Stars;
 import lombok.*;
 
@@ -23,6 +24,7 @@ public class Hotel {
     private String city;
     private String street;
     private String email;
+    @JsonIgnore
     @OneToMany(
             cascade = CascadeType.REMOVE,
             fetch = FetchType.LAZY,
@@ -31,23 +33,27 @@ public class Hotel {
     private List<Phone> phone;
 
     private String description;
+    @JsonIgnore
     @OneToMany(
             cascade = CascadeType.REMOVE,
             fetch = FetchType.LAZY,
             mappedBy = "hotel"
     )
     private List<Stan> stans ;
+    @JsonIgnore
     @OneToMany(
             cascade = CascadeType.REMOVE,
             fetch = FetchType.LAZY,
             mappedBy = "hotel"
     )
     private List<Room> rooms ;
+    @JsonIgnore
     @ManyToOne(
             cascade = CascadeType.REFRESH,
             fetch = FetchType.LAZY
     )
     private Customer customer;
+    @JsonIgnore
     @OneToOne(
             fetch = FetchType.LAZY,
             cascade = CascadeType.REMOVE
@@ -61,6 +67,7 @@ public class Hotel {
         this.email = email;
         this.description = description;
     }
+    @JsonIgnore
     @OneToMany(
             fetch = FetchType.LAZY,
             cascade = CascadeType.REMOVE,
