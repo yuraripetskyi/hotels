@@ -55,7 +55,7 @@
 
 <p>
 <h1 class="text-center">Registration form : </h1>
-<form th:action="@{/save}" method="post">
+<form th:action="@{/registration}" method="post">
     <p class="text-center">Please enter your Login:</p>
     <input class="center-block" type="" name="username" placeholder="Login" required
            oninvalid="setCustomValidity('Имя должно содержать 2-4 символов')" oninput="setCustomValidity('')"><br>
@@ -68,12 +68,6 @@
            oninput="setCustomValidity('')"><br>
     <p class="text-center">Please enter your Surname:</p>
     <input class="center-block" type="" name="surname" placeholder="Surname" required oninvalid="setCustomValidity('Ведите свою фамилию')"
-           oninput="setCustomValidity('')"><br>
-    <p class="text-center">Please enter your Age:</p>
-    <input class="center-block" type="number" name="age" min="8" max="150" placeholder="Your age" required
-           oninvalid="setCustomValidity('Введите свой возраст')" oninput="setCustomValidity('')"><br>
-    <p class="text-center">Please enter your City:</p>
-    <input class="center-block" type="" name="city" placeholder="City" required oninvalid="setCustomValidity('Введите свой город')"
            oninput="setCustomValidity('')"><br>
     <p class="text-center">Please enter your Email:</p>
     <input class="center-block" type="email" name="email" placeholder="Email" required oninvalid="setCustomValidity('Введите свою почту')"
