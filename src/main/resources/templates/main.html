@@ -23,11 +23,9 @@
 <form th:action="@{/login}" method="get">
     <input type="submit" value="LOGIN">
 </form>
-<!--<form method="post" id="ajax_form" action="" >-->
-    <!--<input type="text" name="name" placeholder="NAME" /><br>-->
-    <!--<input type="text" name="phonenumber" placeholder="YOUR PHONE" /><br>-->
-    <!--<input type="button" id="btn" value="Отправить" />-->
-<!--</form>-->
+<form th:action="@{/main}" method="post">
+    <input type="text" name="finder" placeholder="City or hotel's name">
+    <input type="text" name="countOfGuests" placeholder="Count of Guests">
 
     <input type="text" name="finder" placeholder="City or hotel's name" id="finder">
     <input type="text" name="countOfGuests" placeholder="Count of Guests" id="countOfGuests">
