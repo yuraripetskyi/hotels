@@ -123,8 +123,19 @@
 </div>
 
 <script type="text/javascript" th:src="@{/js/nav.js}"></script>
-<script type="text/javascript" th:src="@{/js/show.js}">
+<script >
+   let show = document.getElementById('showForgotBox');
+    let $box =$('#forgotBox');
 
+    show.click = function(){
+        console.log('Helloooo');
+        console.log('HELOOOOOOO');
+        $showForgotBox.toggle(function(){
+            $box.text('Hide');
+        },function(){
+            $box.text('Troubles with enter?');
+        });
+    };
 </script>
 
 <script
