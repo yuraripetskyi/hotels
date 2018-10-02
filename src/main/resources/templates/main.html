@@ -13,6 +13,7 @@
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
     <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.js"></script>-->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
     <script>
         $(function () {
             $("#date1").datepicker();
@@ -89,10 +90,10 @@
                 <form th:action="@{/main}" method="post">
                     <div class="form-group row justify-content-center align-items-center">
                         <div class="col-md-5  " >
-                            <input type="text" class="form-control input-lg" required  name="finder" placeholder="City or hotel's name">
+                            <input type="text" class="form-control input-lg finder" required  name="finder" placeholder="City or hotel's name">
                         </div>
                         <div class=" col-md-1  " >
-                            <input type="text" class="form-control input-lg" required  name="countOfGuests" placeholder="Guests">
+                            <input type="text" class="form-control input-lg countOfGuests" required  name="countOfGuests" placeholder="Guests">
                         </div>
                         <!--<div>-->
                         <!--<select class="select" name="filter">-->
@@ -107,7 +108,7 @@
                             <input id="date2"  class="form-control input-lg"  name="to_date" type="text" size="8" required  placeholder="to">
                         </div>
                         <div class=" col-md-1  ">
-                            <button class="btn btn-primary " type="submit">find!</button>
+                            <button class="btn btn-primary " type="submit" id="submit">find!</button>
                         </div>
                         </div>
                 </form>
@@ -115,18 +116,58 @@
         <!--</div>-->
     <!--</div>-->
 </div>
+<div class="target">
 
-<ul th:each="room : ${rooms}">
-    <li><div>
-        <span th:text="${room.hotel}"></span>
-        <span th:text="${room}"></span>
-        <form th:action="@{/book/room/}+${room.id}" method="get">
-            <input type="submit" value="book">
-        </form>
-        </div>
-    </li>
-</ul>
+</div>
+<script>
+    // $(document).ready(function(){
+    //     $('#m').click(function(){
+    //         $(this).css('background','red')
+    //     })
+    // });
 
+
+    let $submit = $('#submit');
+    $submit.click(function () {
+        let $target = $('.target');
+        let $finder = $('.finder');
+        let $countOfGuests = $('.countOfGuests');
+        let $date1 = $('#date1');
+        let $date2= $('#date2');
+
+        var obj = {
+            finder:$finder.val(),
+            countOfGuests:$countOfGuests.val(),
+            from_date:$date1.val(),
+            to_date:$date2.val()
+        };
+
+        $finder.val('');
+        $countOfGuests.val('');
+        $date1.val('');
+        $date2.val('');
+        let jsonObj = JSON.stringify(obj);
+        console.log($countOfGuests  +' count');
+        console.log(jsonObj);
+        $.ajax({
+            url: 'http://localhost:8080/',
+            method: 'POST',
+            contentType:'text/plain',
+            data: jsonObj,
+            success: function (result) {
+                $(result).each(function (index,obj) {
+                    let $div = $('<div/>',{
+                        text: 'Hotelname : ' + obj.hotel.name + ' Room price : ' +  obj.price + ' Roominess  : ' + obj.roominess
+                    });
+                    $target.append($div);
+                })
+            },
+            error : function (error) {
+                console.log(error);
+            }
+        })
+    })
+</script>
 <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"-->
 <!--integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"-->
 <!--crossorigin="anonymous"></script>-->
