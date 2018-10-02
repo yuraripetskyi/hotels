@@ -3,11 +3,10 @@ package com.ua.hotels.controllers;
 import com.ua.hotels.dao.BookDAO;
 import com.ua.hotels.dao.GuestDAO;
 import com.ua.hotels.dao.RoomDAO;
-import com.ua.hotels.models.Book;
-import com.ua.hotels.models.Customer;
-import com.ua.hotels.models.Guest;
-import com.ua.hotels.models.Room;
+import com.ua.hotels.models.*;
 import com.ua.hotels.models.enums.Role;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -16,10 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.ua.hotels.controllers.MainController.userRole;
@@ -42,25 +38,22 @@ public class BookingController {
         return "main";
     }
 
-    @PostMapping("/main")
-    private String MainPage(@RequestParam(required = false, defaultValue = "") String finder,
-                            @RequestParam(required = false, defaultValue = "") Integer countOfGuests,
-//                            @RequestParam(required = false, defaultValue = "") String filter,
-                            @RequestParam(required = false, defaultValue = "") String from_date,
-                            @RequestParam(required = false, defaultValue = "") String to_date,
-                            @AuthenticationPrincipal Customer user,
-                            Model model) throws ParseException {
-        List<Room> rooms = new ArrayList<>();
-        List<Room> roomList = roomDAO.findAllByRoominessAndHotelCityOrRoominessAndHotelName(countOfGuests, finder, countOfGuests, finder);
-//        if(filter!="    "){rooms.addAll(filterByPrice(filter, roomList));}else {
-            rooms.addAll(roomList);
-//        }
-        List<Room> free_rooms = commpareDates(rooms, from_date, to_date);
-        date_from = from_date;
-        date_to = to_date;
-        userRole(user,model);
-        model.addAttribute("rooms", free_rooms);
-        return "main";
+    @PostMapping("/")
+    @ResponseBody
+    private List<Room> MainPage(@RequestBody String jsonObj) throws ParseException, org.json.simple.parser.ParseException {
+        Object parse = new JSONParser().parse(jsonObj);
+        JSONObject jo = (JSONObject)parse;
+        String finder = (String)jo.get("finder");
+        String  countOfGuests = (String)jo.get("countOfGuests");
+        Integer countInt = Integer.parseInt(countOfGuests);
+        String from_date = (String)jo.get("from_date");
+        String to_date = (String) jo.get("to_date");
+        Map<Hotel,List<Room>> obj = new HashMap<>();
+        List<Room> rooms = roomDAO.findAllByRoominessAndHotelCityOrRoominessAndHotelName(countInt,finder,countInt,finder);
+
+
+//        List<Room> free_rooms = commpareDates(rooms, from_date, to_date);
+        return rooms;
     }
 
     @GetMapping("/book/room/{id}")
