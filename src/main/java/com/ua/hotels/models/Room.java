@@ -1,5 +1,6 @@
 package com.ua.hotels.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ua.hotels.models.enums.Status;
 import com.ua.hotels.models.enums.Type;
 import lombok.*;
@@ -31,7 +32,7 @@ public class Room {
     }
 
 
-
+    @JsonIgnore
     @ManyToMany(
             fetch = FetchType.LAZY,
             cascade = CascadeType.REFRESH
@@ -39,11 +40,11 @@ public class Room {
     private List<Customer> customers ;
 
     @ManyToOne(
-            fetch = FetchType.LAZY,
+            fetch = FetchType.EAGER,
             cascade = CascadeType.REFRESH
     )
     private Hotel hotel;
-
+    @JsonIgnore
     @OneToMany(
             fetch = FetchType.LAZY,
             cascade = CascadeType.REFRESH,

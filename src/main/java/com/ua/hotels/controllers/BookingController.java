@@ -50,10 +50,9 @@ public class BookingController {
         String to_date = (String) jo.get("to_date");
         Map<Hotel,List<Room>> obj = new HashMap<>();
         List<Room> rooms = roomDAO.findAllByRoominessAndHotelCityOrRoominessAndHotelName(countInt,finder,countInt,finder);
+        List<Room> free_rooms = commpareDates(rooms, from_date, to_date);
 
-
-//        List<Room> free_rooms = commpareDates(rooms, from_date, to_date);
-        return rooms;
+        return free_rooms;
     }
 
     @GetMapping("/book/room/{id}")
