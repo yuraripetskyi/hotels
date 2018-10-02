@@ -27,6 +27,15 @@ public class AdminController {
         return "redirect:/";
     }
 
+//    @GetMapping("/admin_memory")
+//    public String adminMemoryPage(){
+//
+//
+//        return "admin_memory";
+//    }
+
+
+
     @GetMapping("/unblock/{username}")
     public String unblockUser(@PathVariable String username) {
         Customer user = (Customer) customerServiceImpl.loadUserByUsername(username);

@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -32,25 +34,30 @@ public class SearchController {
 
     @GetMapping("/findUsers")
     public String findUsers(@RequestParam("user") String user, Model model,@AuthenticationPrincipal Customer user1) {
-       userRole(user1,model);
+
+        model.addAttribute("admin_role", Role.ROLE_ADMIN);
+        model.addAttribute("user_role", Role.ROLE_USER);
+        model.addAttribute("hoteladmin_role", Role.ROLE_HOTELADMIN);
 
         String[] param = user.split(" ");
         String path = "admin";
         if(!isMemoryAdmin()){
-            Customer customer = MainController.findActiveUser();
-            model.addAttribute("user",customer);
+
+            model.addAttribute("user",user1);
         }else{
             path = "admin_memory";
         }
         if (param.length == 1) {
             String parametr = param[0];
             Set<Customer> byOneParam = findByOneParamByStream(parametr);
+            System.out.println(byOneParam);
             model.addAttribute("users", byOneParam);
             return path;
         } else if (param.length == 2) {
             String p1 = param[0];
             String p2 = param[1];
             Set<Customer> byTwoParam = findByTwoParamByStream(p1, p2);
+            System.out.println(byTwoParam);
             model.addAttribute("users", byTwoParam);
             return path;
         } else if (param.length >= 3) {
@@ -60,6 +67,24 @@ public class SearchController {
         return path;
     }
 
+
+
+//    public Set<Customer> findByOneParam(String parametr){
+//        List<Customer> allByName = customerDAO.findAllByName(parametr);
+//        List<Customer> allBySurname = customerDAO.findAllBySurname(parametr);
+//        allByName.addAll(allBySurname);
+//        Set<Customer> allByName1 = new HashSet<>(allByName);
+//        Customer user = MainController.findActiveUser();
+//        int id = user.getId();
+//        Iterator<Customer> iter = allByName1.iterator();
+//        while (iter.hasNext()){
+//            Customer next = iter.next();
+//            if(next.getId()== id){
+//                iter.remove();
+//            }
+//        }
+//        return allByName1;
+//    }
 
     public Set<Customer> findByOneParamByStream(String parametr) {
         Set<Customer> byOneParam = customerDAO.findAll().stream().filter(customer -> customer.getName().equals(parametr) || customer.getSurname().equals(parametr)).collect(Collectors.toSet());
@@ -99,6 +124,22 @@ public class SearchController {
         return byTwoParam;
     }
 
+//    public Set<Customer> findByTwoParam(String p1 , String p2){
+//        List<Customer> list1 = customerDAO.findAllByNameAndSurname(p1, p2);
+//        List<Customer> list2 = customerDAO.findAllByNameAndSurname(p2, p1);
+//        list1.addAll(list2);
+//        Set<Customer> list = new HashSet<>(list1);
+//        Customer user = MainController.findActiveUser();
+//        int id = user.getId();
+//        Iterator<Customer> iter = list.iterator();
+//        while (iter.hasNext()){
+//            Customer next = iter.next();
+//            if(next.getId()== id){
+//                iter.remove();
+//            }
+//        }
+//        return list;
+//    }
 
     @GetMapping("/guest/{username}")
     public String guestPage(@PathVariable String username, Model model) {
