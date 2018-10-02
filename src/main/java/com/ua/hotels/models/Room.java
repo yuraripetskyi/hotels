@@ -22,13 +22,12 @@ public class Room {
     private int price;
     private int roominess;
     private Type type;
-    private Status status;
 
     public Room(int price, int roominess, Type type, Status status) {
         this.price = price;
         this.roominess = roominess;
         this.type = type;
-        this.status = status;
+
     }
 
 
@@ -90,14 +89,6 @@ public class Room {
 
     public void setType(Type type) {
         this.type = type;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
     }
 
     public List<Customer> getCustomers() {

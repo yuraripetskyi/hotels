@@ -52,6 +52,9 @@
         </div>
     </div>
 </nav>
+
+<div class="container row py-5">
+<div class="container col-md-5 " >
 <p>Hotel Name: <span th:text="${hotel.name}"></span></p>
 <p>Hotel City: <span th:text="${hotel.city}"></span></p>
 <p>Hotel Street: <span th:text="${hotel.street}"></span></p>
@@ -63,8 +66,8 @@
         <span th:text="${phone.number}"></span>
     </li>
 </ul>
-
-
+</div>
+<div class="container col-md-3" data-toggle="collapse">
 <ul th:each="image : ${hotel.images}">
     <li>
         <div class="div-images">
@@ -72,6 +75,8 @@
         </div>
     </li>
 </ul>
+</div>
+</div>
 <!--<div>-->
     <!--<img th:each="image:${images}"-->
          <!--th:src="@{${image.getImage}}" alt="">-->
@@ -111,7 +116,6 @@
         <p>Room price: <span th:text="${room.price}"></span></p>
         <p>Room count: <span th:text="${room.roominess}"></span></p>
         <p>Room type: <span th:text="${room.type}"></span></p>
-        <p>Room status: <span th:text="${room.status}"></span></p>
         <form th:action="@{/change/room/}+${room.id}" method="get">
             <input type="submit" value="Change">
         </form>
@@ -127,6 +131,6 @@ crossorigin="anonymous"></script>
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
 
-<script type="text/javascript" th:src="@{/js/nav.js}"></script>
+<!--<script type="text/javascript" th:src="@{/js/nav.js}"></script>-->
 </body>
 </html>
