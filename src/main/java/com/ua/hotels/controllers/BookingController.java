@@ -109,15 +109,15 @@ public class BookingController {
                     System.out.println("++++++++++++++++++++");
                     System.out.println(room.getId() + " " + book_from + " " + book_to);
                     System.out.println("++++++++++++++++++++");
-                    if (from.compareTo(book_from) <= 0 || from.compareTo(book_to) <= 0) {
+                    if (from.compareTo(book_from) > 0 && from.compareTo(book_to) < 0) {
                         deleteRoomFromList(rooms);
                         return rooms;
                     }
-                    if (to.compareTo(book_from) <= 0 || to.compareTo(book_to) <= 0) {
+                    if (to.compareTo(book_from) > 0 && to.compareTo(book_to) < 0) {
                         deleteRoomFromList(rooms);
                         return rooms;
                     }
-                    if (to.compareTo(book_from) < 0 || from.compareTo(book_to) > 0)
+                    if (to.compareTo(book_from) < 0 && from.compareTo(book_to) > 0)
                         deleteRoomFromList(rooms);
                     return rooms;
                 }
