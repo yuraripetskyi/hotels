@@ -98,26 +98,29 @@ public class BookingController {
         Date from = new SimpleDateFormat("MM/dd/yyyy").parse(from_date);
         Date to = new SimpleDateFormat("MM/dd/yyyy").parse(to_date);
 
-        List<Book> book = bookDAO.findAll();
         for (Room room : rooms) {
+            System.out.println("++++++++++++++++++++");
+            System.out.println(room.getId() + " " + room.getBook());
+            System.out.println("++++++++++++++++++++");
             List<Book> books = room.getBook();
-            for (Book boo : books) {
-
-                Date book_from = new SimpleDateFormat("MM/dd/yyyy").parse(boo.getDate_from());
-                Date book_to = new SimpleDateFormat("MM/dd/yyyy").parse(boo.getDate_to());
-
-                if (from.compareTo(book_from) > 0 && from.compareTo(book_to) < 0) {
-                   deleteRoomFromList(rooms);
+                for (Book boo : books) {
+                    Date book_from = new SimpleDateFormat("MM/dd/yyyy").parse(boo.getDate_from());
+                    Date book_to = new SimpleDateFormat("MM/dd/yyyy").parse(boo.getDate_to());
+                    System.out.println("++++++++++++++++++++");
+                    System.out.println(room.getId() + " " + book_from + " " + book_to);
+                    System.out.println("++++++++++++++++++++");
+                    if (from.compareTo(book_from) <= 0 || from.compareTo(book_to) <= 0) {
+                        deleteRoomFromList(rooms);
+                        return rooms;
+                    }
+                    if (to.compareTo(book_from) <= 0 || to.compareTo(book_to) <= 0) {
+                        deleteRoomFromList(rooms);
+                        return rooms;
+                    }
+                    if (to.compareTo(book_from) < 0 || from.compareTo(book_to) > 0)
+                        deleteRoomFromList(rooms);
                     return rooms;
                 }
-                if (to.compareTo(book_from) > 0 && to.compareTo(book_to) < 0) {
-                    deleteRoomFromList(rooms);
-                    return rooms;
-                }
-                if (to.compareTo(book_from) < 0 && from.compareTo(book_to) > 0)
-                    deleteRoomFromList(rooms);
-                    return rooms;
-            }
         }
         return rooms;
     }
@@ -126,8 +129,10 @@ public class BookingController {
         Iterator itr = rooms.iterator();
         if (itr.hasNext()) {
             itr.next();
+            itr.next();
             itr.remove();
-        }else{
+        }
+        else{
             itr.remove();
         }
     }
