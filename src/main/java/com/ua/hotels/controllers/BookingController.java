@@ -131,13 +131,4 @@ public class BookingController {
             itr.remove();
         }
     }
-    private List<Room> filterByPrice(String filter, List<Room> roomList){
-        List<Room> rooms = new ArrayList<>();
-        if(filter.equals("Descending")){
-            rooms.addAll(roomList.stream().sorted((o1, o2) -> o2.getPrice()-o1.getPrice()).collect(Collectors.toList()));
-        }if(filter.equals("Ascending")){
-            rooms.addAll(roomList.stream().sorted((o1, o2) -> o1.getPrice()-o2.getPrice()).collect(Collectors.toList()));
-        }
-        return rooms;
-    }
 }
