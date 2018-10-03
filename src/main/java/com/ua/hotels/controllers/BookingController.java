@@ -78,7 +78,7 @@ public class BookingController {
                        @RequestParam String name,
                        @RequestParam String surname,
                        @RequestParam String email
-                       /*@RequestParam */) {
+                       ) {
         Customer activeUser = MainController.findActiveUser();
         Room room = roomDAO.findById(id).get();
         Guest guest = new Guest(name,surname,email);

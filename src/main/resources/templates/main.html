@@ -116,16 +116,10 @@
         <!--</div>-->
     <!--</div>-->
 </div>
-<div class="target container">
+<div class="target container col-4">
 
 </div>
 <script>
-    // $(document).ready(function(){
-    //     $('#m').click(function(){
-    //         $(this).css('background','red')
-    //     })
-    // });
-
 
     let $submit = $('#submit');
     $submit.click(function () {
@@ -165,7 +159,11 @@
                     let $div = $('<div/>',{
                         text: 'Hotelname : ' + obj.hotel.name + ' Room price : ' +  obj.price + ' Roominess  : ' + obj.roominess
                     });
-                    $target.append($div);
+                    let $button = $('<a/>',{
+                        text: 'Book',
+                        href:'/book/room/' + obj.id
+                    });
+                    $target.append($div,$button);
                 })
             },
             error : function (error) {
