@@ -38,23 +38,6 @@ public class BookingController {
         return "main";
     }
 
-    @PostMapping("/")
-    @ResponseBody
-    private List<Room> MainPage(@RequestBody String jsonObj) throws ParseException, org.json.simple.parser.ParseException {
-        Object parse = new JSONParser().parse(jsonObj);
-        JSONObject jo = (JSONObject)parse;
-        String finder = (String)jo.get("finder");
-        String  countOfGuests = (String)jo.get("countOfGuests");
-        Integer countInt = Integer.parseInt(countOfGuests);
-        String from_date = (String)jo.get("from_date");
-        String to_date = (String) jo.get("to_date");
-        Map<Hotel,List<Room>> obj = new HashMap<>();
-        List<Room> rooms = roomDAO.findAllByRoominessAndHotelCityOrRoominessAndHotelName(countInt,finder,countInt,finder);
-        List<Room> free_rooms = commpareDates(rooms, from_date, to_date);
-
-        return free_rooms;
-    }
-
     @GetMapping("/book/room/{id}")
     public String bookPage(@PathVariable int id,
                            @AuthenticationPrincipal Customer user,
@@ -90,50 +73,5 @@ public class BookingController {
         bookDAO.save(book);
 
         return "main";
-    }
-
-
-    private List<Room> commpareDates(List<Room> rooms, String from_date, String to_date) throws ParseException {
-
-        Date from = new SimpleDateFormat("MM/dd/yyyy").parse(from_date);
-        Date to = new SimpleDateFormat("MM/dd/yyyy").parse(to_date);
-
-        for (Room room : rooms) {
-            System.out.println("++++++++++++++++++++");
-            System.out.println(room.getId() + " " + room.getBook());
-            System.out.println("++++++++++++++++++++");
-            List<Book> books = room.getBook();
-                for (Book boo : books) {
-                    Date book_from = new SimpleDateFormat("MM/dd/yyyy").parse(boo.getDate_from());
-                    Date book_to = new SimpleDateFormat("MM/dd/yyyy").parse(boo.getDate_to());
-                    System.out.println("++++++++++++++++++++");
-                    System.out.println(room.getId() + " " + book_from + " " + book_to);
-                    System.out.println("++++++++++++++++++++");
-                    if (from.compareTo(book_from) > 0 && from.compareTo(book_to) < 0) {
-                        deleteRoomFromList(rooms);
-                        return rooms;
-                    }
-                    if (to.compareTo(book_from) > 0 && to.compareTo(book_to) < 0) {
-                        deleteRoomFromList(rooms);
-                        return rooms;
-                    }
-                    if (to.compareTo(book_from) < 0 && from.compareTo(book_to) > 0)
-                        deleteRoomFromList(rooms);
-                    return rooms;
-                }
-        }
-        return rooms;
-    }
-
-    private void deleteRoomFromList(List<Room> rooms){
-        Iterator itr = rooms.iterator();
-        if (itr.hasNext()) {
-            itr.next();
-            itr.next();
-            itr.remove();
-        }
-        else{
-            itr.remove();
-        }
     }
 }
