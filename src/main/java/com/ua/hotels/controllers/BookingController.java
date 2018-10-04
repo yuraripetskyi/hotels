@@ -3,20 +3,18 @@ package com.ua.hotels.controllers;
 import com.ua.hotels.dao.BookDAO;
 import com.ua.hotels.dao.GuestDAO;
 import com.ua.hotels.dao.RoomDAO;
-import com.ua.hotels.models.*;
-import com.ua.hotels.models.enums.Role;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
+import com.ua.hotels.models.Book;
+import com.ua.hotels.models.Customer;
+import com.ua.hotels.models.Guest;
+import com.ua.hotels.models.Room;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.stream.Collectors;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import static com.ua.hotels.controllers.MainController.userRole;
 
@@ -29,37 +27,13 @@ public class BookingController {
     @Autowired
     private BookDAO bookDAO;
 
-    private String date_from;
-    private String date_to;
-
-    @GetMapping("/main")
-    private String Mainpage(Model model, @AuthenticationPrincipal Customer user) {
-        userRole(user,model);
-        return "main";
-    }
-
-    @PostMapping("/")
-    @ResponseBody
-    private List<Room> MainPage(@RequestBody String jsonObj) throws ParseException, org.json.simple.parser.ParseException {
-        Object parse = new JSONParser().parse(jsonObj);
-        JSONObject jo = (JSONObject)parse;
-        String finder = (String)jo.get("finder");
-        String  countOfGuests = (String)jo.get("countOfGuests");
-        Integer countInt = Integer.parseInt(countOfGuests);
-        String from_date = (String)jo.get("from_date");
-        String to_date = (String) jo.get("to_date");
-        Map<Hotel,List<Room>> obj = new HashMap<>();
-        List<Room> rooms = roomDAO.findAllByRoominessAndHotelCityOrRoominessAndHotelName(countInt,finder,countInt,finder);
-        List<Room> free_rooms = commpareDates(rooms, from_date, to_date);
-
-        return free_rooms;
-    }
-
-    @GetMapping("/book/room/{id}")
+    @GetMapping("/book/room/{id}/{date_from}/{date_to}")
     public String bookPage(@PathVariable int id,
+                           @PathVariable String date_from,
+                           @PathVariable String date_to,
                            @AuthenticationPrincipal Customer user,
                            Model model) {
-       userRole(user,model);
+        userRole(user,model);
         Room room = roomDAO.findById(id).get();
         model.addAttribute("room", room);
         model.addAttribute("hotel", room.getHotel());
@@ -78,7 +52,7 @@ public class BookingController {
                        @RequestParam String name,
                        @RequestParam String surname,
                        @RequestParam String email
-                       /*@RequestParam */) {
+                       ) {
         Customer activeUser = MainController.findActiveUser();
         Room room = roomDAO.findById(id).get();
         Guest guest = new Guest(name,surname,email);
@@ -88,56 +62,6 @@ public class BookingController {
             book.setCustomer(activeUser);
         }
         bookDAO.save(book);
-
-        return "main";
-    }
-
-
-    private List<Room> commpareDates(List<Room> rooms, String from_date, String to_date) throws ParseException {
-
-        Date from = new SimpleDateFormat("MM/dd/yyyy").parse(from_date);
-        Date to = new SimpleDateFormat("MM/dd/yyyy").parse(to_date);
-
-        List<Book> book = bookDAO.findAll();
-        for (Room room : rooms) {
-            List<Book> books = room.getBook();
-            for (Book boo : books) {
-
-                Date book_from = new SimpleDateFormat("MM/dd/yyyy").parse(boo.getDate_from());
-                Date book_to = new SimpleDateFormat("MM/dd/yyyy").parse(boo.getDate_to());
-
-                if (from.compareTo(book_from) > 0 && from.compareTo(book_to) < 0) {
-                   deleteRoomFromList(rooms);
-                    return rooms;
-                }
-                if (to.compareTo(book_from) > 0 && to.compareTo(book_to) < 0) {
-                    deleteRoomFromList(rooms);
-                    return rooms;
-                }
-                if (to.compareTo(book_from) < 0 && from.compareTo(book_to) > 0)
-                    deleteRoomFromList(rooms);
-                    return rooms;
-            }
-        }
-        return rooms;
-    }
-
-    private void deleteRoomFromList(List<Room> rooms){
-        Iterator itr = rooms.iterator();
-        if (itr.hasNext()) {
-            itr.next();
-            itr.remove();
-        }else{
-            itr.remove();
-        }
-    }
-    private List<Room> filterByPrice(String filter, List<Room> roomList){
-        List<Room> rooms = new ArrayList<>();
-        if(filter.equals("Descending")){
-            rooms.addAll(roomList.stream().sorted((o1, o2) -> o2.getPrice()-o1.getPrice()).collect(Collectors.toList()));
-        }if(filter.equals("Ascending")){
-            rooms.addAll(roomList.stream().sorted((o1, o2) -> o1.getPrice()-o2.getPrice()).collect(Collectors.toList()));
-        }
-        return rooms;
+        return "/";
     }
 }
