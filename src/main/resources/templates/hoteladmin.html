@@ -52,34 +52,45 @@
     </div>
 </nav>
 
+<div class="py-5 text-center ">
+    <div class="container py-5  loginBox  ">
+        <div>
+            <div class="container  ">
+                <div class="col-md-12 justify-content-center align-items-center row">
+                    <div class="container justify-content-center align-items-center text-center">
+                        <div class="h3 ">
+                            <span th:text="${user.name}"></span>
+                            <span th:text="${user.surname}"></span>
+                        </div>
 
-<p>Your Name:</p>
-<span th:text="${user.name}"></span>
-<p>Your Surname:</p>
-<span th:text="${user.surname}"></span>
+
+                        <form th:action="@{/change/user/}+${user.id}" method="get">
+                            <p class="h5">Edit information about yourself</p>
+                            <input class="btn btn-primary" type="submit">
+                        </form>
+                        </br>
 
 
-<form th:action="@{/logout}" method="get">
-    <input type="submit" value="Logout">
-</form>
+                        <form th:action="@{/create/hotel}" method="get">
+                            <input class="btn btn-primary" type="submit" value="Create Hotel">
+                        </form>
+                        </br>
+                        <ul th:each="hotel : ${hotels}">
+                            <li>
+                                <a th:href="'/hotel/'+${hotel.id}" th:text="'Name - ' + ${hotel.name} "></a>
+                                <form th:action="@{/delete/hotel/}+${hotel.id}" th:method="DELETE">
+                                    </br>
+                                    <input class="btn btn-primary" type="submit" value="Delete hotel">
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-<form th:action="@{/change/user/}+${user.id}" method="get">
-    <p>do some changes in user fields</p>
-    <input type="submit">
-</form>
-
-<form th:action="@{/create/hotel}" method="get">
-    <input type="submit" value="Create Hotel">
-</form>
-
-<ul th:each="hotel : ${hotels}">
-    <li>
-        <a th:href="'/hotel/'+${hotel.id}" th:text="'Name - ' + ${hotel.name} "></a>
-        <form th:action="@{/delete/hotel/}+${hotel.id}" th:method="DELETE">
-            <input type="submit" value="Delete hotel">
-        </form>
-    </li>
-</ul>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
