@@ -67,8 +67,8 @@
 <h1><span th:text="${hotel.name}"></span></h1>
 
 <form th:action="@{/book/room/}+${room.id}" method="post">
-    <input id="date3" name="from_date" type="text" size="8" placeholder="from"  th:value="${from}">
-    <input id="date4" name="to_date" type="text" size="8" placeholder="to" th:value="${to}">
+    <input id="date3" name="from_date" type="text" size="8" placeholder="from"  th:value="${from} disabled">
+    <input id="date4" name="to_date" type="text" size="8" placeholder="to" th:value="${to} disabled">
 <br>
 <span> Guest bio</span><br>
     <input type="text" name="name" placeholder="name"><br>

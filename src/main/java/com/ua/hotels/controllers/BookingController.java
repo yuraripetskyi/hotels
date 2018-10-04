@@ -27,12 +27,6 @@ public class BookingController {
     @Autowired
     private BookDAO bookDAO;
 
-
-    @GetMapping("/main")
-    private String Mainpage() {
-        return "redirect:/";
-    }
-
     @GetMapping("/book/room/{id}/{date_from}/{date_to}")
     public String bookPage(@PathVariable int id,
                            @PathVariable String date_from,
@@ -68,7 +62,6 @@ public class BookingController {
             book.setCustomer(activeUser);
         }
         bookDAO.save(book);
-
-        return "main";
+        return "/";
     }
 }
