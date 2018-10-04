@@ -4,6 +4,7 @@ package com.ua.hotels.controllers;
 import com.ua.hotels.models.Customer;
 import com.ua.hotels.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,23 +19,19 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
-    @GetMapping("/change/user/{id}")
-    public String changeUser(@PathVariable int id,
-                             Model model){
-        Customer customer = (Customer) customerService.loadUserById(id);
+    @GetMapping("/change/user")
+    public String changeUser(
+                             Model model, @AuthenticationPrincipal Customer customer){
         model.addAttribute("user", customer);
         return "changeCustomer";
     }
-    @PostMapping("/change/customer/{id}")
-    public String changeCustomer(@PathVariable int id,
+    @PostMapping("/change/customer")
+    public String changeCustomer(
                                  @RequestParam String username,
                                  @RequestParam String name,
                                  @RequestParam String surname,
-                                 @RequestParam int age,
-                                 @RequestParam String city,
-                                 @RequestParam String email){
+                                 @RequestParam String email,@AuthenticationPrincipal Customer customer){
 
-        Customer customer = (Customer)customerService.loadUserById(id);
         if (username!=null){
             customer.setUsername(username);
         }
@@ -49,6 +46,6 @@ public class CustomerController {
             customer.setEmail(email);
         }
         customerService.save(customer);
-        return "redirect:/";
+        return "redirect:/user";
     }
 }

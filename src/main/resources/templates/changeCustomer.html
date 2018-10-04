@@ -5,7 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-<form th:action="@{/change/customer/}+${user.id}" method="post" enctype="multipart/form-data">
+<form th:action="@{/change/customer}" method="post" enctype="multipart/form-data">
     <p>Change your login</p>
     <input type="text" name="username" placeholder="Login" th:value="${user.username}">
     <p>Change your name</p>
