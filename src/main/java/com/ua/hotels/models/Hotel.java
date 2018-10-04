@@ -67,7 +67,7 @@ public class Hotel {
         this.email = email;
         this.description = description;
     }
-    @JsonIgnore
+//    @JsonIgnore
     @OneToMany(
             fetch = FetchType.EAGER,
             cascade = CascadeType.REMOVE,

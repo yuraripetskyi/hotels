@@ -30,8 +30,6 @@ public class Room {
         this.type = type;
 
     }
-
-
     @JsonIgnore
     @ManyToMany(
             fetch = FetchType.LAZY,

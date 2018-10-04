@@ -1,5 +1,6 @@
 package com.ua.hotels.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ua.hotels.service.ImageService;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-
+    @JsonIgnore
     @ManyToOne(
             cascade =CascadeType.REFRESH,
             fetch = FetchType.LAZY

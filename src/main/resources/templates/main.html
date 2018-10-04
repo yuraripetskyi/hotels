@@ -143,8 +143,10 @@
                     $target.append($div);
                 }
                 $(result).each(function (index,obj) {
+                    let listImages = obj.hotel.images;
+                    listImages[0].image;
                     let $img = $('<img/>',{
-                        src:'/images/' + obj.hotel.images.name
+                        src:listImages[0].image
                 });
                     let $div = $('<div/>',{
                         text: 'Hotel-name : ' + obj.hotel.name + ' Room price : ' +  obj.price + ' Roominess  : ' + obj.roominess
