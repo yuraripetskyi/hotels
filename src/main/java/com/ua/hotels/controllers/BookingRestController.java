@@ -88,7 +88,7 @@ public class BookingRestController {
         Iterator itr = rooms.iterator();
         if (itr.hasNext()) {
            itr.next();
-            itr.next();
+            itr.next(); // sho za pizda?????
             itr.remove();
         }
         else{

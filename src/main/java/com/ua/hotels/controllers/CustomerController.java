@@ -40,8 +40,7 @@ public class CustomerController {
         }
         if(surname!=null){
             customer.setSurname(surname);
-        }
-
+         }
         if (email!=null){
             customer.setEmail(email);
         }
