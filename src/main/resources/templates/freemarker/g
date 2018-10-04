@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script>
+      $(function () {
+          $("#date1").datepicker();
+      });
+
+      $(function () {
+          $("#date2").datepicker();
+      })
+    </script>
+</head>
+<body>
+
+
+<form th:action="@{/login}" method="get">
+    <input type="submit" value="LOGIN">
+</form>
+<form th:action="@{/}" method="post">
+    <input type="text" name="finder" placeholder="City or hotel's name" id="finder">
+    <input type="text" name="countOfGuests" placeholder="Count of Guests" id="countOfGuests">
+    <input name="from_date" type="text" size="8" placeholder="from" id="from_date">
+    <input name="to_date" type="text" size="8" placeholder="to" id="to_date">
+    <input type="submit" id="submit">
+
+<p>Choose a Filter</p>
+<div>
+    <select class="select" name="filter">
+        <option name="Descending" value="Descending" selected>Price descending</option>
+        <option value="Ascending">Price ascending</option>
+    </select>
+</div>
+<ul th:each="room : ${free_rooms}">
+    <li th:value="${room.price} ">
+        <span th:text="${room.hotel}"></span>
+        <span th:text="${room}"></span>
+        <form th:action="@{/book/room/}+${room.id}" method="get">
+            <input type="submit" value="book">
+        </form>
+    </li>
+</ul>
+<div class="target">
+
+</div>
+<script>
+    // $(document).ready(function(){
+    //     $('#m').click(function(){
+    //         $(this).css('background','red')
+    //     })
+    // });
+
+
+    let $submit = $('#submit');
+    $submit.click(function () {
+        let $target = $('.target');
+        let finder = $('#finder').val();
+        let countOfGuests = $('#countOfGuests').val();
+        let from_date = $('#from_date').val();
+        let to_date = $('#to_date').val();
+
+        var obj = {
+            finder:finder,
+            countOfGuests:countOfGuests,
+            from_date:from_date,
+            to_date:to_date
+        };
+
+        $('#finder').val('');
+        $('#countOfGuests').val('');
+        $('#from_date').val('');
+        $('#to_date').val('');
+        let jsonObj = JSON.stringify(obj);
+        console.log(countOfGuests  +' count');
+        console.log(jsonObj);
+        $.ajax({
+            url: 'http://localhost:8080/',
+            method: 'POST',
+            contentType:'text/plain',
+            data: jsonObj,
+            success: function (result) {
+                $(result).each(function (index,obj) {
+                    let $div = $('<div/>',{
+                        text: obj.hotel.name + ' ' +  obj.price
+                    });
+                    $target.append($div);
+                })
+            },
+            error : function (error) {
+                console.log(error);
+            }
+        })
+    })
+</script>
+
+
+
+</body>
+</html>

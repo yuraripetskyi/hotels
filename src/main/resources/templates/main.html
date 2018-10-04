@@ -111,6 +111,7 @@
 <div class="target container col-4">
 
 </div>
+
 <script>
 
     let $submit = $('#submit');
@@ -142,6 +143,9 @@
                     $target.append($div);
                 }
                 $(result).each(function (index,obj) {
+                    let $img = $('<img/>',{
+                        src:'/images/' + obj.hotel.images.name
+                });
                     let $div = $('<div/>',{
                         text: 'Hotel-name : ' + obj.hotel.name + ' Room price : ' +  obj.price + ' Roominess  : ' + obj.roominess
                     });
@@ -149,7 +153,8 @@
                         text: 'Book',
                         href:'/book/room/' + obj.id +'/'+ $date1.val().toString()+'/'+ $date2.val().toString()
                     });
-                    $target.append($div,$button);
+                    $target.append($div,$button,$img);
+
                 })
             },
             error : function (error) {
