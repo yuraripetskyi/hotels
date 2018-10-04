@@ -54,7 +54,7 @@
         <p>Your Surname:</p>
         <span th:text="${user.surname}"></span>
 
-        <form th:action="@{/change/user/}+${user.id}" method="get">
+        <form th:action="@{/change/user}" method="get">
         <p>do some changes in user fields</p>
         <input type="submit">
         </form>

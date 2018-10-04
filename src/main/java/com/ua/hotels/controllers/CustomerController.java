@@ -20,18 +20,16 @@ public class CustomerController {
     private CustomerService customerService;
 
     @GetMapping("/change/user")
-    public String changeUser(@PathVariable int id,
+    public String changeUser(
                              Model model, @AuthenticationPrincipal Customer customer){
         model.addAttribute("user", customer);
         return "changeCustomer";
     }
     @PostMapping("/change/customer")
-    public String changeCustomer(@PathVariable int id,
+    public String changeCustomer(
                                  @RequestParam String username,
                                  @RequestParam String name,
                                  @RequestParam String surname,
-                                 @RequestParam int age,
-                                 @RequestParam String city,
                                  @RequestParam String email,@AuthenticationPrincipal Customer customer){
 
         if (username!=null){
@@ -48,6 +46,6 @@ public class CustomerController {
             customer.setEmail(email);
         }
         customerService.save(customer);
-        return "redirect:/";
+        return "redirect:/user";
     }
 }
