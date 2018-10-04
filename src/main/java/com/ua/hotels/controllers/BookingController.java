@@ -51,9 +51,9 @@ public class BookingController {
                        @RequestParam String to_date,
                        @RequestParam String name,
                        @RequestParam String surname,
-                       @RequestParam String email
+                       @RequestParam String email,
+                       @AuthenticationPrincipal Customer activeUser
                        ) {
-        Customer activeUser = MainController.findActiveUser();
         Room room = roomDAO.findById(id).get();
         Guest guest = new Guest(name,surname,email);
         guestDAO.save(guest);
@@ -62,6 +62,6 @@ public class BookingController {
             book.setCustomer(activeUser);
         }
         bookDAO.save(book);
-        return "/";
+        return "success";
     }
 }

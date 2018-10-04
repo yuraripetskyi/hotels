@@ -10,17 +10,6 @@
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script>
-        $(function () {
-            $("#date3").datepicker();
-        });
-
-        $(function () {
-            $("#date4").datepicker();
-        })
-    </script>
 
 </head>
 <body>
@@ -67,8 +56,10 @@
 <h1><span th:text="${hotel.name}"></span></h1>
 
 <form th:action="@{/book/room/}+${room.id}" method="post">
-    <input id="date3" name="from_date" type="text" size="8" placeholder="from"  th:value="${from} disabled">
-    <input id="date4" name="to_date" type="text" size="8" placeholder="to" th:value="${to} disabled">
+    <input  th:value="${from}" disabled>
+    <input  th:value="${to}" disabled>
+    <input id="date3" name="from_date" type="text" size="8" placeholder="from"  th:value="${from}" hidden>
+    <input id="date4" name="to_date" type="text" size="8" placeholder="to" th:value="${to}" hidden>
 <br>
 <span> Guest bio</span><br>
     <input type="text" name="name" placeholder="name"><br>
