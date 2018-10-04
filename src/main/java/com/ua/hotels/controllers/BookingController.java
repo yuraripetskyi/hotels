@@ -3,20 +3,18 @@ package com.ua.hotels.controllers;
 import com.ua.hotels.dao.BookDAO;
 import com.ua.hotels.dao.GuestDAO;
 import com.ua.hotels.dao.RoomDAO;
-import com.ua.hotels.models.*;
-import com.ua.hotels.models.enums.Role;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
+import com.ua.hotels.models.Book;
+import com.ua.hotels.models.Customer;
+import com.ua.hotels.models.Guest;
+import com.ua.hotels.models.Room;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.stream.Collectors;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import static com.ua.hotels.controllers.MainController.userRole;
 
@@ -29,20 +27,19 @@ public class BookingController {
     @Autowired
     private BookDAO bookDAO;
 
-    private String date_from;
-    private String date_to;
 
     @GetMapping("/main")
-    private String Mainpage(Model model, @AuthenticationPrincipal Customer user) {
-        userRole(user,model);
-        return "main";
+    private String Mainpage() {
+        return "redirect:/";
     }
 
-    @GetMapping("/book/room/{id}")
+    @GetMapping("/book/room/{id}/{date_from}/{date_to}")
     public String bookPage(@PathVariable int id,
+                           @PathVariable String date_from,
+                           @PathVariable String date_to,
                            @AuthenticationPrincipal Customer user,
                            Model model) {
-       userRole(user,model);
+        userRole(user,model);
         Room room = roomDAO.findById(id).get();
         model.addAttribute("room", room);
         model.addAttribute("hotel", room.getHotel());

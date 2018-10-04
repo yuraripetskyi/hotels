@@ -87,7 +87,7 @@
     <div class="container">
         <!--<div class="row">-->
             <!--<div class="col-md-12">-->
-                <form th:action="@{/main}" method="post">
+                <form action="/" method="post">
                     <div class="form-group row justify-content-center align-items-center">
                         <div class="col-md-5  " >
                             <input type="text" class="form-control input-lg finder" required  name="finder" placeholder="City or hotel's name">
@@ -95,12 +95,6 @@
                         <div class=" col-md-1  " >
                             <input type="text" class="form-control input-lg countOfGuests" required  name="countOfGuests" placeholder="Guests">
                         </div>
-                        <!--<div>-->
-                        <!--<select class="select" name="filter">-->
-                        <!--<option name="Descending" value="Descending" selected>Price descending</option>-->
-                        <!--<option value="Ascending">Price ascending</option>-->
-                        <!--</select>-->
-                        <!--</div>-->
                         <div class=" col-md-1  ">
                             <input id="date1" class="form-control input-lg" name="from_date" type="text" size="8" required  placeholder="from">
                         </div>
@@ -126,8 +120,8 @@
         let $target = $('.target');
         let $finder = $('.finder');
         let $countOfGuests = $('.countOfGuests');
-        let $date1 = $('#date1');
-        let $date2= $('#date2');
+        var $date1 = $('#date1');
+        var $date2= $('#date2');
 
         var obj = {
             finder:$finder.val(),
@@ -135,14 +129,12 @@
             from_date:$date1.val(),
             to_date:$date2.val()
         };
-
-        $finder.val('');
-        $countOfGuests.val('');
-        $date1.val('');
-        $date2.val('');
         let jsonObj = JSON.stringify(obj);
+
+
         console.log($countOfGuests  +' count');
         console.log(jsonObj);
+        console.log($date1.val() + ' +++++++ ' + $date2.val().toString());
         $.ajax({
             url: 'http://localhost:8080/',
             method: 'POST',
@@ -161,16 +153,22 @@
                     });
                     let $button = $('<a/>',{
                         text: 'Book',
-                        href:'/book/room/' + obj.id
+                        href:'/book/room/' + obj.id +'/'+ $date1.val().toString()+'/'+ $date2.val().toString()
                     });
+                    console.log($date1.val() + ' +++++++ ' + $date2.val().toString());
                     $target.append($div,$button);
                 })
             },
             error : function (error) {
                 console.log(error);
             }
-        })
+        });
+        console.log($date1.val() + ' +++++++ ' + $date2.val().toString());
     })
+    // $finder.val('');
+    // $countOfGuests.val('');
+    // $date1.val('');
+    // $date2.val('');
 </script>
 <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"-->
 <!--integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"-->
