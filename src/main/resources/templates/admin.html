@@ -50,85 +50,107 @@
         </div>
     </div>
 </nav>
-<p>Your Name:</p>
+
+<div class="py-2 text-center ">
+    <div class="container   loginBox  ">
+        <div>
+            <div class="container  ">
+                <div class="col-md-12 justify-content-center align-items-center row">
+                    <ul  class="container justify-content-center align-items-center text-center">
+<p class="h5">Your Name:</p>
 <span th:text="${user.username}"></span>
 
 <form th:action="@{/admin/create_hotel}" method="post">
 
-<p>Please enter hotel name:</p>
-    <input type="text" name="name" placeholder="name"><br>
-<p>addres:</p>
-    <input type="text" name="city" placeholder="city"><br>
-    <input type="text" name="street" placeholder="street"><br>
-    <input type="text" name="house" placeholder="house"><br>
- <p>Please enter hotel stars:</p>
-     <input type="text" name="stars" placeholder="stars: 1 - 5"><br>
- <p>Please enter contacts:</p>
-     <input type="text" name="email" placeholder="email"><br>
-         <input type="text" name="phone" placeholder="phone"><br>
+<p class="h6">Please enter hotel name:</p>
+    <div class="mt-2"><input class="form-control input-lg" type="text" name="name" placeholder="name"></div><br>
+<p class="h6">addres:</p>
+    <div class="mt-2"><input class="form-control input-lg" type="text" name="city" placeholder="city"></div><br>
+    <div class="mt-2"><input class="form-control input-lg" type="text" name="street" placeholder="street"></div><br>
+    <div class="mt-2"><input class="form-control input-lg" type="text" name="house" placeholder="house"></div><br>
+ <p class="h6">Please enter hotel stars:</p>
+    <div class="mt-2"><input class="form-control input-lg" type="text" name="stars" placeholder="stars: 1 - 5"></div><br>
+ <p class="h6">Please enter contacts:</p>
+    <div class="mt-2"><input class="form-control input-lg" type="text" name="email" placeholder="email"></div><br>
+         <div class="mt-2"><input class="form-control input-lg" type="text" name="phone" placeholder="phone"></div><br>
 
-    <input type="text" name="description" placeholder="description"><br>
+    <div class="mt-2"><input class="form-control input-lg" type="text" name="description" placeholder="description"></div><br>
 
   <!--   <p>photos</p> -->
    <!--  <input type="file" name="file" placeholder=""> -->
-     <input type="submit">
+     <input class="btn btn-primary" type="submit">
 </form>
 
 
 <form th:action="@{/admin/add-room-to-hotel}" method="post">
-<p>Please enter hotel name:</p>
-    <input type="text" name="hotel_name" placeholder="name"><br>
-    <br>
-    <input type="text" name="type" placeholder="type"><br>
-    <input type="text" name="description" placeholder="description"><br>
-    <input type="text" name="price" placeholder="price"><br>
-    <input type="submit">
+<p class="h6">Please enter hotel name:</p>
+    <div class="mt-2"><input class="form-control input-lg"  type="text" name="hotel_name" placeholder="name"></div><br>
+    <div class="mt-2"><input class="form-control input-lg"  type="text" name="type" placeholder="type"></div><br>
+    <div class="mt-2"><input class="form-control input-lg"  type="text" name="description" placeholder="description"></div><br>
+    <div class="mt-2"><input class="form-control input-lg"  type="text" name="price" placeholder="price"></div><br>
+    <input class="btn btn-primary" type="submit">
 </form>
+                        </br>
 
-<form th:action="@{/logout}" method="get">
-    <input type="submit" value="Logout">
-</form>
 <form th:action="@{/findUsers}" method="get">
-    <input type="text" placeholder="Find user" name="user">
-    <input type="submit" value="Submit!">
+    <div class="mt-2"><input class="form-control input-lg" type="text" placeholder="Find user" name="user"></div></br>
+    <input class="btn btn-primary" type="submit" value="Submit!">
 </form>
+</br>
+
 <ul th:each="user : ${users}">
     <li>
         <a th:href="'/guest/'+${user.username}" th:text="'Name - ' + ${user.name} + '; Surname - ' + ${user.surname}"></a>
         <h2 th:text="'Current role - ' + ${user.role}" > </h2>
         <div th:if="${user.isEnabled()}">
             <form th:action="@{/block/}+${user.username}" method="get">
-                <input type="submit" value="Block User">
+                <input class="btn btn-primary" type="submit" value="Block User">
             </form>
+            </br>
 
         </div>
 
         <div th:unless="${user.isEnabled()}">
             <form th:action="@{/unblock/}+${user.username}" method="get">
-                <input type="submit" value="Unblock User">
+                <input class="btn btn-primary" type="submit" value="Unblock User">
             </form>
+            </br>
         </div>
 
         <div th:if="${user.getRole()==user_role}">
             <form th:action="@{/makeHotelAdmin/}+${user.username}" method="get">
-                <input type="submit" value="Make hotel admin">
+                <input class="btn btn-primary" type="submit" value="Make hotel admin">
             </form>
+            </br>
             <form th:action="@{/makeAdmin/}+${user.username}" method="get">
-                <input type="submit" value="Make admin">
+                <input class="btn btn-primary" type="submit" value="Make admin">
             </form>
+            </br>
         </div>
 
         <div th:if="${user.getRole()==hoteladmin_role}">
             <form th:action="@{/makeUser/}+${user.username}" method="get">
-                <input type="submit" value="Make user">
+                <input class="btn btn-primary" type="submit" value="Make user">
             </form>
+            </br>
             <form th:action="@{/makeAdmin/}+${user.username}" method="get">
-                <input type="submit" value="Make  admin">
+                <input class="btn btn-primary" type="submit" value="Make admin">
             </form>
+            </br>
         </div>
 
     </li>
 </ul>
+                        <form th:action="@{/logout}" method="get">
+                            <input class="btn btn-primary" type="submit" value="Logout">
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
