@@ -108,10 +108,11 @@
         <!--</div>-->
     <!--</div>-->
 </div>
-<div class="target container col-4">
-
-</div>
-
+<div class="target container p-0 card col-6">
+    <div class="card-body">
+        <h5 class="card-title">Booking room</h5>
+        <p class="card-text">Here you find all free rooms for your request</p>
+    </div>
 <script>
 
     let $submit = $('#submit');
@@ -121,6 +122,7 @@
         let $countOfGuests = $('.countOfGuests');
         var $date1 = $('#date1');
         var $date2= $('#date2');
+
 
         var obj = {
             finder:$finder.val(),
@@ -143,20 +145,23 @@
                     $target.append($div);
                 }
                 $(result).each(function (index,obj) {
+
                     let listImages = obj.hotel.images;
-                    listImages[0].image;
                     let $img = $('<img/>',{
+                        class:'card-img-top',
+                        width: 150,
                         src:listImages[0].image
                 });
                     let $div = $('<div/>',{
-                        text: 'Hotel-name : ' + obj.hotel.name + ' Room price : ' +  obj.price + ' Roominess  : ' + obj.roominess
+                        class: 'card-body',
+                        text:'Hotelname : '+ obj.hotel.name + ' Room price : ' +  obj.price + ' Roominess  : ' + obj.roominess
                     });
                     let $button = $('<a/>',{
+                        class:'card-link btn btn-primary mt-2',
                         text: 'Book',
                         href:'/book/room/' + obj.id +'/'+ $date1.val().toString()+'/'+ $date2.val().toString()
                     });
-                    $target.append($div,$button,$img);
-
+                    $target.append($img,$div,$button);
                 })
             },
             error : function (error) {
