@@ -6,10 +6,7 @@ import com.ua.hotels.models.Room;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,7 +20,6 @@ public class BookingRestController {
     private RoomDAO roomDAO;
 
     @PostMapping("/")
-    @ResponseBody
     private List<Room> MainPage(@RequestBody String jsonObj) throws ParseException, org.json.simple.parser.ParseException {
         Object parse = new JSONParser().parse(jsonObj);
         JSONObject jo = (JSONObject)parse;
