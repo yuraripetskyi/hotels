@@ -5,16 +5,30 @@
     <title>Title</title>
 </head>
 <body>
-<form th:action="@{/change/customer}" method="post" enctype="multipart/form-data">
-    <p>Change your login</p>
-    <input type="text" name="username" placeholder="Login" th:value="${user.username}">
-    <p>Change your name</p>
-    <input type="text" name="name" placeholder="Name" th:value="${user.name}">
-    <p>Change your surname</p>
-    <input type="text" name="surname" placeholder="Surname" th:value="${user.surname}">
+<div class="py-2 text-center ">
+    <div class="container   loginBox  ">
+        <div class="container  ">
+            <div class="col-md-12 justify-content-center align-items-center row">
+                <form th:action="@{/change/customer}" method="post" enctype="multipart/form-data">
+                    <p class="h6">Change your login</p>
+                    <div class="mt-2"><input class="form-control input-lg" type="text" name="username"
+                                             placeholder="Login" th:value="${user.username}"></div>
+                    <p class="h6">Change your name</p>
+                    <div class="mt-2"><input class="form-control input-lg" type="text" name="name" placeholder="Name"
+                                             th:value="${user.name}"></div>
+                    <p class="h6">Change your surname</p>
+                    <div class="mt-2"><input class="form-control input-lg" type="text" name="surname"
+                                             placeholder="Surname" th:value="${user.surname}"></div>
 
-    <input type="email" name="email" placeholder="Email" th:value="${user.email}">
-    <input type="submit" value="Submit!">
-</form>
+                    <div class="mt-2"><input class="form-control input-lg" type="email" name="email" placeholder="Email"
+                                             th:value="${user.email}"></div>
+                        <input class="btn btn-primary"  type="submit" value="Submit!">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 </body>
 </html>

@@ -56,105 +56,132 @@
         <div>
             <div class="container  ">
                 <div class="col-md-12 justify-content-center align-items-center row">
-                    <ul  class="container justify-content-center align-items-center text-center">
-<p class="h5">Your Name:</p>
-<span th:text="${user.username}"></span>
+                    <ul class="container justify-content-center align-items-center text-center">
+                        <p class="h5">Your Name:</p>
+                        <span th:text="${user.username}"></span>
 
-<form th:action="@{/admin/create_hotel}" method="post">
+                        <form th:action="@{/admin/create_hotel}" method="post">
 
-<p class="h6">Please enter hotel name:</p>
-    <div class="mt-2"><input class="form-control input-lg" type="text" name="name" placeholder="name"></div><br>
-<p class="h6">addres:</p>
-    <div class="mt-2"><input class="form-control input-lg" type="text" name="city" placeholder="city"></div><br>
-    <div class="mt-2"><input class="form-control input-lg" type="text" name="street" placeholder="street"></div><br>
-    <div class="mt-2"><input class="form-control input-lg" type="text" name="house" placeholder="house"></div><br>
- <p class="h6">Please enter hotel stars:</p>
-    <div class="mt-2"><input class="form-control input-lg" type="text" name="stars" placeholder="stars: 1 - 5"></div><br>
- <p class="h6">Please enter contacts:</p>
-    <div class="mt-2"><input class="form-control input-lg" type="text" name="email" placeholder="email"></div><br>
-         <div class="mt-2"><input class="form-control input-lg" type="text" name="phone" placeholder="phone"></div><br>
+                            <p class="h6">Please enter hotel name:</p>
+                            <div class="mt-2"><input class="form-control input-lg" type="text" name="name"
+                                                     placeholder="name"></div>
+                            <br>
+                            <p class="h6">addres:</p>
+                            <div class="mt-2"><input class="form-control input-lg" type="text" name="city"
+                                                     placeholder="city"></div>
+                            <br>
+                            <div class="mt-2"><input class="form-control input-lg" type="text" name="street"
+                                                     placeholder="street"></div>
+                            <br>
+                            <div class="mt-2"><input class="form-control input-lg" type="text" name="house"
+                                                     placeholder="house"></div>
+                            <br>
+                            <p class="h6">Please enter hotel stars:</p>
+                            <div class="mt-2"><input class="form-control input-lg" type="text" name="stars"
+                                                     placeholder="stars: 1 - 5"></div>
+                            <br>
+                            <p class="h6">Please enter contacts:</p>
+                            <div class="mt-2"><input class="form-control input-lg" type="text" name="email"
+                                                     placeholder="email"></div>
+                            <br>
+                            <div class="mt-2"><input class="form-control input-lg" type="text" name="phone"
+                                                     placeholder="phone"></div>
+                            <br>
 
-    <div class="mt-2"><input class="form-control input-lg" type="text" name="description" placeholder="description"></div><br>
+                            <div class="mt-2"><input class="form-control input-lg" type="text" name="description"
+                                                     placeholder="description"></div>
+                            <br>
 
-  <!--   <p>photos</p> -->
-   <!--  <input type="file" name="file" placeholder=""> -->
-     <input class="btn btn-primary" type="submit">
-</form>
+                            <!--   <p>photos</p> -->
+                            <!--  <input type="file" name="file" placeholder=""> -->
+                            <input class="btn btn-primary" type="submit">
+                        </form>
 
 
-<form th:action="@{/admin/add-room-to-hotel}" method="post">
-<p class="h6">Please enter hotel name:</p>
-    <div class="mt-2"><input class="form-control input-lg"  type="text" name="hotel_name" placeholder="name"></div><br>
-    <div class="mt-2"><input class="form-control input-lg"  type="text" name="type" placeholder="type"></div><br>
-    <div class="mt-2"><input class="form-control input-lg"  type="text" name="description" placeholder="description"></div><br>
-    <div class="mt-2"><input class="form-control input-lg"  type="text" name="price" placeholder="price"></div><br>
-    <input class="btn btn-primary" type="submit">
-</form>
+                        <form th:action="@{/admin/add-room-to-hotel}" method="post">
+                            <p class="h6">Please enter hotel name:</p>
+                            <div class="mt-2"><input class="form-control input-lg" type="text" name="hotel_name"
+                                                     placeholder="name"></div>
+                            <br>
+                            <div class="mt-2"><input class="form-control input-lg" type="text" name="type"
+                                                     placeholder="type"></div>
+                            <br>
+                            <div class="mt-2"><input class="form-control input-lg" type="text" name="description"
+                                                     placeholder="description"></div>
+                            <br>
+                            <div class="mt-2"><input class="form-control input-lg" type="text" name="price"
+                                                     placeholder="price"></div>
+                            <br>
+                            <input class="btn btn-primary" type="submit">
+                        </form>
                         </br>
 
-<form th:action="@{/findUsers}" method="get">
-    <div class="mt-2"><input class="form-control input-lg" type="text" placeholder="Find user" name="user"></div></br>
-    <input class="btn btn-primary" type="submit" value="Submit!">
-</form>
-</br>
+                        <form th:action="@{/findUsers}" method="get">
+                            <div class="mt-2"><input class="form-control input-lg" type="text" placeholder="Find user"
+                                                     name="user"></div>
+                            </br>
+                            <input class="btn btn-primary" type="submit" value="Submit!">
+                        </form>
+                        </br>
 
-<ul th:each="user : ${users}">
-    <li>
-        <a th:href="'/guest/'+${user.username}" th:text="'Name - ' + ${user.name} + '; Surname - ' + ${user.surname}"></a>
-        <h2 th:text="'Current role - ' + ${user.role}" > </h2>
-        <div th:if="${user.isEnabled()}">
-            <form th:action="@{/block/}+${user.username}" method="get">
-                <input class="btn btn-primary" type="submit" value="Block User">
-            </form>
-            </br>
+                        <ul th:each="user : ${users}">
+                            <li>
+                                <a th:href="'/guest/'+${user.username}"
+                                   th:text="'Name - ' + ${user.name} + '; Surname - ' + ${user.surname}"></a>
+                                <h2 th:text="'Current role - ' + ${user.role}"></h2>
+                                <div th:if="${user.isEnabled()}">
+                                    <form th:action="@{/block/}+${user.username}" method="get">
+                                        <input class="btn btn-primary" type="submit" value="Block User">
+                                    </form>
+                                    </br>
 
-        </div>
+                                </div>
 
-        <div th:unless="${user.isEnabled()}">
-            <form th:action="@{/unblock/}+${user.username}" method="get">
-                <input class="btn btn-primary" type="submit" value="Unblock User">
-            </form>
-            </br>
-        </div>
+                                <div th:unless="${user.isEnabled()}">
+                                    <form th:action="@{/unblock/}+${user.username}" method="get">
+                                        <input class="btn btn-primary" type="submit" value="Unblock User">
+                                    </form>
+                                    </br>
+                                </div>
 
-        <div th:if="${user.getRole()==user_role}">
-            <form th:action="@{/makeHotelAdmin/}+${user.username}" method="get">
-                <input class="btn btn-primary" type="submit" value="Make hotel admin">
-            </form>
-            </br>
-            <form th:action="@{/makeAdmin/}+${user.username}" method="get">
-                <input class="btn btn-primary" type="submit" value="Make admin">
-            </form>
-            </br>
-        </div>
+                                <div th:if="${user.getRole()==user_role}">
+                                    <form th:action="@{/makeHotelAdmin/}+${user.username}" method="get">
+                                        <input class="btn btn-primary" type="submit" value="Make hotel admin">
+                                    </form>
+                                    </br>
+                                    <form th:action="@{/makeAdmin/}+${user.username}" method="get">
+                                        <input class="btn btn-primary" type="submit" value="Make admin">
+                                    </form>
+                                    </br>
+                                </div>
 
-        <div th:if="${user.getRole()==hoteladmin_role}">
-            <form th:action="@{/makeUser/}+${user.username}" method="get">
-                <input class="btn btn-primary" type="submit" value="Make user">
-            </form>
-            </br>
-            <form th:action="@{/makeAdmin/}+${user.username}" method="get">
-                <input class="btn btn-primary" type="submit" value="Make admin">
-            </form>
-            </br>
-        </div>
+                                <div th:if="${user.getRole()==hoteladmin_role}">
+                                    <form th:action="@{/makeUser/}+${user.username}" method="get">
+                                        <input class="btn btn-primary" type="submit" value="Make user">
+                                    </form>
+                                    </br>
+                                    <form th:action="@{/makeAdmin/}+${user.username}" method="get">
+                                        <input class="btn btn-primary" type="submit" value="Make admin">
+                                    </form>
+                                    </br>
+                                </div>
 
-    </li>
-</ul>
+                            </li>
+                        </ul>
                         <form th:action="@{/logout}" method="get">
                             <input class="btn btn-primary" type="submit" value="Logout">
                         </form>
 
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+</div>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-crossorigin="anonymous"></script>
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
         integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
         crossorigin="anonymous"></script>
