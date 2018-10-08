@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link href="/css/div-style.css" rel="stylesheet" type="text/css"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
@@ -72,19 +73,15 @@
     <div class="container py-5">
         <div class="row">
             <div class="col-md-12">
-                <h1 class="mb-4 text-primary font-weight-bold display-2 text-b logo-font"><span
+                <h1 class="text-primary font-weight-bold display-2 text-b logo-font"><span
                         class="text-dark">Hotel</span><span class="text-warning">zzz</span></h1>
             </div>
         </div>
     </div>
 </div>
 
-
-
 <div class=" text-center">
     <div class="container">
-        <!--<div class="row">-->
-            <!--<div class="col-md-12">-->
                 <form method="post">
                     <div class="form-group row justify-content-center align-items-center">
                         <div class="col-md-5  " >
@@ -100,33 +97,38 @@
                             <input id="date2"  class="form-control input-lg"  name="to_date" type="text" size="8" required  placeholder="to">
                         </div>
                         <div class=" col-md-1  ">
-                            <button class="btn btn-primary " type="submit" id="submit">find!</button>
+                            <button class="btn btn-primary " type="submit" id="submit">Find!</button>
                         </div>
                         </div>
                 </form>
             </div>
-        <!--</div>-->
-    <!--</div>-->
 </div>
+<form class="form-inline d-none justify-content-center selectorino mb-2">
+    <label class="mr-sm-2" for="inlineFormCustomSelect">Sorting by :</label>
+    <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect">
+        <option selected>Choose filter field...</option>
+        <option value="1">From cheap to expensive</option>
+        <option value="2">From expensive to cheap</option>
+        <option value="3">Suck my dick</option>
+    </select>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
 <div class="card-columns" id="commonBox">
-<!--<div class="card" id="mainBlock">-->
-    <!--<div class="card-body">-->
-        <!--<h5 class="card-title" id="title"></h5>-->
-        <!--<p class="card-text" id="description"></p>-->
-        <!--<a class="btn btn-primary" id="booking">Book</a>-->
-    <!--</div>-->
-<!--</div>-->
+        <!--Here is found results of searching-->
 </div>
 <script>
 
     let $submit = $('#submit');
     $submit.click(function () {
         let $commonBox = $('#commonBox');
+        let $selector = $('.selectorino');
         let $finder = $('.finder');
         let $countOfGuests = $('.countOfGuests');
         var $date1 = $('#date1');
         var $date2= $('#date2');
 
+            $selector.removeClass('d-none').addClass('d-flex');
 
         var obj = {
             finder:$finder.val(),
@@ -146,7 +148,7 @@
                     let $div = $('<div/>',{
                         text: ''
                     });
-                    $target.append($div);
+                    $commonBox.append($div);
                 }
                 $(result).each(function (index,obj) {
                     let $card = $('<div/>',{
@@ -181,12 +183,14 @@
             error : function (error) {
                 console.log(error);
             }
+
         });
         $finder.val('');
         $countOfGuests.val('');
         // $date1.val('');
         // $date2.val('');
-    })
+    });
+
 </script>
 <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"-->
 <!--integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"-->
