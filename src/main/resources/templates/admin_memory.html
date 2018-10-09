@@ -47,6 +47,7 @@
         </div>
     </div>
 </nav>
+<br>
 
 
 <form th:action="@{/findUsers}" method="get">
@@ -61,47 +62,47 @@
         <form th:action="@{/block/}+${user.username}" method="get">
             <input class="btn btn-primary" type="submit" value="Block User">
         </form>
-
     </div>
-    </br>
+    <br>
 
     <div th:unless="${user.isEnabled()}">
         <form th:action="@{/unblock/}+${user.username}" method="get">
             <input class="btn btn-primary" type="submit" value="Unblock User">
         </form>
     </div>
-    </br>
+    <br>
 
     <div th:if="${user.getRole()==user_role}">
         <form th:action="@{/makeHotelAdmin/}+${user.username}" method="get">
             <input class="btn btn-primary" type="submit" value="Make hotel admin">
         </form>
-        </br>
+        <br>
         <form th:action="@{/makeAdmin/}+${user.username}" method="get">
             <input class="btn btn-primary" type="submit" value="Make admin">
         </form>
     </div>
+    <br>
 
     <div th:if="${user.getRole()==hoteladmin_role}">
         <form th:action="@{/makeUser/}+${user.username}" method="get">
             <input class="btn btn-primary" type="submit" value="Make user">
         </form>
-        </br>
+        <br>
         <form th:action="@{/makeAdmin/}+${user.username}" method="get">
             <input class="btn btn-primary" type="submit" value="Make  admin">
         </form>
-        </br>
+        <br>
     </div>
 
     <div th:if="${user.getRole()==admin_role}">
         <form th:action="@{/makeUser/}+${user.username}" method="get">
             <input class="btn btn-primary" type="submit" value="Make user">
         </form>
-        </br>
+        <br>
         <form th:action="@{/makeHotelAdmin/}+${user.username}" method="get">
             <input class="btn btn-primary" type="submit" value="Make hotel admin">
         </form>
-        </br>
+        <br>
     </div>
 
 
@@ -110,7 +111,7 @@
 <form th:action="@{/logout}" method="get">
     <input class="btn btn-primary" type="submit" value="Logout">
 </form>
-</br>
+<br>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
