@@ -10,9 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 public class BookingRestController {
@@ -34,7 +33,31 @@ public class BookingRestController {
 
         return free_rooms;
     }
+    @PostMapping("/sortBy")
+    private List<Room> sortedRooms(@RequestBody String jsonObj) throws org.json.simple.parser.ParseException, ParseException {
+        Object parse = new JSONParser().parse(jsonObj);
+        JSONObject jo = (JSONObject)parse;
+        String finder = (String)jo.get("finder");
+        String  countOfGuests = (String)jo.get("countOfGuests");
+        Integer countInt = Integer.parseInt(countOfGuests);
+        String from_date = (String)jo.get("from_date");
+        String to_date = (String) jo.get("to_date");
+        String sortBy = (String) jo.get("sort");
 
+        List<Room> rooms = roomDAO.findAllByRoominessAndHotelCityOrRoominessAndHotelName(countInt,finder,countInt,finder);
+        List<Room> free_rooms = compareDates(rooms, from_date, to_date);
+        List<Room> sortedRooms = new ArrayList<>();
+        //Скоріш за все стріми нічого не сортують і тому ннічого не повертають, тому потрібно перевірити, як правильно сортувати
+        if(sortBy.equals("cheap")){
+            sortedRooms = free_rooms.stream().sorted(Comparator.comparing(Room::getPrice)).collect(Collectors.toList());
+        }
+        if(sortBy.equals("expensive")){
+            sortedRooms = free_rooms.stream().sorted(Comparator.comparing(Room::getPrice).reversed()).collect(Collectors.toList());
+        }
+        //поглянути чи виводить щось
+        System.out.println(sortedRooms);
+        return sortedRooms;
+    }
     private List<Room> compareDates(List<Room> rooms, String from_date, String to_date) throws ParseException {
 
         Date from = new SimpleDateFormat("MM.dd.yyyy").parse(from_date);

@@ -102,21 +102,90 @@
                         </div>
             </div>
 </div>
-<form class="form-inline d-none justify-content-center selector mb-2">
+<div class="form-inline d-none justify-content-center selector mb-2">
     <label class="mr-sm-2" for="inlineFormCustomSelect">Sorting by :</label>
     <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect">
         <option selected>Choose filter field...</option>
-        <option value="1">From cheap to expensive</option>
-        <option value="2">From expensive to cheap</option>
-        <option value="3">Suck my dick</option>
+        <option value="cheap">From cheap to expensive</option>
+        <option value="expensive">From expensive to cheap</option>
+        <option value="dick">Suck my dick</option>
     </select>
 
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+    <button type="submit" class="btn btn-primary " id="sortSubmit">Submit</button>
+</div>
 <div class="card-columns" id="commonBox">
         <!--Here is found results of searching-->
 </div>
 <script>
+
+    // 'Sorting found room' part
+    //Передавати сюди інформацію резалт, а результат розбивати на такі самі створені блоки, як в попередньому коді
+     let $sortSubmit = $('#sortSubmit');
+     $sortSubmit.click(function () {
+         let $commonBox = $('#commonBox');
+        let $inlineFormCustomSelect = $('#inlineFormCustomSelect');
+         let $finder = $('.finder');
+         let $countOfGuests = $('.countOfGuests');
+         var $date1 = $('#date1');
+         var $date2= $('#date2');
+
+         var obj = {
+             finder:$finder.val(),
+             countOfGuests:$countOfGuests.val(),
+             from_date:$date1.val(),
+             to_date:$date2.val(),
+             sort:$inlineFormCustomSelect.val()
+         };
+         let jsonObj = JSON.stringify(obj);
+         $.ajax({
+             url: 'http://localhost:8080/sortBy',
+             method: 'POST',
+             contentType:'text/plain',
+             data: jsonObj,
+             success: function (result){
+                 if(!$commonBox.empty()){
+                     let $div = $('<div/>',{
+                         text: ''
+                     });
+                     $commonBox.append($div);
+                 }
+                 $(result).each(function (index,obj) {
+                     let $card = $('<div/>',{
+                         class:'card'
+                     });
+                     let $cardBody = $('<div/>',{
+                         class:'card-body'
+                     });
+                     let listImages = obj.hotel.images;
+                     let $img = $('<img/>',{
+                         class:'card-img-top',
+                         src:listImages[0].image
+                     });
+                     let $title = $('<h5/>',{
+                         class:'card-title',
+                         text:'Hotelname : '+ obj.hotel.name
+                     });
+                     let $description = $('<p/>',{
+                         class:'card-text',
+                         text:'City : ' + obj.hotel.city + ' '  + ' Count of room : ' + obj.roominess + ' Price : ' + obj.price
+                     });
+                     let $booking = $('<a/>',{
+                         class:'btn btn-primary',
+                         text:'Booking!',
+                         href:'/book/room/' + obj.id +'/'+ $date1.val().toString()+'/'+ $date2.val().toString()
+                     });
+                     $commonBox.append($card);
+                     $card.append($img,$cardBody);
+                     $cardBody.append($title,$description,$booking);
+                 });
+             },
+             error : function (error) {
+                 console.log(error);
+             }
+         })
+     });
+
+    // 'Find room' Part
 
     let $submit = $('#submit');
     $submit.click(function () {
