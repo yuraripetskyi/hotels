@@ -12,7 +12,7 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
 </head>
 <body class="">
@@ -68,16 +68,20 @@
                         </div>
                     </div>
                     <form th:action="@{/login}" method="post">
-                        <div class="mt-2"><input class="form-control input-lg" type="text" name="username" placeholder="Login"
-                                    required
-                                    oninvalid="setCustomValidity('Введите свой логин')"
-                                    oninput="setCustomValidity('')"></div>
-                        <div class="mt-2"><input class="form-control input-lg" type="password" name="password" placeholder="Password"
-                                    required
-                                    oninvalid="setCustomValidity('Введите свой пароль')"
-                                    oninput="setCustomValidity('')">
+                        <div class="mt-2"><input class="form-control input-lg" type="text" name="username"
+                                                 placeholder="Login"
+                                                 required
+                                                 oninvalid="setCustomValidity('Введите свой логин')"
+                                                 oninput="setCustomValidity('')"></div>
+                        <div class="mt-2"><input class="form-control input-lg" type="password" name="password"
+                                                 placeholder="Password"
+                                                 required
+                                                 oninvalid="setCustomValidity('Введите свой пароль')"
+                                                 oninput="setCustomValidity('')">
                         </div>
-                        <div class="mt-2"><button type="submit" class="btn btn-primary">log in</button></div>
+                        <div class="mt-2">
+                            <button type="submit" class="btn btn-primary">log in</button>
+                        </div>
 
 
                     </form>
@@ -102,33 +106,34 @@
 </div>
 
 
-
-<div class="py-5 text-center ">
-    <div class="container py-5  loginBox  ">
+<div class="text-center ">
+    <div class="container  loginBox  ">
         <div>
             <div class="container  ">
                 <div class="col-md-12 justify-content-center align-items-center row">
                     <div class="container justify-content-center align-items-center text-center">
-<div class="container voc" id="forgotBox">
-    <form th:action="@{/login/forgotten}" method="get">
-        <!--<input type="submit" value="forgot password">-->
-        <h3>forgot login?</h3>
-        <h4>enter ur email, receive a message with ur loggin
-        </h4>
-        <div class="mt-2"><input type="text" name="email" placeholder="email"></div></br>
-        <input class="btn btn-primary" type="submit" th:value="send">
+                        <div class="container voc" id="forgotBox">
+                            <form th:action="@{/login/forgotten}" method="get">
+                                <!--<input type="submit" value="forgot password">-->
+                                <h3>forgot login?</h3>
+                                <h4>enter ur email, receive a message with ur loggin
+                                </h4>
+                                <div class="mt-2 col-lg-5"><input class="form-control input-lg" type="text" name="email" placeholder="email"></div>
+                                <br>
+                                <input class="btn btn-primary" type="submit" th:value="send">
 
-    </form>
+                            </form>
 
-    <form th:action="@{/password/forgotten}" method="get">
-        <!--<input type="submit" value="forgot password">-->
-        <h3>change password</h3>
-        <h4>enter ur email, go to the link on ur mail</h4>
-        <div class="mt-2"><input type="text" name="email" placeholder="email"></div></br>
-        <input class="btn btn-primary" type="submit" th:value="send">
+                            <form th:action="@{/password/forgotten}" method="get">
+                                <!--<input type="submit" value="forgot password">-->
+                                <h3>change password</h3>
+                                <h4>enter ur email, go to the link on ur mail</h4>
+                                <div class="mt-2 col-lg-5"><input class="form-control input-lg" type="text" name="email" placeholder="email"></div>
+                                <br>
+                                <input class="btn btn-primary" type="submit" th:value="send">
 
-    </form>
-</div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -138,8 +143,8 @@
 
 <script type="text/javascript" th:src="@{/js/nav.js}"></script>
 <script>
-    $( document ).ready(function(){
-        $('#showForgotBox').click(function(){
+    $(document).ready(function () {
+        $('#showForgotBox').click(function () {
             $("#forgotBox").toggle(600); //  скрываем, или отображаем все элементы <div>
         })
     });
