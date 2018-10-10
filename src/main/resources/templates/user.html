@@ -61,6 +61,24 @@
         </div>
 
 
+<div th:if="${books != null}">
+
+    <ul th:each="book : ${books}">
+        <li>
+            <div class="">
+                <!--<span th:text="${book.room.hotel.name}"></span>-->
+                <span th:text="${book.room.id}"></span>
+                <span th:text="${book.date_from}"></span>
+                <span th:text="${book.date_to}"></span>
+                <span th:text="${book.guest}"></span>
+                <div class="div-images">
+                    <img th:src="@{${book.room.hotel.images[0].getImage()}}" class="content">
+                </div>
+
+            </div>
+        </li>
+    </ul>
+</div>
 
 
 

@@ -70,35 +70,37 @@ public class BookingRestController {
             System.out.println("++++++++++++++");
             System.out.println(room.getId() + " " + books);
             System.out.println("++++++++++++++");
-            for (Book boo : books) {
+            if (!books.isEmpty()) {
+                for (Book boo : books) {
 
-                Date book_from = new SimpleDateFormat("MM.dd.yyyy").parse(boo.getDate_from());
-                Date book_to = new SimpleDateFormat("MM.dd.yyyy").parse(boo.getDate_to());
-                System.out.println("====================");
-                System.out.println(book_from + " " + book_to);
-                System.out.println("====================");
-                if (from.compareTo(book_from) >= 0 && from.compareTo(book_to) <= 0) {
-                    System.out.println("++++++++++++++");
-                    System.out.println("true");
-                    System.out.println("++++++++++++++");
-                    deleteRoomFromList(rooms);
-                    break;
-                }
-                if (to.compareTo(book_from) >= 0 && to.compareTo(book_to) <= 0) {
-                    System.out.println("++++++++++++++");
-                    System.out.println("true");
-                    System.out.println("++++++++++++++");
-                    deleteRoomFromList(rooms);
-                    break;
-                }
-                if (to.compareTo(book_from) <= 0 && from.compareTo(book_to) >= 0){
-                    System.out.println("++++++++++++++");
-                    System.out.println("true");
-                    System.out.println("++++++++++++++");
-                    deleteRoomFromList(rooms);
-                    break;
-                }
+                    Date book_from = new SimpleDateFormat("MM.dd.yyyy").parse(boo.getDate_from());
+                    Date book_to = new SimpleDateFormat("MM.dd.yyyy").parse(boo.getDate_to());
+                    System.out.println("====================");
+                    System.out.println(book_from + " " + book_to);
+                    System.out.println("====================");
+                    if (from.compareTo(book_from) >= 0 && from.compareTo(book_to) <= 0) {
+                        System.out.println("++++++++++++++");
+                        System.out.println("true");
+                        System.out.println("++++++++++++++");
+                        deleteRoomFromList(rooms);
+                        break;
+                    }
+                    if (to.compareTo(book_from) >= 0 && to.compareTo(book_to) <= 0) {
+                        System.out.println("++++++++++++++");
+                        System.out.println("true");
+                        System.out.println("++++++++++++++");
+                        deleteRoomFromList(rooms);
+                        break;
+                    }
+                    if (to.compareTo(book_from) <= 0 && from.compareTo(book_to) >= 0) {
+                        System.out.println("++++++++++++++");
+                        System.out.println("true");
+                        System.out.println("++++++++++++++");
+                        deleteRoomFromList(rooms);
+                        break;
+                    }
 
+                }
             }
         }
         return rooms;

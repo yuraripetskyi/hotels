@@ -143,6 +143,7 @@
              contentType:'text/plain',
              data: jsonObj,
              success: function (result){
+                 console.log(result);
                  if(!$commonBox.empty()){
                      let $div = $('<div/>',{
                          text: ''

@@ -75,14 +75,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable();
     }
-//    @Configuration
-//    public class DefaultView extends WebMvcConfigurerAdapter {
-//
-//        @Override
-//        public void addViewControllers( ViewControllerRegistry registry ) {
-//            registry.addViewController( "/" ).setViewName( "main" );
-//            registry.setOrder( Ordered.HIGHEST_PRECEDENCE );
-//            super.addViewControllers( registry );
-//        }
-//    }
+
+
+
+    
 }
