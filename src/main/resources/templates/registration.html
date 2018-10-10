@@ -57,39 +57,53 @@
     <div class="container loginBox  ">
         <div>
             <div class="container  ">
-                <div class="col-md-6 justify-content-center align-items-center row">
+                <div class="justify-content-center align-items-center row">
                     <div class="container justify-content-center align-items-center text-center">
                         <div class="justify-content-center align-items-center p-3">
                             <p>
                             <h1 class="text-center">Registration form : </h1>
                             <form th:action="@{/registration}" method="post">
                                 <p class="text-center">Please enter your Login:</p>
-                                <div class="mt-2"><input class="form-control input-lg" type="" name="username"
-                                                         placeholder="Login" required
-                                                         oninvalid="setCustomValidity('Имя должно содержать 2-4 символов')"
-                                                         oninput="setCustomValidity('')"><br></div>
+                                <div class="col-md-12 justify-content-center align-items-center row">
+                                    <div class="mt-1 col-lg-4"><input class="form-control input-lg" type=""
+                                                                      name="username"
+                                                                      placeholder="Login" required
+                                                                      oninvalid="setCustomValidity('Имя должно содержать 2-4 символов')"
+                                                                      oninput="setCustomValidity('')"><br></div>
+                                </div>
                                 <p class="text-center">Please enter your Password:</p>
-                                <div class="mt-2"><input class="form-control input-lg" type="password" name="password"
-                                                         placeholder="Password"
-                                                         required
-                                                         oninvalid="setCustomValidity('Пароль должен содержать минимум 6 символов')"
-                                                         oninput="setCustomValidity('')"><br></div>
+                                <div class="col-md-12 justify-content-center align-items-center row">
+                                    <div class="mt-1 col-lg-4"><input class="form-control input-lg" type="password"
+                                                                      name="password"
+                                                                      placeholder="Password"
+                                                                      required
+                                                                      oninvalid="setCustomValidity('Пароль должен содержать минимум 6 символов')"
+                                                                      oninput="setCustomValidity('')"><br></div>
+                                </div>
                                 <p class="text-center">Please enter your Name:</p>
-                                <div class="mt-2"><input class="form-control input-lg" type="" name="name"
-                                                         placeholder="Name" required
-                                                         oninvalid="setCustomValidity('Введите свое Имя')"
-                                                         oninput="setCustomValidity('')"><br></div>
+                                <div class="col-md-12 justify-content-center align-items-center row">
+                                    <div class="mt-1 col-lg-4"><input class="form-control input-lg" type="" name="name"
+                                                                      placeholder="Name" required
+                                                                      oninvalid="setCustomValidity('Введите свое Имя')"
+                                                                      oninput="setCustomValidity('')"><br></div>
+                                </div>
                                 <p class="text-center">Please enter your Surname:</p>
-                                <div class="mt-2"><input class="form-control input-lg" type="" name="surname"
-                                                         placeholder="Surname" required
-                                                         oninvalid="setCustomValidity('Ведите свою фамилию')"
-                                                         oninput="setCustomValidity('')"><br></div>
+                                <div class="col-md-12 justify-content-center align-items-center row">
+                                    <div class="mt-1 col-lg-4"><input class="form-control input-lg" type=""
+                                                                      name="surname"
+                                                                      placeholder="Surname" required
+                                                                      oninvalid="setCustomValidity('Ведите свою фамилию')"
+                                                                      oninput="setCustomValidity('')"><br></div>
+                                </div>
                                 <p class="text-center">Please enter your Email:</p>
-                                <div class="mt-2"><input class="form-control input-lg" type="email" name="email"
-                                                         placeholder="Email" required
-                                                         oninvalid="setCustomValidity('Введите свою почту')"
-                                                         oninput="setCustomValidity('')"><br></div>
-                                <div class="mt-2"><input class="btn btn-primary" type="submit" value="Submit!"></div>
+                                <div class="col-md-12 justify-content-center align-items-center row">
+                                    <div class="mt-1 col-lg-4"><input class="form-control input-lg" type="email"
+                                                                      name="email"
+                                                                      placeholder="Email" required
+                                                                      oninvalid="setCustomValidity('Введите свою почту')"
+                                                                      oninput="setCustomValidity('')"><br></div>
+                                </div>
+                                <input class="btn btn-primary" type="submit" value="Submit!">
                             </form>
                             <div><a href="/login">login</a></div>
                             <div th:if="${error}" class="alert alert-danger">

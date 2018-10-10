@@ -57,13 +57,13 @@
     </div>
 </nav>
 
-<div class="py-5 text-center ">
-    <div class="container py-5  loginBox  ">
+<div class="py-5 text-center">
+    <div class="container py-5 loginBox">
         <div>
-            <div class="container  ">
+            <div class="container">
                 <div class="col-md-12 justify-content-center align-items-center row">
                     <div class="container justify-content-center align-items-center text-center">
-                        <div th:if="${error}" class="m-4 alert alert-danger  ">
+                        <div th:if="${error}" class="m-4 alert alert-danger">
                             [[${error}]]
                         </div>
                     </div>
@@ -116,8 +116,7 @@
                             <form th:action="@{/login/forgotten}" method="get">
                                 <!--<input type="submit" value="forgot password">-->
                                 <h3>forgot login?</h3>
-                                <h4>enter ur email, receive a message with ur loggin
-                                </h4>
+                                <h5>enter ur email, receive a message with ur loggin</h5>
                                 <div class="col-md-12 justify-content-center align-items-center row">
                                     <div class="mt-2 col-lg-5"><input class="form-control input-lg" type="text"
                                                                       name="email" placeholder="email"></div>
@@ -130,7 +129,7 @@
                             <form th:action="@{/password/forgotten}" method="get">
                                 <!--<input type="submit" value="forgot password">-->
                                 <h3>change password</h3>
-                                <h4>enter ur email, go to the link on ur mail</h4>
+                                <h5>enter ur email, go to the link on ur mail</h5>
                                 <div class="col-md-12 justify-content-center align-items-center row">
                                     <div class="mt-2 col-lg-5"><input class="form-control input-lg" type="text"
                                                                       name="email" placeholder="email"></div>

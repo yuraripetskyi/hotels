@@ -14,11 +14,11 @@
 
     <script>
         $(function () {
-            $("#date1").datepicker({ dateFormat: 'mm.dd.yy' });
+            $("#date1").datepicker({dateFormat: 'mm.dd.yy'});
         });
 
         $(function () {
-            $("#date2").datepicker({ dateFormat: 'mm.dd.yy' });
+            $("#date2").datepicker({dateFormat: 'mm.dd.yy'});
         })
     </script>
 </head>
@@ -80,32 +80,35 @@
 </div>
 
 
-
 <div class=" text-center">
     <div class="container">
         <!--<div class="row">-->
-            <!--<div class="col-md-12">-->
-                <form method="post">
-                    <div class="form-group row justify-content-center align-items-center">
-                        <div class="col-md-5  " >
-                            <input type="text" class="form-control input-lg finder" required  name="finder" placeholder="City or hotel's name">
-                        </div>
-                        <div class=" col-md-1  " >
-                            <input type="text" class="form-control input-lg countOfGuests" required  name="countOfGuests" placeholder="Guests">
-                        </div>
-                        <div class=" col-md-1  ">
-                            <input id="date1" class="form-control input-lg" name="from_date" type="text" size="8" required  placeholder="from">
-                        </div>
-                        <div class="col-md-1  ">
-                            <input id="date2"  class="form-control input-lg"  name="to_date" type="text" size="8" required  placeholder="to">
-                        </div>
-                        <div class=" col-md-1  ">
-                            <button class="btn btn-primary" type="submit" id="submit">find!</button>
-                        </div>
-                        </div>
-                </form>
+        <!--<div class="col-md-12">-->
+        <form method="post">
+            <div class="form-group row justify-content-center align-items-center">
+                <div class="col-md-5  ">
+                    <input type="text" class="form-control input-lg finder" required name="finder"
+                           placeholder="City or hotel's name">
+                </div>
+                <div class=" col-md-1  ">
+                    <input type="text" class="form-control input-lg countOfGuests" required name="countOfGuests"
+                           placeholder="Guests">
+                </div>
+                <div class=" col-md-1  ">
+                    <input id="date1" class="form-control input-lg" name="from_date" type="text" size="8" required
+                           placeholder="from">
+                </div>
+                <div class="col-md-1  ">
+                    <input id="date2" class="form-control input-lg" name="to_date" type="text" size="8" required
+                           placeholder="to">
+                </div>
+                <div class=" col-md-1  ">
+                    <button class="btn btn-primary" type="submit" id="submit">find!</button>
+                </div>
             </div>
-        <!--</div>-->
+        </form>
+    </div>
+    <!--</div>-->
     <!--</div>-->
 </div>
 <div class="target container col-4">
@@ -119,40 +122,40 @@
         let $finder = $('.finder');
         let $countOfGuests = $('.countOfGuests');
         var $date1 = $('#date1');
-        var $date2= $('#date2');
+        var $date2 = $('#date2');
 
         var obj = {
-            finder:$finder.val(),
-            countOfGuests:$countOfGuests.val(),
-            from_date:$date1.val(),
-            to_date:$date2.val()
+            finder: $finder.val(),
+            countOfGuests: $countOfGuests.val(),
+            from_date: $date1.val(),
+            to_date: $date2.val()
         };
         let jsonObj = JSON.stringify(obj);
         $.ajax({
             url: 'http://localhost:8080/',
             method: 'POST',
-            contentType:'text/plain',
+            contentType: 'text/plain',
             data: jsonObj,
             success: function (result) {
 
-                if(!$target.empty()){
-                    let $div = $('<div/>',{
+                if (!$target.empty()) {
+                    let $div = $('<div/>', {
                         text: ''
                     });
                     $target.append($div);
                 }
-                $(result).each(function (index,obj) {
-                    let $div = $('<div/>',{
-                        text: 'Hotel-name : ' + obj.hotel.name + ' Room price : ' +  obj.price + ' Roominess  : ' + obj.roominess
+                $(result).each(function (index, obj) {
+                    let $div = $('<div/>', {
+                        text: 'Hotel-name : ' + obj.hotel.name + ' Room price : ' + obj.price + ' Roominess  : ' + obj.roominess
                     });
-                    let $button = $('<a/>',{
+                    let $button = $('<a/>', {
                         text: 'Book',
-                        href:'/book/room/' + obj.id +'/'+ $date1.val().toString()+'/'+ $date2.val().toString()
+                        href: '/book/room/' + obj.id + '/' + $date1.val().toString() + '/' + $date2.val().toString()
                     });
-                    $target.append($div,$button);
+                    $target.append($div, $button);
                 })
             },
-            error : function (error) {
+            error: function (error) {
                 console.log(error);
             }
         });
