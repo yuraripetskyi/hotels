@@ -94,11 +94,11 @@
                     <!--<span th:text="${book.room.hotel.name}"></span>-->
                     <span> Room id: </span>
                     <span th:text="${book.room.id}"></span><br>
-                    <span th:text="${book.date_from}"></span>
-                    <span th:text="${book.date_to}"></span><br>
-                    <span th:text="${book.guest.name}"></span><br>
-                    <span th:text="${book.guest.surname}"></span><br>
-                    <span th:text="${book.guest.email}"></span><br>
+                    <a class="h6">from <span th:text="${book.date_from}"></span></a>
+                    <a class="h6">to <span th:text="${book.date_to}"></span></a><br>
+                    <a class="h6">Your name: <span th:text="${book.guest.name}"></span></a><br>
+                    <a class="h6">Your surname: <span th:text="${book.guest.surname}"></span></a><br>
+                    <a class="h6">Your email: <span th:text="${book.guest.email}"></span></a><br>
                     <div class="div-images">
                         <img th:src="@{${book.room.hotel.images[0].getImage()}}" class="content">
                     </div>
