@@ -21,6 +21,9 @@
 #forgotBox {
     display: none;
 }
+.ns{
+    min-height: 90px;
+}
 #buttonForgotBox{
 
 }
