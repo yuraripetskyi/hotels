@@ -43,12 +43,15 @@ public class BookingRestController {
         LinkedList<Room> rooms = roomDAO.findAllByRoominessAndHotelCityOrRoominessAndHotelName(countInt,finder,countInt,finder);
         List<Room> free_rooms = compareDates(rooms, from_date, to_date);
         List<Room> sortedRooms = new ArrayList<>();
+        //Скоріш за все стріми нічого не сортують і тому ннічого не повертають, тому потрібно перевірити, як правильно сортувати
         if(sortBy.equals("cheap")){
             sortedRooms = free_rooms.stream().sorted(Comparator.comparing(Room::getPrice)).collect(Collectors.toList());
         }
         if(sortBy.equals("expensive")){
             sortedRooms = free_rooms.stream().sorted(Comparator.comparing(Room::getPrice).reversed()).collect(Collectors.toList());
         }
+        //поглянути чи виводить щось
+        System.out.println(sortedRooms);
         return sortedRooms;
     }
     private List<Room> compareDates(List<Room> rooms, String from_date, String to_date) throws ParseException {

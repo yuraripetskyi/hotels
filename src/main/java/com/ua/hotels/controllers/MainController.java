@@ -1,10 +1,12 @@
 package com.ua.hotels.controllers;
 
+import com.ua.hotels.models.Book;
 import com.ua.hotels.models.Customer;
 import com.ua.hotels.models.Hotel;
 import com.ua.hotels.models.enums.Role;
 import com.ua.hotels.service.CustomerService;
 import com.ua.hotels.service.serv_impl.CustomerServiceImpl;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -13,6 +15,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -77,9 +80,15 @@ public class MainController {
         }
         return findActinveUserPage(model);
     }
-
+    @Transactional(readOnly = true)
     @GetMapping("/user")
     public String user(@AuthenticationPrincipal Customer user, Model model) {
+
+//        Hibernate.initialize(user.getBooks());
+
+
+        System.out.println(user.getBooks());
+        model.addAttribute("books", user.getBooks());
 
         userRole(user,model);
         return "user";
