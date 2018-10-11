@@ -17,19 +17,21 @@
 
     <script>
         $(function () {
-            $("#date1").datepicker({ dateFormat: 'mm.dd.yy' });
+            $("#date1").datepicker({dateFormat: 'mm.dd.yy'});
         });
 
         $(function () {
-            $("#date2").datepicker({ dateFormat: 'mm.dd.yy' });
+            $("#date2").datepicker({dateFormat: 'mm.dd.yy'});
         })
     </script>
 </head>
 <body>
 
+<div id="wrap">
 
 <nav class="navbar navbar navbar-expand-md navbar-light bg-light ns" id="for-header">
-    <a class="navbar-brand font-weight-bold ml-5" href="/"><h1><span>Hotel</span><span class="text-warning">zzz</span></h1></a>
+    <a class="navbar-brand font-weight-bold ml-5" href="/"><h1><span>Hotel</span><span class="text-warning">zzz</span>
+    </h1></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -49,7 +51,7 @@
                         cabinet <span class="sr-only">(current)</span></a></h4>
                     </div>
                     <div th:if="${user.role==hoteladmin_role}"><h4><a class="nav-link ml-5"
-                                                                  href="/hoteladmin">Hotel admin cabinet <span
+                                                                      href="/hoteladmin">Hotel admin cabinet <span
                             class="sr-only">(current)</span></a></h4>
                     </div>
                 </div>
@@ -84,25 +86,29 @@
 
 <div class=" text-center">
     <div class="container">
-                    <div class="form-group row justify-content-center align-items-center">
-                        <input type="hidden">
-                        <div class="col-md-5  " >
-                            <input type="text" class="form-control input-lg finder" required  name="finder" placeholder="City or hotel's name">
-                        </div>
-                        <div class=" col-md-1  " >
-                            <input type="text" class="form-control input-lg countOfGuests" required  name="countOfGuests" placeholder="Guests">
-                        </div>
-                        <div class=" col-md-1  ">
-                            <input id="date1" class="form-control input-lg" name="from_date" type="text" size="8" required  placeholder="from">
-                        </div>
-                        <div class="col-md-1  ">
-                            <input id="date2"  class="form-control input-lg"  name="to_date" type="text" size="8" required  placeholder="to">
-                        </div>
-                        <div class=" col-md-1  ">
-                            <button class="btn btn-primary " type="submit" id="submit">Find!</button>
-                        </div>
-                        </div>
+        <div class="form-group row justify-content-center align-items-center">
+            <input type="hidden">
+            <div class="col-md-5  ">
+                <input type="text" class="form-control input-lg finder" required name="finder"
+                       placeholder="City or hotel's name">
             </div>
+            <div class=" col-md-1  ">
+                <input type="text" class="form-control input-lg countOfGuests" required name="countOfGuests"
+                       placeholder="Guests">
+            </div>
+            <div class=" col-md-1  ">
+                <input id="date1" class="form-control input-lg" name="from_date" type="text" size="8" required
+                       placeholder="from">
+            </div>
+            <div class="col-md-1  ">
+                <input id="date2" class="form-control input-lg" name="to_date" type="text" size="8" required
+                       placeholder="to">
+            </div>
+            <div class=" col-md-1  ">
+                <button class="btn btn-primary " type="submit" id="submit">Find!</button>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="form-inline d-none justify-content-center selector mb-2">
     <label class="mr-sm-2" for="inlineFormCustomSelect">Sorting by :</label>
@@ -115,12 +121,15 @@
     <button type="submit" class="btn btn-primary " id="sortSubmit">Submit</button>
 </div>
 <div class="card-columns" id="commonBox">
-        <!--Here is found results of searching-->
+    <!--Here is found results of searching-->
+</div>
 </div>
 
-<!--FOOTER-->
+<!-----------
+    FOOTER
+ ----------->
 
-<div class="footer" id="footer">
+<div class="footer">
     <div class="container">
         <div class="row">
             <div class="col-4">
@@ -150,76 +159,75 @@
 </div>
 
 
-
 <script>
 
     // 'Sorting found room' part
     //Передавати сюди інформацію резалт, а результат розбивати на такі самі створені блоки, як в попередньому коді
-     let $sortSubmit = $('#sortSubmit');
-     $sortSubmit.click(function () {
-         let $commonBox = $('#commonBox');
+    let $sortSubmit = $('#sortSubmit');
+    $sortSubmit.click(function () {
+        let $commonBox = $('#commonBox');
         let $inlineFormCustomSelect = $('#inlineFormCustomSelect');
-         let $finder = $('.finder');
-         let $countOfGuests = $('.countOfGuests');
-         var $date1 = $('#date1');
-         var $date2= $('#date2');
+        let $finder = $('.finder');
+        let $countOfGuests = $('.countOfGuests');
+        var $date1 = $('#date1');
+        var $date2 = $('#date2');
 
-         var obj = {
-             finder:$finder.val(),
-             countOfGuests:$countOfGuests.val(),
-             from_date:$date1.val(),
-             to_date:$date2.val(),
-             sort:$inlineFormCustomSelect.val()
-         };
-         let jsonObj = JSON.stringify(obj);
-         $.ajax({
-             url: 'http://localhost:8080/sortBy',
-             method: 'POST',
-             contentType:'text/plain',
-             data: jsonObj,
-             success: function (result){
-                 console.log(result);
-                 if(!$commonBox.empty()){
-                     let $div = $('<div/>',{
-                         text: ''
-                     });
-                     $commonBox.append($div);
-                 }
-                 $(result).each(function (index,obj) {
-                     let $card = $('<div/>',{
-                         class:'card'
-                     });
-                     let $cardBody = $('<div/>',{
-                         class:'card-body'
-                     });
-                     let listImages = obj.hotel.images;
-                     let $img = $('<img/>',{
-                         class:'card-img-top',
-                         src:listImages[0].image
-                     });
-                     let $title = $('<h5/>',{
-                         class:'card-title',
-                         text:'Hotelname : '+ obj.hotel.name
-                     });
-                     let $description = $('<p/>',{
-                         class:'card-text',
-                         text:'City : ' + obj.hotel.city + ' '  + ' Count of room : ' + obj.roominess + ' Price : ' + obj.price
-                     });
-                     let $booking = $('<a/>',{
-                         class:'btn btn-primary',
-                         text:'Booking!',
-                         href:'/book/room/' + obj.id +'/'+ $date1.val().toString()+'/'+ $date2.val().toString()
-                     });
-                     $commonBox.append($card);
-                     $card.append($img,$cardBody);
-                     $cardBody.append($title,$description,$booking);
-                 });
-             },
-             error : function (error) {
-                 console.log(error);
-             }
-         })
-     });
+        var obj = {
+            finder: $finder.val(),
+            countOfGuests: $countOfGuests.val(),
+            from_date: $date1.val(),
+            to_date: $date2.val(),
+            sort: $inlineFormCustomSelect.val()
+        };
+        let jsonObj = JSON.stringify(obj);
+        $.ajax({
+            url: 'http://localhost:8080/sortBy',
+            method: 'POST',
+            contentType: 'text/plain',
+            data: jsonObj,
+            success: function (result) {
+                console.log(result);
+                if (!$commonBox.empty()) {
+                    let $div = $('<div/>', {
+                        text: ''
+                    });
+                    $commonBox.append($div);
+                }
+                $(result).each(function (index, obj) {
+                    let $card = $('<div/>', {
+                        class: 'card'
+                    });
+                    let $cardBody = $('<div/>', {
+                        class: 'card-body'
+                    });
+                    let listImages = obj.hotel.images;
+                    let $img = $('<img/>', {
+                        class: 'card-img-top',
+                        src: listImages[0].image
+                    });
+                    let $title = $('<h5/>', {
+                        class: 'card-title',
+                        text: 'Hotelname : ' + obj.hotel.name
+                    });
+                    let $description = $('<p/>', {
+                        class: 'card-text',
+                        text: 'City : ' + obj.hotel.city + ' ' + ' Count of room : ' + obj.roominess + ' Price : ' + obj.price
+                    });
+                    let $booking = $('<a/>', {
+                        class: 'btn btn-primary',
+                        text: 'Booking!',
+                        href: '/book/room/' + obj.id + '/' + $date1.val().toString() + '/' + $date2.val().toString()
+                    });
+                    $commonBox.append($card);
+                    $card.append($img, $cardBody);
+                    $cardBody.append($title, $description, $booking);
+                });
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        })
+    });
 
     // 'Find room' Part
 
@@ -230,61 +238,61 @@
         let $finder = $('.finder');
         let $countOfGuests = $('.countOfGuests');
         var $date1 = $('#date1');
-        var $date2= $('#date2');
+        var $date2 = $('#date2');
 
-            $selector.removeClass('d-none').addClass('d-flex');
+        $selector.removeClass('d-none').addClass('d-flex');
 
         var obj = {
-            finder:$finder.val(),
-            countOfGuests:$countOfGuests.val(),
-            from_date:$date1.val(),
-            to_date:$date2.val()
+            finder: $finder.val(),
+            countOfGuests: $countOfGuests.val(),
+            from_date: $date1.val(),
+            to_date: $date2.val()
         };
         let jsonObj = JSON.stringify(obj);
         $.ajax({
             url: 'http://localhost:8080/',
             method: 'POST',
-            contentType:'text/plain',
+            contentType: 'text/plain',
             data: jsonObj,
             success: function (result) {
 
-                if(!$commonBox.empty()){
-                    let $div = $('<div/>',{
+                if (!$commonBox.empty()) {
+                    let $div = $('<div/>', {
                         text: ''
                     });
                     $commonBox.append($div);
                 }
-                $(result).each(function (index,obj) {
-                    let $card = $('<div/>',{
-                        class:'card'
+                $(result).each(function (index, obj) {
+                    let $card = $('<div/>', {
+                        class: 'card'
                     });
-                    let $cardBody = $('<div/>',{
-                        class:'card-body'
+                    let $cardBody = $('<div/>', {
+                        class: 'card-body'
                     });
                     let listImages = obj.hotel.images;
-                        let $img = $('<img/>',{
-                            class:'card-img-top',
-                            src:listImages[0].image
+                    let $img = $('<img/>', {
+                        class: 'card-img-top',
+                        src: listImages[0].image
                     });
-                    let $title = $('<h5/>',{
-                        class:'card-title',
-                        text:'Hotelname : '+ obj.hotel.name
+                    let $title = $('<h5/>', {
+                        class: 'card-title',
+                        text: 'Hotelname : ' + obj.hotel.name
                     });
-                    let $description = $('<p/>',{
-                        class:'card-text',
-                        text:'City : ' + obj.hotel.city + ' '  + ' Count of room : ' + obj.roominess + ' Price : ' + obj.price
+                    let $description = $('<p/>', {
+                        class: 'card-text',
+                        text: 'City : ' + obj.hotel.city + ' ' + ' Count of room : ' + obj.roominess + ' Price : ' + obj.price
                     });
-                    let $booking = $('<a/>',{
-                        class:'btn btn-primary',
-                        text:'Booking!',
-                        href:'/book/room/' + obj.id +'/'+ $date1.val().toString()+'/'+ $date2.val().toString()
+                    let $booking = $('<a/>', {
+                        class: 'btn btn-primary',
+                        text: 'Booking!',
+                        href: '/book/room/' + obj.id + '/' + $date1.val().toString() + '/' + $date2.val().toString()
                     });
                     $commonBox.append($card);
-                    $card.append($img,$cardBody);
-                    $cardBody.append($title,$description,$booking);
+                    $card.append($img, $cardBody);
+                    $cardBody.append($title, $description, $booking);
                 })
             },
-            error : function (error) {
+            error: function (error) {
                 console.log(error);
             }
 
