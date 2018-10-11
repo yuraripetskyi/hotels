@@ -3,8 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
 </head>
 <body>
+<div class="container py-4">
 <form th:action="@{/change/customer}" method="post" enctype="multipart/form-data">
     <p>Change your login</p>
     <input type="text" name="username" placeholder="Login" th:value="${user.username}">
@@ -16,5 +22,6 @@
     <input type="email" name="email" placeholder="Email" th:value="${user.email}">
     <input type="submit" value="Submit!">
 </form>
+</div>
 </body>
 </html>

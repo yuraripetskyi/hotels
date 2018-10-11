@@ -48,29 +48,41 @@
         </div>
     </div>
 </nav>
+<div class="container raw">
+    <div
+         class="container">
         <div th:if="${user.role==user_role}">
-        <p>Your Name:</p>
+            <h1>
         <span th:text="${user.name}"></span>
-        <p>Your Surname:</p>
-        <span th:text="${user.surname}"></span>
 
+        <span th:text="${user.surname}"></span>
+        </h1>
+        </div>
+        <div class="container">
         <form th:action="@{/change/user}" method="get">
         <p>do some changes in user fields</p>
         <input type="submit">
         </form>
         </div>
+        </div>
+</div>
 
-
+<div class="container">
+<br>
+ <h2>Your books</h2> <br>
 <div th:if="${books != null}">
 
     <ul th:each="book : ${books}">
         <li>
             <div class="">
                 <!--<span th:text="${book.room.hotel.name}"></span>-->
-                <span th:text="${book.room.id}"></span>
+                <span > Room id: </span>
+                <span th:text="${book.room.id}"></span><br>
                 <span th:text="${book.date_from}"></span>
-                <span th:text="${book.date_to}"></span>
-                <span th:text="${book.guest}"></span>
+                <span th:text="${book.date_to}"></span><br>
+                <span th:text="${book.guest.name}"></span><br>
+                <span th:text="${book.guest.surname}"></span><br>
+                <span th:text="${book.guest.email}"></span><br>
                 <div class="div-images">
                     <img th:src="@{${book.room.hotel.images[0].getImage()}}" class="content">
                 </div>
@@ -79,7 +91,7 @@
         </li>
     </ul>
 </div>
-
+</div>
 
 
 <script type="text/javascript" th:src="@{/js/nav.js}"></script>
