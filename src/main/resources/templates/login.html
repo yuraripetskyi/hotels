@@ -15,120 +15,145 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
 </head>
 <body>
 
 <div id="wrap">
 
-<nav class="navbar navbar navbar-expand-md navbar-light bg-light ns" id="for-header">
-    <a class="navbar-brand font-weight-bold ml-5" href="/"><h1><span>Hotel</span><span class="text-warning">zzz</span>
-    </h1></a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+    <nav class="navbar navbar navbar-expand-md navbar-light bg-light ns" id="for-header">
+        <a class="navbar-brand font-weight-bold ml-5" href="/"><h1><span>Hotel</span><span
+                class="text-warning">zzz</span>
+        </h1></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link font-weight-bold ml-5" href="/"><h4>Home</h4> <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <div th:if="${user!=null}">
-                    <div th:if="${user.role==user_role}"><h4><a class="nav-link  ml-5" href="/user">User
-                        cabinet <span class="sr-only">(current)</span></a></h4>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link font-weight-bold ml-5" href="/"><h4>Home</h4> <span
+                            class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <div th:if="${user!=null}">
+                        <div th:if="${user.role==user_role}"><h4><a class="nav-link  ml-5" href="/user">User
+                            cabinet <span class="sr-only">(current)</span></a></h4>
+                        </div>
+                        <div th:if="${user.role==admin_role}"><h4><a class="nav-link  ml-5" href="/admin">Admin
+                            cabinet <span class="sr-only">(current)</span></a></h4>
+                        </div>
+                        <div th:if="${user.role==hoteladmin_role}"><h4><a class="nav-link ml-5"
+                                                                          href="/hoteladmin">Hotel admin cabinet <span
+                                class="sr-only">(current)</span></a></h4>
+                        </div>
                     </div>
-                    <div th:if="${user.role==admin_role}"><h4><a class="nav-link  ml-5" href="/admin">Admin
-                        cabinet <span class="sr-only">(current)</span></a></h4>
-                    </div>
-                    <div th:if="${user.role==hoteladmin_role}"><h4><a class="nav-link ml-5"
-                                                                      href="/hoteladmin">Hotel admin cabinet <span
-                            class="sr-only">(current)</span></a></h4>
-                    </div>
-                </div>
-            </li>
-        </ul>
+                </li>
+            </ul>
 
-        <div class="mr-3" th:if="${user==null}"><h5><a href="/login">sing in</a></h5></div>
-        <div class="mr-3" th:if="${user==null}"><h5><a href="/registration">sing up</a></h5></div>
-        <div class="mr-3" th:if="${user!=null}"><h5><span th:text="${user.username}"></span></h5></div>
-        <div class="mr-3" th:if="${user}!=null">
-            <form th:action="@{/logout}" method="get">
-                <button class="btn btn-primary" type="submit" value="">Logout</button>
-            </form>
+            <div class="mr-3" th:if="${user==null}"><h5><a href="/login">sing in</a></h5></div>
+            <div class="mr-3" th:if="${user==null}"><h5><a href="/registration">sing up</a></h5></div>
+            <div class="mr-3" th:if="${user!=null}"><h5><span th:text="${user.username}"></span></h5></div>
+            <div class="mr-3" th:if="${user}!=null">
+                <form th:action="@{/logout}" method="get">
+                    <button class="btn btn-primary" type="submit" value="">Logout</button>
+                </form>
 
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
-<div class="py-5 text-center ">
-    <div class="container py-5  loginBox  ">
-        <div>
-            <div class="container  ">
-                <div class="col-md-12 justify-content-center align-items-center row">
-                    <div class="container justify-content-center align-items-center text-center">
-                        <div th:if="${error}" class="m-4 alert alert-danger  ">
-                            [[${error}]]
+    <div class="py-5 text-center ">
+        <div class="container py-5  loginBox  ">
+            <div>
+                <div class="container  ">
+                    <div class="col-md-12 justify-content-center align-items-center row">
+                        <div class="container justify-content-center align-items-center text-center">
+                            <div th:if="${error}" class="m-4 alert alert-danger  ">
+                                [[${error}]]
+                            </div>
                         </div>
-                    </div>
-                    <form th:action="@{/login}" method="post">
-                        <div class="mt-2"><input class="form-control input-lg" type="text" name="username" placeholder="Login"
-                                    required
-                                    oninvalid="setCustomValidity('Введите свой логин')"
-                                    oninput="setCustomValidity('')"></div>
-                        <div class="mt-2"><input class="form-control input-lg" type="password" name="password" placeholder="Password"
-                                    required
-                                    oninvalid="setCustomValidity('Введите свой пароль')"
-                                    oninput="setCustomValidity('')">
-                        </div>
-                        <div class="mt-2"><button type="submit" class="btn btn-primary">log in</button></div>
+                        <form th:action="@{/login}" method="post">
+                            <div class="mt-2"><input class="form-control input-lg" type="text" name="username"
+                                                     placeholder="Login"
+                                                     required
+                                                     oninvalid="setCustomValidity('Введите свой логин')"
+                                                     oninput="setCustomValidity('')"></div>
+                            <div class="mt-2"><input class="form-control input-lg" type="password" name="password"
+                                                     placeholder="Password"
+                                                     required
+                                                     oninvalid="setCustomValidity('Введите свой пароль')"
+                                                     oninput="setCustomValidity('')">
+                            </div>
+                            <div class="mt-2">
+                                <button type="submit" class="btn btn-primary">log in</button>
+                            </div>
 
 
-                    </form>
-                </div>
-
-                <div class="justify-content-center align-items-center p-3">
-
-                    <div class="container row col-md-12 justify-content-center align-items-center">
-                        <br>
-                        <div class="mr-3"><a href="/registration">registration</a></div>
-                        <div class="mr-3"><a href="#" id="showForgotBox">Troubles with enter?</a></div>
-
+                        </form>
                     </div>
 
+                    <div class="justify-content-center align-items-center p-3">
+
+                        <div class="container row col-md-12 justify-content-center align-items-center">
+                            <br>
+                            <div class="mr-3"><a href="/registration">registration</a></div>
+                            <div class="mr-3"><a href="#" id="showForgotBox">Troubles with enter?</a></div>
+
+                        </div>
+
+                    </div>
                 </div>
             </div>
+        </div>
+    </div>
 
+    <div class="text-center ">
+        <div class="container loginBox  ">
+            <div>
+                <div class="container  ">
+                    <div class="col-md-12 justify-content-center align-items-center row">
+                        <div class="container justify-content-center align-items-center text-center">
 
+                            <div class="container voc" id="forgotBox">
+                                <form th:action="@{/login/forgotten}" method="get">
+                                    <!--<input type="submit" value="forgot password">-->
+                                    <h3 class="h6">Forgot login?</h3>
+                                    <h4 class="h5">Enter ur email, receive a message with ur loggin
+                                    </h4>
+                                    <div class="col-md-12 justify-content-center align-items-center row">
+                                        <div class="mt-2"><input class="form-control input-lg" type="text" name="email"
+                                                                 placeholder="email"></div>
+                                    </div>
+                                    <div class="mt-2"><input class="btn btn-primary " type="submit" th:value="send">
+                                    </div>
+
+                                </form>
+                                <br>
+                                <form th:action="@{/password/forgotten}" method="get">
+                                    <!--<input type="submit" value="forgot password">-->
+                                    <h3 class="h6">Change password</h3>
+                                    <h4 class="h5">Enter ur email, go to the link on ur mail</h4>
+                                    <div class="col-md-12 justify-content-center align-items-center row">
+                                        <div class="mt-2"><input class="form-control input-lg" type="text" name="email"
+                                                                 placeholder="email"></div>
+                                    </div>
+                                    <div class="mt-2"><input class="btn btn-primary " type="submit" th:value="send">
+                                    </div>
+
+                                </form>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
-
-
-<div class="container voc" id="forgotBox">
-    <form th:action="@{/login/forgotten}" method="get">
-        <!--<input type="submit" value="forgot password">-->
-        <h3>forgot login?</h3>
-        <h4>enter ur email, receive a message with ur loggin
-        </h4>
-        <input type="text" name="email" placeholder="email">
-        <input type="submit" th:value="send">
-
-    </form>
-
-    <form th:action="@{/password/forgotten}" method="get">
-        <!--<input type="submit" value="forgot password">-->
-        <h3>change password</h3>
-        <h4>enter ur email, go to the link on ur mail</h4>
-        <input type="text" name="email" placeholder="email">
-        <input type="submit" th:value="send">
-
-    </form>
-</div>
-</div>
 <!-----------
     FOOTER
  ----------->
@@ -163,13 +188,10 @@
 </div>
 
 
-
-
-
 <script type="text/javascript" th:src="@{/js/nav.js}"></script>
 <script>
-    $( document ).ready(function(){
-        $('#showForgotBox').click(function(){
+    $(document).ready(function () {
+        $('#showForgotBox').click(function () {
             $("#forgotBox").toggle(600); //  скрываем, или отображаем все элементы <div>
         })
     });
