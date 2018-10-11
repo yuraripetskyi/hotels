@@ -122,7 +122,7 @@ $submit.click(function () {
             if(result.length == 0) {
                 let $div = $('<div/>', {
                     class: 'alert alert-danger d-flex justify-content-center',
-                    text: 'Danger!You entered incorrect data'
+                    text: 'Danger! You entered incorrect data'
                 });
                 $alert.append($div);
                 $selector.removeClass('d-flex').addClass('d-none');
