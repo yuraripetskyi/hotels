@@ -53,77 +53,84 @@
     </div>
 </nav>
 
-<div class="container row py-5">
-<div class="container col-md-5 " >
-<p>Hotel Name: <span th:text="${hotel.name}"></span></p>
-<p>Hotel City: <span th:text="${hotel.city}"></span></p>
-<p>Hotel Street: <span th:text="${hotel.street}"></span></p>
-<p>Hotel Email: <span th:text="${hotel.email}"></span></p>
-<p>Hotel Description: <span th:text="${hotel.description}"></span></p>
-<p>Hotel Phones:</p>
-<ul th:each="phone : ${hotel.phone}">
-    <li>
-        <span th:text="${phone.number}"></span>
-    </li>
-</ul>
-</div>
-<div class="container col-md-3" data-toggle="collapse">
-<ul th:each="image : ${hotel.images}">
-    <li>
-        <div class="div-images">
-        <img th:src="@{${image.getImage()}}" class="content">
+<div class="container">
+    <div class="container row py-5">
+        <div class="container col-md-5 ">
+            <p>Hotel Name: <span th:text="${hotel.name}"></span></p>
+            <p>Hotel City: <span th:text="${hotel.city}"></span></p>
+            <p>Hotel Street: <span th:text="${hotel.street}"></span></p>
+            <p>Hotel Email: <span th:text="${hotel.email}"></span></p>
+            <p>Hotel Description: <span th:text="${hotel.description}"></span></p>
+            <p>Hotel Phones:</p>
+            <ul th:each="phone : ${hotel.phone}">
+                <li>
+                    <span th:text="${phone.number}"></span>
+                </li>
+            </ul>
         </div>
-    </li>
-</ul>
-</div>
-</div>
-<!--<div>-->
-    <!--<img th:each="image:${images}"-->
-         <!--th:src="@{${image.getImage}}" alt="">-->
-<!--</div>-->
-
-<form th:action="@{/upload/photos/hotel/}+${hotel.id}" method="post" enctype="multipart/form-data">
-    <p>To add photos:</p>
-    <div id="image_div">
-        <input type="file" name="images">
+        <div class="container col-md-3" data-toggle="collapse">
+            <ul th:each="image : ${hotel.images}">
+                <li>
+                    <div class="div-images">
+                        <img th:src="@{${image.getImage()}}" class="content">
+                    </div>
+                </li>
+            </ul>
+        </div>
     </div>
-    <br>
-    <!--<input type="button" id="addimg" value="Add one more image"><br>-->
-    <input type="submit">
-</form>
+    <!--<div>-->
+    <!--<img th:each="image:${images}"-->
+    <!--th:src="@{${image.getImage}}" alt="">-->
+    <!--</div>-->
 
-
-<form th:action="@{/change/hotel/} + ${hotel.id}" method="get">
-    <p> Do some changes in hotel </p>
-    <input type="submit" >
-</form>
-<form th:action="@{/add/room}" method="post">
-    <p>Add new room</p>
-    <input type="text" name="price" placeholder="price">
-    <input type="text" name="roominess" placeholder="room count">
-    <p>Type of the Room</p>
-        <div th:each="type : ${types}">
-            <input type="radio" name="type" th:text="${type}" th:value="${type}">
+    <form th:action="@{/upload/photos/hotel/}+${hotel.id}" method="post" enctype="multipart/form-data">
+        <p>To add photos:</p>
+        <div id="image_div">
+            <input type="file" name="images">
         </div>
-    <input type="hidden" name="status" value="STATUS_FREE">
-    <input type="hidden" name="hotelId" th:value="${hotel.id}">
-<input type="submit" value="Save Room!">
-</form>
+        <br>
+        <!--<input type="button" id="addimg" value="Add one more image"><br>-->
+        <input type="submit">
+    </form>
 
-<ul th:each="room,iter : ${hotel.rooms}">
-    <li>
-        <h3 th:text="'Room '+${iter.index+1}"></h3>
-        <p>Room price: <span th:text="${room.price}"></span></p>
-        <p>Room count: <span th:text="${room.roominess}"></span></p>
-        <p>Room type: <span th:text="${room.type}"></span></p>
-        <form th:action="@{/change/room/}+${room.id}" method="get">
-            <input type="submit" value="Change">
+
+    <form th:action="@{/change/hotel/} + ${hotel.id}" method="get">
+        <p> Do some changes in hotel </p>
+        <input type="submit">
+    </form>
+    <div class="container">
+        <form th:action="@{/add/room}" method="post">
+            <p>Add new room</p>
+            <input type="text" name="price" placeholder="price">
+            <input type="text" name="roominess" placeholder="room count">
+            <p>Type of the Room</p>
+            <div th:each="type : ${types}">
+                <input type="radio" name="type" th:text="${type}" th:value="${type}">
+            </div>
+            <input type="hidden" name="status" value="STATUS_FREE">
+            <input type="hidden" name="hotelId" th:value="${hotel.id}">
+            <input type="submit" value="Save Room!">
         </form>
-    </li>
-</ul>
+    </div>
+    <div class="container card-columns">
+        <div class="card mt-3">
+        <ul th:each="room,iter : ${hotel.rooms}">
+            <li>
+                <h3 th:text="'Room '+${iter.index+1}"></h3>
+                <p>Room price: <span th:text="${room.price}"></span></p>
+                <p>Room count: <span th:text="${room.roominess}"></span></p>
+                <p>Room type: <span th:text="${room.type}"></span></p>
+                <form th:action="@{/change/room/}+${room.id}" method="get">
+                    <input type="submit" value="Change">
+                </form>
+            </li>
+        </ul>
+        </div>
+    </div>
+</div>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-crossorigin="anonymous"></script>
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
         integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
         crossorigin="anonymous"></script>

@@ -83,14 +83,14 @@
     </div>
 </div>
 
-<div class="container">
+<div class="container card-colums">
     <br>
     <h2>Your books</h2> <br>
     <div th:if="${books != null}">
 
         <ul th:each="book : ${books}">
             <li>
-                <div class="">
+                <div class="card col-md-4 pd-2">
                     <!--<span th:text="${book.room.hotel.name}"></span>-->
                     <span> Room id: </span>
                     <span th:text="${book.room.id}"></span><br>
@@ -99,7 +99,7 @@
                     <a class="h6">Your name: <span th:text="${book.guest.name}"></span></a><br>
                     <a class="h6">Your surname: <span th:text="${book.guest.surname}"></span></a><br>
                     <a class="h6">Your email: <span th:text="${book.guest.email}"></span></a><br>
-                    <div class="div-images">
+                    <div class="">
                         <img th:src="@{${book.room.hotel.images[0].getImage()}}" class="content">
                     </div>
 
@@ -110,7 +110,7 @@
 </div>
 
 
-<script type="text/javascript" th:src="@{/js/nav.js}"></script>
+<!--<script type="text/javascript" th:src="@{/js/nav.js}"></script>-->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
