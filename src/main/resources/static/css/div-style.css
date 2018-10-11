@@ -31,7 +31,9 @@
 /****************************
           FOOTER
 ****************************/
-
+ul {
+    list-style: none;
+}
 
 .footer {
     /*background-color: whitesmoke ;*/
