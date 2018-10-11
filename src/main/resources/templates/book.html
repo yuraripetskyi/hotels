@@ -53,24 +53,58 @@
         </div>
     </div>
 </nav>
-<h1><span th:text="${hotel.name}"></span></h1>
 
-<form th:action="@{/book/room/}+${room.id}" method="post">
-    <input  th:value="${from}" disabled>
-    <input  th:value="${to}" disabled>
-    <input id="date3" name="from_date" type="text" size="8" placeholder="from"  th:value="${from}" hidden>
-    <input id="date4" name="to_date" type="text" size="8" placeholder="to" th:value="${to}" hidden>
-<br>
-<span> Guest bio</span><br>
-    <input type="text" name="name" placeholder="name"><br>
-    <input type="text" name="surname" placeholder="surname"><br>
-    <input type="email" name="email" placeholder="email">
+<div class="text-center ">
+    <div class="container  loginBox  ">
+        <div>
+            <div class="container  ">
+                <div class="col-md-12 justify-content-center align-items-center row">
+                    <div class="container justify-content-center align-items-center text-center">
 
-    <input type="submit">
-</form>
+
+                        <h1 class="h3"><span th:text="${hotel.name}"></span></h1>
+
+                        <form th:action="@{/book/room/}+${room.id}" method="post">
+                            <div class="col-md-12 justify-content-center align-items-center row">
+                              <h6>from</h6>  <div class="col-lg-4"><input class="form-control input-lg" th:value="${from}" disabled></div>
+                                <h6>to</h6><div class="col-lg-4"><input class="form-control input-lg" th:value="${to}" disabled></div>
+                            </div>
+                            <input id="date3" name="from_date" type="text" size="8" placeholder="from"
+                                   th:value="${from}" hidden>
+                            <input id="date4" name="to_date" type="text" size="8" placeholder="to" th:value="${to}"
+                                   hidden>
+                            <br>
+                            <br>
+                            <span class="h5"> Guest bio</span><br>
+                            <div class="col-md-12 justify-content-center align-items-center row">
+                                <div class="mt-1 col-lg-4"><input class="form-control input-lg" type="text" name="name"
+                                                                  placeholder="name"></div>
+                            </div>
+                            <br>
+                            <div class="col-md-12 justify-content-center align-items-center row">
+                                <div class="mt-1 col-lg-4"><input class="form-control input-lg" type="text"
+                                                                  name="surname" placeholder="surname"></div>
+                            </div>
+                            <br>
+                            <div class="col-md-12 justify-content-center align-items-center row">
+                                <div class="mt-1 col-lg-4"><input class="form-control input-lg" type="email"
+                                                                  name="email" placeholder="email"></div>
+                            </div>
+                            <br>
+                            <br>
+
+                            <input class="btn btn-primary"  type="submit">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-crossorigin="anonymous"></script>
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
         integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
         crossorigin="anonymous"></script>

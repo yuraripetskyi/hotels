@@ -15,7 +15,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
 </head>
-<body class="">
+<body>
 
 <nav class="navbar navbar navbar-expand-md navbar-light bg-light " id="for-header">
     <a class="navbar-brand font-weight-bold ml-5" href="/"><span>Hotel</span><span class="text-warning">zzz</span></a>
@@ -57,13 +57,13 @@
     </div>
 </nav>
 
-<div class="py-5 text-center ">
-    <div class="container py-5  loginBox  ">
+<div class="py-5 text-center">
+    <div class="container py-5 loginBox">
         <div>
-            <div class="container  ">
+            <div class="container">
                 <div class="col-md-12 justify-content-center align-items-center row">
                     <div class="container justify-content-center align-items-center text-center">
-                        <div th:if="${error}" class="m-4 alert alert-danger  ">
+                        <div th:if="${error}" class="m-4 alert alert-danger">
                             [[${error}]]
                         </div>
                     </div>
@@ -106,38 +106,25 @@
 </div>
 
 
-<div class="py-5 text-center">
-    <div class="container py-5  loginBox">
-        <div>
-            <div class="container">
-                <div class="col-md-12 justify-content-center align-items-center row">
-                    <div class="container justify-content-center align-items-center text-center">
-                        <div class="container voc" id="forgotBox">
-                            <form th:action="@{/login/forgotten}" method="get">
-                                <!--<input type="submit" value="forgot password">-->
-                                <h3>forgot login?</h3>
-                                <h4>enter ur email, receive a message with ur loggin
-                                </h4>
-                                <div class="mt-2"><input type="text" name="email" placeholder="email"></div>
-                                </br>
-                                <input class="btn btn-primary" type="submit" th:value="send">
+<div class="container voc" id="forgotBox">
+    <form th:action="@{/login/forgotten}" method="get">
+        <!--<input type="submit" value="forgot password">-->
+        <h3>forgot login?</h3>
+        <h4>enter ur email, receive a message with ur loggin
+        </h4>
+        <input type="text" name="email" placeholder="email">
+        <input type="submit" th:value="send">
 
                             </form>
 
-                            <form th:action="@{/password/forgotten}" method="get">
-                                <!--<input type="submit" value="forgot password">-->
-                                <h3>change password</h3>
-                                <h4>enter ur email, go to the link on ur mail</h4>
-                                <div class="mt-2"><input type="text" name="email" placeholder="email"></div>
-                                </br>
-                                <input class="btn btn-primary" type="submit" th:value="send">
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <form th:action="@{/password/forgotten}" method="get">
+        <!--<input type="submit" value="forgot password">-->
+        <h3>change password</h3>
+        <h4>enter ur email, go to the link on ur mail</h4>
+        <input type="text" name="email" placeholder="email">
+        <input type="submit" th:value="send">
+
+    </form>
 </div>
 
 <script type="text/javascript" th:src="@{/js/nav.js}"></script>
