@@ -1,0 +1,166 @@
+// 'Sorting found room' part
+let $sortSubmit = $('#sortSubmit');
+
+$sortSubmit.click(function () {
+    let $alert = $('#alert');
+    let $selector = $('.selector');
+    let $commonBox = $('#commonBox');
+    let $inlineFormCustomSelect = $('#inlineFormCustomSelect');
+    let $finder = $('.finder');
+    let $countOfGuests = $('.countOfGuests');
+    var $date1 = $('#date1');
+    var $date2= $('#date2');
+
+    var obj = {
+        finder:$finder.val(),
+        countOfGuests:$countOfGuests.val(),
+        from_date:$date1.val(),
+        to_date:$date2.val(),
+        sort:$inlineFormCustomSelect.val()
+    };
+    let jsonObj = JSON.stringify(obj);
+    $.ajax({
+        url: 'http://localhost:8080/sortBy',
+        method: 'POST',
+        contentType:'text/plain',
+        data: jsonObj,
+        success: function (result){
+            if(!$commonBox.empty()){
+                let $div = $('<div/>',{
+                    text: ''
+                });
+                $commonBox.append($div);
+            }
+            if(!$alert.empty()){
+                let $div = $('<div/>',{
+                    text: ''
+                });
+                $alert.append($div);
+            }
+            if(result.length == 0) {
+                let $div = $('<div/>', {
+                    class: 'alert alert-danger d-flex justify-content-center',
+                    text: 'Danger! You entered incorrect data'
+                });
+                $alert.append($div);
+                $selector.removeClass('d-flex').addClass('d-none');
+            }else {
+                $(result).each(function (index,obj) {
+                    let $card = $('<div/>',{
+                        class:'card'
+                    });
+                    let $cardBody = $('<div/>',{
+                        class:'card-body'
+                    });
+                    let listImages = obj.hotel.images;
+                    let $img = $('<img/>',{
+                        class:'card-img-top',
+                        src:listImages[0].image
+                    });
+                    let $title = $('<h5/>',{
+                        class:'card-title',
+                        text:'Hotelname : '+ obj.hotel.name
+                    });
+                    let $description = $('<p/>',{
+                        class:'card-text',
+                        text:'City : ' + obj.hotel.city + ' '  + ' Count of room : ' + obj.roominess + ' Price : ' + obj.price
+                    });
+                    let $booking = $('<a/>',{
+                        class:'btn btn-primary',
+                        text:'Booking!',
+                        href:'/book/room/' + obj.id +'/'+ $date1.val().toString()+'/'+ $date2.val().toString()
+                    });
+                    $commonBox.append($card);
+                    $card.append($img,$cardBody);
+                    $cardBody.append($title,$description,$booking);
+                });
+            }},
+        error : function (error) {
+            console.log(error);
+        }
+    })
+});
+
+// 'Find room' Part
+
+let $submit = $('#submit');
+$submit.click(function () {
+    let $alert = $('#alert');
+    let $commonBox = $('#commonBox');
+    let $selector = $('.selector');
+    let $finder = $('.finder');
+    let $countOfGuests = $('.countOfGuests');
+    var $date1 = $('#date1');
+    var $date2= $('#date2');
+
+
+    var obj = {
+        finder:$finder.val(),
+        countOfGuests:$countOfGuests.val(),
+        from_date:$date1.val(),
+        to_date:$date2.val()
+    };
+    let jsonObj = JSON.stringify(obj);
+    $.ajax({
+        url: 'http://localhost:8080/',
+        method: 'POST',
+        contentType:'text/plain',
+        data: jsonObj,
+        success: function (result) {
+            if(!$commonBox.empty()){
+                let $div = $('<div/>',{
+                    text: ''
+                });
+                $commonBox.append($div);
+            }
+            if(!$alert.empty()){
+                let $div = $('<div/>',{
+                    text: ''
+                });
+                $alert.append($div);
+            }
+            if(result.length == 0) {
+                let $div = $('<div/>', {
+                    class: 'alert alert-danger d-flex justify-content-center',
+                    text: 'Danger!You entered incorrect data'
+                });
+                $alert.append($div);
+                $selector.removeClass('d-flex').addClass('d-none');
+            }else {
+                $selector.removeClass('d-none').addClass('d-flex');
+                $(result).each(function (index,obj) {
+                    let $card = $('<div/>',{
+                        class:'card'
+                    });
+                    let $cardBody = $('<div/>',{
+                        class:'card-body'
+                    });
+                    let listImages = obj.hotel.images;
+                    let $img = $('<img/>',{
+                        class:'card-img-top',
+                        src:listImages[0].image
+                    });
+                    let $title = $('<h5/>',{
+                        class:'card-title',
+                        text:'Hotelname : '+ obj.hotel.name
+                    });
+                    let $description = $('<p/>',{
+                        class:'card-text',
+                        text:'City : ' + obj.hotel.city + ' '  + ' Count of room : ' + obj.roominess + ' Price : ' + obj.price
+                    });
+                    let $booking = $('<a/>',{
+                        class:'btn btn-primary',
+                        text:'Booking!',
+                        href:'/book/room/' + obj.id +'/'+ $date1.val().toString()+'/'+ $date2.val().toString()
+                    });
+                    $commonBox.append($card);
+                    $card.append($img,$cardBody);
+                    $cardBody.append($title,$description,$booking);
+                })
+            }},
+        error : function (error) {
+            console.log(error);
+        }
+
+    });
+});
