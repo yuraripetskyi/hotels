@@ -30,7 +30,7 @@ public class BookingRestController {
         List<Room> list = new ArrayList<>();
         Date from = new SimpleDateFormat("MM.dd.yyyy").parse(from_date);
         Date to = new SimpleDateFormat("MM.dd.yyyy").parse(to_date);
-        if(from.compareTo(to) > 0){
+        if(from.compareTo(to) >= 0){
             return list;
         }else{
             LinkedList<Room> rooms =  roomDAO.findAllByRoominessAndHotelCityOrRoominessAndHotelName(countInt,finder,countInt,finder);
@@ -49,7 +49,7 @@ public class BookingRestController {
         List<Room> list = new ArrayList<>();
         Date from = new SimpleDateFormat("MM.dd.yyyy").parse(from_date);
         Date to = new SimpleDateFormat("MM.dd.yyyy").parse(to_date);
-        if(from.compareTo(to) > 0){
+        if(from.compareTo(to) >= 0){
             return list;
         }else {
             LinkedList<Room> rooms = roomDAO.findAllByRoominessAndHotelCityOrRoominessAndHotelName(countInt, finder, countInt, finder);
