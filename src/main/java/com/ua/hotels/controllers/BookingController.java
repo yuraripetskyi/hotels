@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.mail.MessagingException;
+
 import static com.ua.hotels.controllers.MainController.userRole;
 
 
@@ -45,6 +47,8 @@ public class BookingController {
 
     @Autowired
     private GuestDAO guestDAO;
+    @Autowired
+    LoginForgetController loginForgetController;
     @PostMapping("/book/room/{id}")
     public String book(@PathVariable int id,
                        @RequestParam String from_date,
@@ -52,8 +56,9 @@ public class BookingController {
                        @RequestParam String name,
                        @RequestParam String surname,
                        @RequestParam String email,
-                       @AuthenticationPrincipal Customer activeUser
-                       ) {
+                       @AuthenticationPrincipal Customer activeUser,
+                       Model model
+                       ) throws MessagingException {
         Room room = roomDAO.findById(id).get();
         Guest guest = new Guest(name,surname,email);
         guestDAO.save(guest);
@@ -61,7 +66,14 @@ public class BookingController {
         if(activeUser != null){
             book.setCustomer(activeUser);
         }
+        String text = "Your booking dates : " + from_date + "/" + to_date + " Hotel name : " + room.getHotel().getName() + " City : " + room.getHotel().getCity() + "<br/>" +
+                " Type of hotel room : " + room.getType() + "<br/>"+
+                "<a href='http://localhost:8080/'>Hotelzzz official</a>";
+        loginForgetController.sendMail(email,"Hotelzzz",text);
         bookDAO.save(book);
+        model.addAttribute("date_from",from_date);
+        model.addAttribute("date_to",to_date);
+        model.addAttribute("room",room);
         return "success";
     }
 }
