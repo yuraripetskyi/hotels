@@ -48,7 +48,8 @@
         </div>
     </div>
 </nav>
-<div class="container raw">
+<div class="container py-2">
+    <div class="raw">
     <div
          class="container">
         <div th:if="${user.role==user_role}">
@@ -58,6 +59,7 @@
         <span th:text="${user.surname}"></span>
         </h1>
         </div>
+
         <div class="container">
         <form th:action="@{/change/user}" method="get">
         <p>do some changes in user fields</p>
@@ -65,6 +67,7 @@
         </form>
         </div>
         </div>
+    </div>
 </div>
 
 <div class="container">
