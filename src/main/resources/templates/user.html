@@ -83,29 +83,36 @@
     </div>
 </div>
 
-<div class="container card-colums">
+<div class="container">
     <br>
-    <h2>Your books</h2> <br>
+
     <div th:if="${books != null}">
 
-        <ul th:each="book : ${books}">
-            <li>
-                <div class="card col-md-4 pd-2">
-                    <!--<span th:text="${book.room.hotel.name}"></span>-->
-                    <span> Room id: </span>
-                    <span th:text="${book.room.id}"></span><br>
-                    <a class="h6">from <span th:text="${book.date_from}"></span></a>
-                    <a class="h6">to <span th:text="${book.date_to}"></span></a><br>
-                    <a class="h6">Your name: <span th:text="${book.guest.name}"></span></a><br>
-                    <a class="h6">Your surname: <span th:text="${book.guest.surname}"></span></a><br>
-                    <a class="h6">Your email: <span th:text="${book.guest.email}"></span></a><br>
-                    <div class="">
-                        <img th:src="@{${book.room.hotel.images[0].getImage()}}" class="content">
-                    </div>
+        <div th:if="${not #lists.isEmpty(books)}">
+            <h2>Your books</h2>
+        </div>
+        <br>
+        <div class="card-columns">
+            <ul th:each="book : ${books}">
+                <li>
+                    <div class="card my-3 p-3">
+                        <!--<span th:text="${book.room.hotel.name}"></span>-->
+                        <span> Room id: </span>
+                        <span th:text="${book.room.id}"></span><br>
+                        <a class="h6">from <span th:text="${book.date_from}"></span></a>
+                        <a class="h6">to <span th:text="${book.date_to}"></span></a><br>
+                        <a class="h6">Your name: <span th:text="${book.guest.name}"></span></a><br>
+                        <a class="h6">Your surname: <span th:text="${book.guest.surname}"></span></a><br>
+                        <a class="h6">Your email: <span th:text="${book.guest.email}"></span></a><br>
+                        <div class="">
+                            <img th:src="@{${book.room.hotel.images[0].getImage()}}" class="content">
+                        </div>
 
-                </div>
-            </li>
-        </ul>
+                    </div>
+                </li>
+
+            </ul>
+        </div>
     </div>
 </div>
 

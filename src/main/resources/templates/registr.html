@@ -13,46 +13,46 @@
 </head>
 <body>
 
-<nav class="navbar navbar navbar-expand-md navbar-light bg-light ns" id="for-header">
-    <a class="navbar-brand font-weight-bold ml-5" href="/"><h1><span>Hotel</span><span class="text-warning">zzz</span>
-    </h1></a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+<!--<nav class="navbar navbar navbar-expand-md navbar-light bg-light ns" id="for-header">-->
+    <!--<a class="navbar-brand font-weight-bold ml-5" href="/"><h1><span>Hotel</span><span class="text-warning">zzz</span>-->
+    <!--</h1></a>-->
+    <!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"-->
+            <!--aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">-->
+        <!--<span class="navbar-toggler-icon"></span>-->
+    <!--</button>-->
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link font-weight-bold ml-5" href="/"><h4>Home</h4> <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <div>
-                    <div th:if="${user.role==user_role}"><h4><a class="nav-link  ml-5" href="/user">User
-                        cabinet <span class="sr-only">(current)</span></a></h4>
-                    </div>
-                    <div th:if="${user.role==admin_role}"><h4><a class="nav-link  ml-5" href="/admin">Admin
-                        cabinet <span class="sr-only">(current)</span></a></h4>
-                    </div>
-                    <div th:if="${user.role==hoteladmin_role}"><h4><a class="nav-link ml-5"
-                                                                      href="/hoteladmin">Hotel admin cabinet <span
-                            class="sr-only">(current)</span></a></h4>
-                    </div>
-                </div>
-            </li>
-        </ul>
+    <!--<div class="collapse navbar-collapse" id="navbarSupportedContent">-->
+        <!--<ul class="navbar-nav mr-auto">-->
+            <!--<li class="nav-item">-->
+                <!--<a class="nav-link font-weight-bold ml-5" href="/"><h4>Home</h4> <span class="sr-only">(current)</span></a>-->
+            <!--</li>-->
+            <!--<li class="nav-item">-->
+                <!--<div>-->
+                    <!--<div th:if="${user.role==user_role}"><h4><a class="nav-link  ml-5" href="/user">User-->
+                        <!--cabinet <span class="sr-only">(current)</span></a></h4>-->
+                    <!--</div>-->
+                    <!--<div th:if="${user.role==admin_role}"><h4><a class="nav-link  ml-5" href="/admin">Admin-->
+                        <!--cabinet <span class="sr-only">(current)</span></a></h4>-->
+                    <!--</div>-->
+                    <!--<div th:if="${user.role==hoteladmin_role}"><h4><a class="nav-link ml-5"-->
+                                                                      <!--href="/hoteladmin">Hotel admin cabinet <span-->
+                            <!--class="sr-only">(current)</span></a></h4>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</li>-->
+        <!--</ul>-->
 
-        <div class="mr-3" th:if="${user==null}"><h5><a href="/login">sing in</a></h5></div>
-        <div class="mr-3" th:if="${user==null}"><h5><a href="/registration">sing up</a></h5></div>
-        <div class="mr-3" th:if="${user!=null}"><h5><span th:text="${user.username}"></span></h5></div>
-        <div class="mr-3" th:if="${user}!=null">
-            <form th:action="@{/logout}" method="get">
-                <button class="btn btn-primary" type="submit" value="">Logout</button>
-            </form>
+        <!--<div class="mr-3" th:if="${user==null}"><h5><a href="/login">sing in</a></h5></div>-->
+        <!--<div class="mr-3" th:if="${user==null}"><h5><a href="/registration">sing up</a></h5></div>-->
+        <!--<div class="mr-3" th:if="${user!=null}"><h5><span th:text="${user.username}"></span></h5></div>-->
+        <!--<div class="mr-3" th:if="${user}!=null">-->
+            <!--<form th:action="@{/logout}" method="get">-->
+                <!--<button class="btn btn-primary" type="submit" value="">Logout</button>-->
+            <!--</form>-->
 
-        </div>
-    </div>
-</nav>
+        <!--</div>-->
+    <!--</div>-->
+<!--</nav>-->
 
 <h1 class="h5">Please visit your mail</h1>
 

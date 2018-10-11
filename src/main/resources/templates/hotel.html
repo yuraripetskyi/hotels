@@ -112,10 +112,11 @@
             <input type="submit" value="Save Room!">
         </form>
     </div>
-    <div class="container card-columns">
-        <div class="card mt-3">
+    <div class="card-columns">
+
         <ul th:each="room,iter : ${hotel.rooms}">
             <li>
+                <div class="card mt-3">
                 <h3 th:text="'Room '+${iter.index+1}"></h3>
                 <p>Room price: <span th:text="${room.price}"></span></p>
                 <p>Room count: <span th:text="${room.roominess}"></span></p>
@@ -123,9 +124,10 @@
                 <form th:action="@{/change/room/}+${room.id}" method="get">
                     <input type="submit" value="Change">
                 </form>
+                </div>
             </li>
         </ul>
-        </div>
+
     </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
