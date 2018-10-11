@@ -22,7 +22,7 @@
     display: none;
 }
 .ns{
-    min-height: 85px;
+    min-height: 60px;
 }
 #buttonForgotBox{
 
@@ -75,12 +75,20 @@ p.footer__social-icons a:hover {
     margin-left: 40px;
 }
 
-#content {
-    margin: 0 auto 50px;
+html,
+body {
+    height: 92%; //ne_trogaty
 }
-#footer {
-    position: fixed;
-    left: 0; bottom: 0;
-    padding: 2px;
-    width: 100%;
+#wrap {
+    min-height: 100%;
+}
+main {
+    padding-bottom: 100px;
+    /*Высота футера*/
+}
+footer {
+    margin-top: -100px;
+    /*Минус Высота футера*/
+    height: 100px;
+    /*Высота футера*/
 }
