@@ -115,12 +115,21 @@
 <div class="card-columns" id="commonBox">
         <!--Here is found results of searching-->
 </div>
+<div class="container mt-3">
+    <div class="row justify-content-md-center">
+        <div class="col col-lg-4" id ="alert">
+
+        </div>
+    </div>
+</div>
 <script>
 
     // 'Sorting found room' part
-    //Передавати сюди інформацію резалт, а результат розбивати на такі самі створені блоки, як в попередньому коді
      let $sortSubmit = $('#sortSubmit');
-     $sortSubmit.click(function () {
+
+        $sortSubmit.click(function () {
+         let $alert = $('#alert');
+         let $selector = $('.selector');
          let $commonBox = $('#commonBox');
         let $inlineFormCustomSelect = $('#inlineFormCustomSelect');
          let $finder = $('.finder');
@@ -148,6 +157,20 @@
                      });
                      $commonBox.append($div);
                  }
+                 if(!$alert.empty()){
+                     let $div = $('<div/>',{
+                         text: ''
+                     });
+                     $alert.append($div);
+                 }
+                 if(result.length == 0) {
+                     let $div = $('<div/>', {
+                         class: 'alert alert-danger d-flex justify-content-center',
+                         text: 'Danger! You entered incorrect data'
+                     });
+                     $alert.append($div);
+                     $selector.removeClass('d-flex').addClass('d-none');
+                 }else {
                  $(result).each(function (index,obj) {
                      let $card = $('<div/>',{
                          class:'card'
@@ -177,7 +200,7 @@
                      $card.append($img,$cardBody);
                      $cardBody.append($title,$description,$booking);
                  });
-             },
+             }},
              error : function (error) {
                  console.log(error);
              }
@@ -188,6 +211,7 @@
 
     let $submit = $('#submit');
     $submit.click(function () {
+        let $alert = $('#alert');
         let $commonBox = $('#commonBox');
         let $selector = $('.selector');
         let $finder = $('.finder');
@@ -195,7 +219,6 @@
         var $date1 = $('#date1');
         var $date2= $('#date2');
 
-            $selector.removeClass('d-none').addClass('d-flex');
 
         var obj = {
             finder:$finder.val(),
@@ -210,13 +233,27 @@
             contentType:'text/plain',
             data: jsonObj,
             success: function (result) {
-
                 if(!$commonBox.empty()){
                     let $div = $('<div/>',{
                         text: ''
                     });
                     $commonBox.append($div);
                 }
+                if(!$alert.empty()){
+                    let $div = $('<div/>',{
+                        text: ''
+                    });
+                    $alert.append($div);
+                }
+                if(result.length == 0) {
+                    let $div = $('<div/>', {
+                        class: 'alert alert-danger d-flex justify-content-center',
+                        text: 'Danger!You entered incorrect data'
+                    });
+                    $alert.append($div);
+                    $selector.removeClass('d-flex').addClass('d-none');
+                }else {
+                    $selector.removeClass('d-none').addClass('d-flex');
                 $(result).each(function (index,obj) {
                     let $card = $('<div/>',{
                         class:'card'
@@ -246,16 +283,12 @@
                     $card.append($img,$cardBody);
                     $cardBody.append($title,$description,$booking);
                 })
-            },
+            }},
             error : function (error) {
                 console.log(error);
             }
 
         });
-        // $finder.val('');
-        // $countOfGuests.val('');
-        // $date1.val('');
-        // $date2.val('');
     });
 
 </script>

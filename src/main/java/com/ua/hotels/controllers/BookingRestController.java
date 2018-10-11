@@ -27,8 +27,14 @@ public class BookingRestController {
         Integer countInt = Integer.parseInt(countOfGuests);
         String from_date = (String)jo.get("from_date");
         String to_date = (String) jo.get("to_date");
+        List<Room> list = new ArrayList<>();
+        Date from = new SimpleDateFormat("MM.dd.yyyy").parse(from_date);
+        Date to = new SimpleDateFormat("MM.dd.yyyy").parse(to_date);
+            if(from.compareTo(to) > 0){
+            return list;
+            }else{
         LinkedList<Room> rooms =  roomDAO.findAllByRoominessAndHotelCityOrRoominessAndHotelName(countInt,finder,countInt,finder);
-        return compareDates(rooms, from_date, to_date);
+        return compareDates(rooms, from_date, to_date);}
     }
     @PostMapping("/sortBy")
     private List<Room> sortedRooms(@RequestBody String jsonObj) throws org.json.simple.parser.ParseException, ParseException {
@@ -40,16 +46,23 @@ public class BookingRestController {
         String from_date = (String)jo.get("from_date");
         String to_date = (String) jo.get("to_date");
         String sortBy = (String) jo.get("sort");
-        LinkedList<Room> rooms = roomDAO.findAllByRoominessAndHotelCityOrRoominessAndHotelName(countInt,finder,countInt,finder);
-        List<Room> free_rooms = compareDates(rooms, from_date, to_date);
-        List<Room> sortedRooms = new ArrayList<>();
-        if(sortBy.equals("cheap")){
-            sortedRooms = free_rooms.stream().sorted(Comparator.comparing(Room::getPrice)).collect(Collectors.toList());
+        List<Room> list = new ArrayList<>();
+        Date from = new SimpleDateFormat("MM.dd.yyyy").parse(from_date);
+        Date to = new SimpleDateFormat("MM.dd.yyyy").parse(to_date);
+        if(from.compareTo(to) > 0){
+            return list;
+        }else {
+            LinkedList<Room> rooms = roomDAO.findAllByRoominessAndHotelCityOrRoominessAndHotelName(countInt, finder, countInt, finder);
+            List<Room> free_rooms = compareDates(rooms, from_date, to_date);
+            List<Room> sortedRooms = new ArrayList<>();
+            if (sortBy.equals("cheap")) {
+                sortedRooms = free_rooms.stream().sorted(Comparator.comparing(Room::getPrice)).collect(Collectors.toList());
+            }
+            if (sortBy.equals("expensive")) {
+                sortedRooms = free_rooms.stream().sorted(Comparator.comparing(Room::getPrice).reversed()).collect(Collectors.toList());
+            }
+            return sortedRooms;
         }
-        if(sortBy.equals("expensive")){
-            sortedRooms = free_rooms.stream().sorted(Comparator.comparing(Room::getPrice).reversed()).collect(Collectors.toList());
-        }
-        return sortedRooms;
     }
     private List<Room> compareDates(List<Room> rooms, String from_date, String to_date) throws ParseException {
         System.out.println(rooms + " " + from_date + " " + to_date);
