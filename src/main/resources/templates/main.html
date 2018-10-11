@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <title>Hotelzzz</title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
-          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <link href="/css/div-style.css" rel="stylesheet" type="text/css"/>
@@ -28,8 +26,8 @@
 <body>
 
 
-<nav class="navbar navbar navbar-expand-md navbar-light bg-light ns" id="for-header">
-    <a class="navbar-brand font-weight-bold ml-5" href="/"><h1><span>Hotel</span><span class="text-warning">zzz</span></h1></a>
+<nav class="navbar navbar navbar-expand-md navbar-light bg-light " id="for-header">
+    <a class="navbar-brand font-weight-bold ml-5" href="/"><span>Hotel</span><span class="text-warning">zzz</span></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -38,27 +36,27 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link font-weight-bold ml-5" href="/"><h4>Home</h4> <span class="sr-only">(current)</span></a>
+                <a class="nav-link font-weight-bold ml-5" href="/">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
                 <div th:if="${user!=null}">
-                    <div th:if="${user.role==user_role}"><h4><a class="nav-link  ml-5" href="/user">User
-                        cabinet <span class="sr-only">(current)</span></a></h4>
+                    <div th:if="${user.role==user_role}"><a class="nav-link font-weight-bold ml-5" href="/user">User
+                        cabinet <span class="sr-only">(current)</span></a>
                     </div>
-                    <div th:if="${user.role==admin_role}"><h4><a class="nav-link  ml-5" href="/admin">Admin
-                        cabinet <span class="sr-only">(current)</span></a></h4>
+                    <div th:if="${user.role==admin_role}"><a class="nav-link font-weight-bold ml-5" href="/admin">Admin
+                        cabinet <span class="sr-only">(current)</span></a>
                     </div>
-                    <div th:if="${user.role==hoteladmin_role}"><h4><a class="nav-link ml-5"
+                    <div th:if="${user.role==hoteladmin_role}"><a class="nav-link font-weight-bold ml-5"
                                                                   href="/hoteladmin">Hotel admin cabinet <span
-                            class="sr-only">(current)</span></a></h4>
+                            class="sr-only">(current)</span></a>
                     </div>
                 </div>
             </li>
         </ul>
 
-        <div class="mr-3" th:if="${user==null}"><h5><a href="/login">sing in</a></h5></div>
-        <div class="mr-3" th:if="${user==null}"><h5><a href="/registration">sing up</a></h5></div>
-        <div class="mr-3" th:if="${user!=null}"><h5><span th:text="${user.username}"></span></h5></div>
+        <div class="mr-3" th:if="${user==null}"><a href="/login">sing in</a></div>
+        <div class="mr-3" th:if="${user==null}"><a href="/registration">sing up</a></div>
+        <div class="mr-3" th:if="${user!=null}"><span th:text="${user.username}"></span></div>
         <div class="mr-3" th:if="${user}!=null">
             <form th:action="@{/logout}" method="get">
                 <button class="btn btn-primary" type="submit" value="">Logout</button>
@@ -117,40 +115,6 @@
 <div class="card-columns" id="commonBox">
         <!--Here is found results of searching-->
 </div>
-
-<!--FOOTER-->
-
-<div class="footer" id="footer">
-    <div class="container">
-        <div class="row">
-            <div class="col-4">
-                <p class="footer__name">© Hotelzzz.com 2018</p>
-                <p>Hotelzzz - the best site to search for hotels</p>
-            </div>
-            <div class="col-4">
-                <p class="footer__social">Our social networks:</p>
-                <p class="footer__social-icons">
-                    <a href="https://twitter.com" target="_blank">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="https://facebook.com" target="_blank">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="https://plus.google.com" target="_blank">
-                        <i class="fab fa-google-plus-g"></i>
-                    </a>
-                </p>
-            </div>
-            <div class="col-4">
-                <p class="feedback">Our email:</p>
-                <p class="feedback">projectcompany69@gmail.com</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
 <script>
 
     // 'Sorting found room' part
@@ -178,7 +142,6 @@
              contentType:'text/plain',
              data: jsonObj,
              success: function (result){
-                 console.log(result);
                  if(!$commonBox.empty()){
                      let $div = $('<div/>',{
                          text: ''
