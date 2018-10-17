@@ -108,6 +108,10 @@
                             <img th:src="@{${book.room.hotel.images[0].getImage()}}" class="content">
                         </div>
 
+                        <form th:action="@{/book/remove/}+${book.getId()}  " method="get">
+                            <button type="submit" class="btn btn-primary">deny</button>
+                        </form>
+
                     </div>
                 </li>
 

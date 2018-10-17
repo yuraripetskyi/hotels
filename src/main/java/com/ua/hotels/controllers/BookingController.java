@@ -71,9 +71,18 @@ public class BookingController {
                 "<a href='http://localhost:8080/'>Hotelzzz official</a>";
         loginForgetController.sendMail(email,"Hotelzzz",text);
         bookDAO.save(book);
+        userRole(activeUser,model);
         model.addAttribute("date_from",from_date);
         model.addAttribute("date_to",to_date);
         model.addAttribute("room",room);
         return "success";
+    }
+
+
+    @GetMapping("/book/remove/{id}")
+    public String removeBook(@PathVariable int id){
+        Book book = bookDAO.findById(id).get();
+        bookDAO.delete(book);
+        return "redirect:/user";
     }
 }

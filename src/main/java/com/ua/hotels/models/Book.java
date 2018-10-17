@@ -52,6 +52,14 @@ public class Book {
         this.guest = guest;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getDate_from() {
         return date_from;
     }
