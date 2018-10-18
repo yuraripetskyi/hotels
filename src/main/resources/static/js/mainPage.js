@@ -196,7 +196,7 @@ $find.click(function () {
                     let $card = $('<div/>',{
                         class:'card alert alert-success'
                     });
-                    let $discription = $('<div/>',{
+                    let $discription = $('  <div/>',{
                         text: 'Room is free for this time'
                     });
                     $commonBox.append($card);
@@ -204,7 +204,7 @@ $find.click(function () {
             }else {
                 $(result).each(function (index,obj) {
                     let $card = $('<div/>',{
-                        class:'card alert alert-success'
+                        class:'card alert alert-warning'
                     });
                     let $cardBody = $('<div/>',{
                         class:'card-body'
