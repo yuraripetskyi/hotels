@@ -10,4 +10,5 @@ import java.util.List;
 public interface RoomDAO extends JpaRepository<Room,Integer> {
     //Потрібно шукати за кімнатими, а потім за містом або назвою, бо кімнати відфільтровують зайві запити
     LinkedList<Room> findAllByRoominessAndHotelCityOrRoominessAndHotelName(Integer roominess, String finder, Integer room, String name);
+    Room findById(int id);
 }

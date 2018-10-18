@@ -164,3 +164,66 @@ $submit.click(function () {
 
     });
 });
+
+//Find room's booking for administration
+
+let $find = $('#find');
+$find.click(function () {
+    // let $alert = $('#alert');
+    let $roomId = $('#roomId');
+    let $commonBox = $('#commonBox');
+    var $date1 = $('#date1');
+
+
+    var obj = {
+        date:$date1.val(),
+        roomId:$roomId.val()
+    };
+    let jsonObj = JSON.stringify(obj);
+    $.ajax({
+        url: 'http://localhost:8080/findRoomsForAdmin',
+        method: 'POST',
+        contentType:'text/plain',
+        data: jsonObj,
+        success: function (result) {
+            if(!$commonBox.empty()){
+                let $div = $('<div/>',{
+                    text: ''
+                });
+                $commonBox.append($div);
+            }
+            if(result.length == 0){
+                    let $card = $('<div/>',{
+                        class:'card alert alert-success'
+                    });
+                    let $discription = $('<div/>',{
+                        text: 'Room is free for this time'
+                    });
+                    $commonBox.append($card);
+                    $card.append($discription);
+            }else {
+                $(result).each(function (index,obj) {
+                    let $card = $('<div/>',{
+                        class:'card alert alert-success'
+                    });
+                    let $cardBody = $('<div/>',{
+                        class:'card-body'
+                    });
+                    let $title = $('<h6/>',{
+                        class:'card-title',
+                        text:'Date from : ' + obj.date_from + ' Date to : ' + obj.date_to
+                    });
+                    let $description = $('<div/>',{
+                        class: 'card-text',
+                        text:' @Name of guest: ' + obj.guest.name + ' @Username of guest: '+ obj.guest.surname
+                    });
+                    $commonBox.append($card);
+                    $card.append($cardBody);
+                    $cardBody.append($title,$description);
+                })
+            }},
+        error : function (error) {
+            console.log(error);
+        }
+    });
+});

@@ -64,6 +64,27 @@ public class BookingRestController {
             return sortedRooms;
         }
     }
+    @PostMapping("/findRoomsForAdmin")
+    private List<Book> findBooking(@RequestBody String jsonObj) throws org.json.simple.parser.ParseException {
+        Object parse = new JSONParser().parse(jsonObj);
+        JSONObject jo = (JSONObject)parse;
+        String date = (String)jo.get("date");
+        String string = (String)jo.get("roomId");
+        Integer roomId = Integer.valueOf(string);
+
+        Room room = (Room)roomDAO.findById(roomId).get();
+        List<Book> books = new ArrayList<>();
+        for (Book book1 : room.getBook()) {
+            if(book1.getDate_from().compareTo(date)<=0 && book1.getDate_to().compareTo(date)>=0){
+                books.add(book1);
+            }
+        }
+        System.out.println("================");
+        System.out.println(books);
+        System.out.println("================");
+        return books;
+
+    }
     private List<Room> compareDates(List<Room> rooms, String from_date, String to_date) throws ParseException {
         System.out.println(rooms + " " + from_date + " " + to_date);
         Date from = new SimpleDateFormat("MM.dd.yyyy").parse(from_date);

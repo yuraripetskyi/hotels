@@ -172,12 +172,6 @@ public class HotelController {
                     Phone phonec = new Phone(phone);
                     phonec.setHotel(hotel);
                 }
-//        if(files != null){
-//            for (MultipartFile file : files) {
-//                imageService.createImage(file);
-//                imageService.save(new Image(file.getOriginalFilename(),hotel));
-//            }
-//        }
             }
         hotelDAO.save(hotel);
         model.addAttribute("hotel", hotel);
@@ -189,12 +183,20 @@ public class HotelController {
     ) {
        userRole(user,model);
 
-        Room room = roomDAO.findById(id).get();
+        Room room = roomDAO.findById(id);
         model.addAttribute("hotel", room.getHotel());
         model.addAttribute("room", room);
         return "changesRoom";
     }
+    @GetMapping("/calendar/room/{id}")
+    private String checkBookingRoom(@PathVariable int id, Model model, @AuthenticationPrincipal Customer user
+    ) {
+        userRole(user,model);
 
+        Room room = roomDAO.findById(id);
+        model.addAttribute("room", room);
+        return "calendar";
+    }
     @PostMapping("/update/room/{id}")
     public String updateRoom(@PathVariable int id,
                              Model model,
@@ -202,7 +204,7 @@ public class HotelController {
                              @RequestParam int rooms,
                              @RequestParam Type type) {
 
-        Room room = roomDAO.findById(id).get();
+        Room room = roomDAO.findById(id);
         Hotel hotel = room.getHotel();
         room.setPrice(prices);
         room.setRoominess(rooms);
@@ -212,17 +214,7 @@ public class HotelController {
 
         return "hotel";
     }
-//    private void userRole(Customer user, Model model){
-//        if(user!=null){
-//            model.addAttribute("user", user);
-//        }else {
-//            model.addAttribute("user", null);
-//        }
-//        model.addAttribute("admin_role", Role.ROLE_ADMIN);
-//        model.addAttribute("user_role", Role.ROLE_USER);
-//        model.addAttribute("hoteladmin_role", Role.ROLE_HOTELADMIN);
-//
-//    }
+
     @PostMapping("/add/room")
     public String addRoom(
             @RequestParam("hotelId") Hotel hotel,

@@ -1,5 +1,6 @@
 package com.ua.hotels.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,7 +22,7 @@ public class Book {
     private int id;
     private String  date_from;
     private String date_to;
-
+@JsonIgnore
     @ManyToOne(
             cascade = CascadeType.REFRESH,
             fetch = FetchType.LAZY
@@ -29,11 +30,11 @@ public class Book {
     private Room room;
 
     @ManyToOne(
-            fetch = FetchType.LAZY,
+            fetch = FetchType.EAGER,
             cascade = CascadeType.REFRESH
     )
     private Guest guest;
-
+    @JsonIgnore
     @ManyToOne(
             fetch = FetchType.LAZY,
             cascade = CascadeType.REFRESH

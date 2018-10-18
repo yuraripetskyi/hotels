@@ -124,6 +124,9 @@
                 <form th:action="@{/change/room/}+${room.id}" method="get">
                     <input type="submit" value="Change">
                 </form>
+                    <form th:action="@{/calendar/room/}+${room.id}" method="get">
+                        <input type="submit" value="Booking room on month">
+                    </form>
                 </div>
             </li>
         </ul>

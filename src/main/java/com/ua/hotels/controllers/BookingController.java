@@ -36,7 +36,7 @@ public class BookingController {
                            @AuthenticationPrincipal Customer user,
                            Model model) {
         userRole(user,model);
-        Room room = roomDAO.findById(id).get();
+        Room room = roomDAO.findById(id);
         model.addAttribute("room", room);
         model.addAttribute("hotel", room.getHotel());
         model.addAttribute("from", date_from);
@@ -59,7 +59,7 @@ public class BookingController {
                        @AuthenticationPrincipal Customer activeUser,
                        Model model
                        ) throws MessagingException {
-        Room room = roomDAO.findById(id).get();
+        Room room = roomDAO.findById(id);
         Guest guest = new Guest(name,surname,email);
         guestDAO.save(guest);
         Book book = new Book(from_date,to_date,room,guest);
