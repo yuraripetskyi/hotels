@@ -80,15 +80,12 @@ public class MainController {
         }
         return findActinveUserPage(model);
     }
-    @Transactional(readOnly = true)
+
     @GetMapping("/user")
     public String user(@AuthenticationPrincipal Customer user, Model model) {
-
-//        Hibernate.initialize(user.getBooks());
-
-
-        System.out.println(user.getBooks());
-        model.addAttribute("books", user.getBooks());
+        Customer customer = (Customer)customerService.loadUserById(user.getId());
+        System.out.println(customer.getBooks());
+        model.addAttribute("books", customer.getBooks());
 
         userRole(user,model);
         return "user";
@@ -96,19 +93,22 @@ public class MainController {
 
     @GetMapping("/admin")
     public String admin(@AuthenticationPrincipal Customer user,  Model model) {
-            model.addAttribute("user", user);
+        Customer userById = (Customer) customerService.loadUserById(user.getId());
+        model.addAttribute("user", userById);
             return "admin";
 
     }
 
     @GetMapping("/hoteladmin")
     public String hoteladmin(@AuthenticationPrincipal Customer user, Model model) {
-            model.addAttribute("user", user);
-        System.out.println(user.getHotels());
-            model.addAttribute("hotels", user.getHotels());
+        Customer userById = (Customer) customerService.loadUserById(user.getId());
+        model.addAttribute("user", userById);
+            model.addAttribute("hotels", userById.getHotels());
             return "hoteladmin";
 
     }
+
+
 
 
     @GetMapping("/logout")

@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.ua.hotels.controllers.MainController.userRole;
 
@@ -98,6 +100,12 @@ public class HotelController {
         userRole(user,model);
 
         Hotel hotel = hotelDAO.findById(Integer.parseInt(id)).get();
+        List<Room> rooms = hotel.getRooms();
+        List<Book> allBooks = new ArrayList<>();
+        for (Room room: rooms){
+            allBooks.addAll(room.getBook());
+        }
+        model.addAttribute("books", allBooks);
         model.addAttribute("hotel", hotel);
         model.addAttribute("types", Type.values());
         model.addAttribute("images", hotel.getImages());
