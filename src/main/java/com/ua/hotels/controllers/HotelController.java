@@ -107,6 +107,9 @@ public class HotelController {
         }
         model.addAttribute("books", allBooks);
         model.addAttribute("hotel", hotel);
+        model.addAttribute("econom", Type.TYPE_ECONOM);
+         model.addAttribute("standart", Type.TYPE_STANDART);
+         model.addAttribute("luxe", Type.TYPE_LUXE);
         model.addAttribute("types", Type.values());
         model.addAttribute("images", hotel.getImages());
         return "hotel";
@@ -128,12 +131,13 @@ public class HotelController {
                                @RequestParam(value = "images") MultipartFile[] files,
                                Model model) throws IOException {
         Hotel hotel = hotelDAO.findById(id).get();
-        model.addAttribute("hotel", hotel);
         for (MultipartFile file : files) {
             imageService.createImage(file);
             imageService.save(new Image(file.getOriginalFilename(), hotel));
         }
-        return "hotel";
+        Hotel hotelzzz = hotelDAO.findById(id).get();
+        model.addAttribute("hotel", hotelzzz);
+        return "redirect:/hotel/"+id;
     }
 
     @GetMapping("/change/hotel/{id}")
