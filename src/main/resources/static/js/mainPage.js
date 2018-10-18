@@ -202,7 +202,7 @@ $find.click(function () {
                     $commonBox.append($card);
                     $card.append($discription);
             }else {
-                $(result).each(function (index,obj) {
+                $(result).each(function (index,book) {
                     let $card = $('<div/>',{
                         class:'card alert alert-warning'
                     });
@@ -211,15 +211,20 @@ $find.click(function () {
                     });
                     let $title = $('<h6/>',{
                         class:'card-title',
-                        text:'Date from : ' + obj.date_from + ' Date to : ' + obj.date_to
+                        text:'Date from : ' + book.date_from + ' Date to : ' + book.date_to
+                    });
+                    let $button = $('<a/>',{
+                        class:'alert-link my-3',
+                        text:'Delete book!',
+                        href: '/book/delete/' + book.id +"/room/" + $roomId.val()
                     });
                     let $description = $('<div/>',{
                         class: 'card-text',
-                        text:' @Name of guest: ' + obj.guest.name + ' @Username of guest: '+ obj.guest.surname
+                        text:' @Name of guest: ' + book.guest.name + ' @Username of guest: '+ book.guest.surname
                     });
                     $commonBox.append($card);
                     $card.append($cardBody);
-                    $cardBody.append($title,$description);
+                    $cardBody.append($title,$description,$button);
                 })
             }},
         error : function (error) {

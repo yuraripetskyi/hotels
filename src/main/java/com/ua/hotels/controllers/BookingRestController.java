@@ -79,9 +79,6 @@ public class BookingRestController {
                 books.add(book1);
             }
         }
-        System.out.println("================");
-        System.out.println(books);
-        System.out.println("================");
         return books;
 
     }

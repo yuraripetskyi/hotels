@@ -55,33 +55,47 @@
     </div>
 </nav>
 
+<div class="container p-2">
+    <div class="row">
+        <div class="col-5">
+            <div class="card bg-light" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Your info</h5>
+                    <div class="alert alert-success" role="alert">
+                        <h6 class="card-text" th:text="${user.username}"></h6>
+                    </div>
+                    <div class="alert alert-success" role="alert">
+                        <h6 class="card-text" th:text="${user.surname}"></h6>
+                    </div>
+                    <form th:action="@{/change/user}" method="get">
+                        <button class="btn btn-primary" type="submit">Edit information</button>
+                    </form>
+                </div>
+            </div>
+        </div>
 
-<p> Your data:
-    <span th:text="${user.name}"></span>
-    <span th:text="${user.surname}"></span>
-</p>
-
-
-<form th:action="@{/create/hotel}" method="get">
-    <input class="btn btn-primary" type="submit" value="Create Hotel">
-</form>
-<br>
-<ul th:each="hotel : ${hotels}">
-    <li>
-        <a th:href="'/hotel/'+${hotel.id}" th:text="'Name - ' + ${hotel.name} "></a>
-        <form th:action="@{/delete/hotel/}+${hotel.id}" th:method="DELETE">
-            <br>
-            <input class="btn btn-primary" type="submit" value="Delete hotel">
-        </form>
-    </li>
-</ul>
-
-
-<form th:action="@{/change/user}" method="get">
-    <p class="h5">Edit information about yourself</p>
-    <input class="btn btn-primary" type="submit">
-</form>
-
+        <div class="col-5">
+    <br>
+    <ul th:each="hotel : ${hotels}" class="p-0">
+        <li>
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${hotel.name}"></h5>
+                        <a th:href="'/hotel/'+${hotel.id}" class="alert-link">Edit info about Hotel</a>
+                    <form th:action="@{/delete/hotel/}+${hotel.id}" th:method="DELETE">
+                        <br>
+                        <input class="btn btn-primary" type="submit" value="Delete hotel">
+                    </form>
+                </div>
+            </div>
+        </li>
+    </ul>
+            <form th:action="@{/create/hotel}" method="get">
+                <button class="btn btn-primary" type="submit" value="">Create hotel</button>
+            </form>
+</div>
+    </div>
+</div>
 <br>
 
 

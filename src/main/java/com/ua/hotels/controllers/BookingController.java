@@ -43,8 +43,12 @@ public class BookingController {
         model.addAttribute("to", date_to);
         return "book";
     }
-
-
+    @GetMapping("/book/delete/{bookId}/room/{roomId}")
+    public String deleteBook(@PathVariable int bookId,
+                             @PathVariable int roomId){
+        bookDAO.deleteById(bookId);
+        return "redirect:/calendar/room/"+roomId;
+    }
     @Autowired
     private GuestDAO guestDAO;
     @Autowired
