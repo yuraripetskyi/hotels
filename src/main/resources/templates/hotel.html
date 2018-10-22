@@ -80,6 +80,9 @@
                         <img th:src="@{${image.getImage()}}" class="content">
                     </div>
                 </li>
+                <div class="col-4">
+                    <a type="submit" class="btn btn-primary mb-2" th:href="'/delete/photo/' + ${image.id}">Delete</a>
+                </div>
             </ul>
             <form th:action="@{/upload/photos/hotel/}+${hotel.id}" method="post" enctype="multipart/form-data"
                   class="form-row">
@@ -162,3 +165,6 @@
 <!--<script type="text/javascript" th:src="@{/js/nav.js}"></script>-->
 </body>
 </html>
+
+
+

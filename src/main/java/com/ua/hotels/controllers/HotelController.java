@@ -1,6 +1,7 @@
 package com.ua.hotels.controllers;
 
 import com.ua.hotels.dao.HotelDAO;
+import com.ua.hotels.dao.ImageDAO;
 import com.ua.hotels.dao.PhoneDAO;
 import com.ua.hotels.dao.RoomDAO;
 import com.ua.hotels.models.*;
@@ -19,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +48,8 @@ public class HotelController {
     @Autowired
     private HotelDAO hotelDAO;
 
+    @Autowired
+    private ImageDAO imageDAO;
     @Autowired
     private PhoneDAO phoneDAO;
 
@@ -111,7 +115,11 @@ public class HotelController {
          model.addAttribute("standart", Type.TYPE_STANDART);
          model.addAttribute("luxe", Type.TYPE_LUXE);
         model.addAttribute("types", Type.values());
-        model.addAttribute("images", hotel.getImages());
+        if(!hotel.getImages().isEmpty()) {
+            model.addAttribute("images", hotel.getImages());
+        }else {
+            model.addAttribute("image", null);
+        }
         return "hotel";
     }
 
@@ -200,12 +208,21 @@ public class HotelController {
         model.addAttribute("room", room);
         return "changesRoom";
     }
+    @GetMapping("/delete/photo/{imageId}")
+    private String deleteImage(@PathVariable String imageId){
+        int imgId = Integer.parseInt(imageId);
+        Image image = imageDAO.findById(imgId).get();
+        File file = new File(ImageService.UPLOAD_PATH + image.getName());
+        file.delete();
+        imageDAO.deleteById(Integer.parseInt(imageId));
+        return "redirect:/hoteladmin";
+    }
     @GetMapping("/calendar/room/{id}")
     private String checkBookingRoom(@PathVariable int id, Model model, @AuthenticationPrincipal Customer user
     ) {
         userRole(user,model);
-
         Room room = roomDAO.findById(id);
+        model.addAttribute("bookings", room.getBook());
         model.addAttribute("room", room);
         return "calendar";
     }

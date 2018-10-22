@@ -92,11 +92,11 @@ public class BookingRestController {
             for (Book boo : books) {
                 Date book_from = new SimpleDateFormat("MM.dd.yyyy").parse(boo.getDate_from());
                 Date book_to = new SimpleDateFormat("MM.dd.yyyy").parse(boo.getDate_to());
-                if (from.compareTo(book_from) > 0 && from.compareTo(book_to) < 0) {
+                if (from.compareTo(book_from) >= 0 && from.compareTo(book_to) < 0) {
                     deleteRoomFromList(rooms);
                     break;
                 }
-                if (to.compareTo(book_from) > 0 && to.compareTo(book_to) < 0) {
+                if (to.compareTo(book_from) > 0 && to.compareTo(book_to) <= 0) {
                     deleteRoomFromList(rooms);
                     break;
                 }

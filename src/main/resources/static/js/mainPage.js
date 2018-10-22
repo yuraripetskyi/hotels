@@ -220,7 +220,7 @@ $find.click(function () {
                     });
                     let $description = $('<div/>',{
                         class: 'card-text',
-                        text:' @Name of guest: ' + book.guest.name + ' @Username of guest: '+ book.guest.surname
+                        text:' @Name of guest: ' + book.guest.name + ' @Surname of guest: '+ book.guest.surname
                     });
                     $commonBox.append($card);
                     $card.append($cardBody);

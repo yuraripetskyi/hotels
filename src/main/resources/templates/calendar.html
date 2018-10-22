@@ -74,9 +74,19 @@
         <button class="btn btn-primary " type="submit" id="find">Find!</button>
     </div>
 </div>
-<div class="card-columns mx-3" id="commonBox">
-    <!--Here is found results of searching-->
-</div>
+        <div class="card-columns mx-3" id="commonBox">
+            <!--Here is found results of searching-->
+        </div>
+
+        <div class="container-fluid">
+            <ul class="list-group col-8" th:each="book : ${bookings}">
+                <li class="list-group-item d-flex justify-content-between align-items-center"
+                    th:text="'{Date from : ' + ${book.date_from} + ' --- Date to : ' + ${book.date_to} + '}   @Name of a Guest : ' + ${book.guest.name} + ' @Surname of a Guest : ' + ${book.guest.surname}">
+                </li>
+                <a class="badge badge-primary <!--badge-pill-->"
+                   th:href="'/book/delete/' + ${book.id} + '/room/' + ${room.id}">Delete</a>
+            </ul>
+        </div>
 <!-- Script for datapicker-->
 <script type="text/javascript" th:src="@{/js/mainPage.js}"></script>
 
