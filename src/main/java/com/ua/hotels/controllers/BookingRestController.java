@@ -68,17 +68,26 @@ public class BookingRestController {
     private List<Book> findBooking(@RequestBody String jsonObj) throws org.json.simple.parser.ParseException {
         Object parse = new JSONParser().parse(jsonObj);
         JSONObject jo = (JSONObject)parse;
-        String date = (String)jo.get("date");
+        String from = (String)jo.get("date_from");
+        String to = (String)jo.get("date_to");
         String string = (String)jo.get("roomId");
         Integer roomId = Integer.valueOf(string);
 
-        Room room = (Room)roomDAO.findById(roomId).get();
+        Room room = roomDAO.findById(roomId).get();
         List<Book> books = new ArrayList<>();
         for (Book book1 : room.getBook()) {
-            if(book1.getDate_from().compareTo(date)<=0 && book1.getDate_to().compareTo(date)>=0){
+
+//            System.out.println(from.compareTo(book1.getDate_to() + " ===== " + from + " + " + book1.getDate_to()));
+//            System.out.println(from +" ++++ " + to);
+            if( (from.compareTo(book1.getDate_to()) > 0 || ((to.compareTo(book1.getDate_from()) < 0)) )) {
+//                System.out.println("first case");
+            }else {
                 books.add(book1);
             }
         }
+//        System.out.println("===============");
+//        System.out.println(books);
+//        System.out.println("===============");
         return books;
 
     }

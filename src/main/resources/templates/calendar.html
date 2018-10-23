@@ -19,6 +19,9 @@
         $(function () {
             $("#date1").datepicker({dateFormat: 'mm.dd.yy'});
         });
+        $(function () {
+            $("#date2").datepicker({dateFormat: 'mm.dd.yy'});
+        });
 
     </script>
 </head>
@@ -65,9 +68,14 @@
 </nav>
 <!-- Datapicker -->
 <div class="form-inline my-2">
+
     <div class=" col-md-1 mr-4">
         <input id="date1" class="form-control input-lg" name="from_date" type="text" size="8" required
-               placeholder="Find date">
+               placeholder="First date">
+    </div>
+    <div class=" col-md-1 mr-4">
+        <input id="date2" class="form-control input-lg" name="from_date" type="text" size="8" required
+               placeholder="Second date">
     </div>
     <input type="hidden" th:value="${room.id}" id="roomId">
     <div class=" col-md-1  ">
@@ -79,11 +87,11 @@
         </div>
 
         <div class="container-fluid">
-            <ul class="list-group col-8" th:each="book : ${bookings}">
+            <ul class="list-group col-8 mt-2" th:each="book : ${bookings}">
                 <li class="list-group-item d-flex justify-content-between align-items-center"
                     th:text="'{Date from : ' + ${book.date_from} + ' --- Date to : ' + ${book.date_to} + '}   @Name of a Guest : ' + ${book.guest.name} + ' @Surname of a Guest : ' + ${book.guest.surname}">
                 </li>
-                <a class="badge badge-primary <!--badge-pill-->"
+                <a class="badge badge-primary"
                    th:href="'/book/delete/' + ${book.id} + '/room/' + ${room.id}">Delete</a>
             </ul>
         </div>

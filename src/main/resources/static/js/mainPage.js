@@ -173,10 +173,11 @@ $find.click(function () {
     let $roomId = $('#roomId');
     let $commonBox = $('#commonBox');
     var $date1 = $('#date1');
-
+    var $date2 = $('#date2');
 
     var obj = {
-        date:$date1.val(),
+        date_from:$date1.val(),
+        date_to:$date2.val(),
         roomId:$roomId.val()
     };
     let jsonObj = JSON.stringify(obj);
