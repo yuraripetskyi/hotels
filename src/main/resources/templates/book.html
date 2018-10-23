@@ -2,8 +2,9 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Booking hotel</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="/css/div-style.css" rel="stylesheet" type="text/css"/>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
@@ -14,8 +15,9 @@
 </head>
 <body>
 
-<nav class="navbar navbar navbar-expand-md navbar-light bg-light " id="for-header">
-    <a class="navbar-brand font-weight-bold ml-5" href="/"><span>Hotel</span><span class="text-warning">zzz</span></a>
+<nav class="navbar navbar navbar-expand-md navbar-light bg-light ns" id="for-header">
+    <a class="navbar-brand font-weight-bold ml-5" href="/"><h1><span>Hotel</span><span class="text-warning">zzz</span>
+    </h1></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -24,27 +26,27 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link font-weight-bold ml-5" href="/">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link font-weight-bold ml-5" href="/"><h4>Home</h4> <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
                 <div th:if="${user!=null}">
-                    <div th:if="${user.role==user_role}"><a class="nav-link font-weight-bold ml-5" href="/user">User
-                        cabinet <span class="sr-only">(current)</span></a>
+                    <div th:if="${user.role==user_role}"><h4><a class="nav-link  ml-5" href="/user">User
+                        cabinet <span class="sr-only">(current)</span></a></h4>
                     </div>
-                    <div th:if="${user.role==admin_role}"><a class="nav-link font-weight-bold ml-5" href="/admin">Admin
-                        cabinet <span class="sr-only">(current)</span></a>
+                    <div th:if="${user.role==admin_role}"><h4><a class="nav-link  ml-5" href="/admin">Admin
+                        cabinet <span class="sr-only">(current)</span></a></h4>
                     </div>
-                    <div th:if="${user.role==hoteladmin_role}"><a class="nav-link font-weight-bold ml-5"
-                                                                  href="/hoteladmin">Hotel admin cabinet <span
-                            class="sr-only">(current)</span></a>
+                    <div th:if="${user.role==hoteladmin_role}"><h4><a class="nav-link ml-5"
+                                                                      href="/hoteladmin">Hotel admin cabinet <span
+                            class="sr-only">(current)</span></a></h4>
                     </div>
                 </div>
             </li>
         </ul>
 
-        <div class="mr-3" th:if="${user==null}"><a href="/login">sing in</a></div>
-        <div class="mr-3" th:if="${user==null}"><a href="/registration">sing up</a></div>
-        <div class="mr-3" th:if="${user!=null}"><span th:text="${user.username}"></span></div>
+        <div class="mr-3" th:if="${user==null}"><h5><a href="/login">sing in</a></h5></div>
+        <div class="mr-3" th:if="${user==null}"><h5><a href="/registration">sing up</a></h5></div>
+        <div class="mr-3" th:if="${user!=null}"><h5><span th:text="${user.username}"></span></h5></div>
         <div class="mr-3" th:if="${user}!=null">
             <form th:action="@{/logout}" method="get">
                 <button class="btn btn-primary" type="submit" value="">Logout</button>
@@ -53,24 +55,58 @@
         </div>
     </div>
 </nav>
-<h1><span th:text="${hotel.name}"></span></h1>
 
-<form th:action="@{/book/room/}+${room.id}" method="post">
-    <input  th:value="${from}" disabled>
-    <input  th:value="${to}" disabled>
-    <input id="date3" name="from_date" type="text" size="8" placeholder="from"  th:value="${from}" hidden>
-    <input id="date4" name="to_date" type="text" size="8" placeholder="to" th:value="${to}" hidden>
-<br>
-<span> Guest bio</span><br>
-    <input type="text" name="name" placeholder="name"><br>
-    <input type="text" name="surname" placeholder="surname"><br>
-    <input type="email" name="email" placeholder="email">
+<div class="text-center ">
+    <div class="container  loginBox  ">
+        <div>
+            <div class="container  ">
+                <div class="col-md-12 justify-content-center align-items-center row">
+                    <div class="container justify-content-center align-items-center text-center">
 
-    <input type="submit">
-</form>
+
+                        <h1 class="h3"><span th:text="${hotel.name}"></span></h1>
+
+                        <form th:action="@{/book/room/}+${room.id}" method="post">
+                            <div class="col-md-12 justify-content-center align-items-center row">
+                              <h6>from</h6>  <div class="col-lg-4"><input class="form-control input-lg" th:value="${from}" disabled></div>
+                                <h6>to</h6><div class="col-lg-4"><input class="form-control input-lg" th:value="${to}" disabled></div>
+                            </div>
+                            <input id="date3" name="from_date" type="text" size="8" placeholder="from"
+                                   th:value="${from}" hidden>
+                            <input id="date4" name="to_date" type="text" size="8" placeholder="to" th:value="${to}"
+                                   hidden>
+                            <br>
+                            <br>
+                            <span class="h5"> Guest bio</span><br>
+                            <div class="col-md-12 justify-content-center align-items-center row">
+                                <div class="mt-1 col-lg-4"><input class="form-control input-lg" type="text" name="name"
+                                                                  placeholder="name"></div>
+                            </div>
+                            <br>
+                            <div class="col-md-12 justify-content-center align-items-center row">
+                                <div class="mt-1 col-lg-4"><input class="form-control input-lg" type="text"
+                                                                  name="surname" placeholder="surname"></div>
+                            </div>
+                            <br>
+                            <div class="col-md-12 justify-content-center align-items-center row">
+                                <div class="mt-1 col-lg-4"><input class="form-control input-lg" type="email"
+                                                                  name="email" placeholder="email"></div>
+                            </div>
+                            <br>
+                            <br>
+
+                            <input class="btn btn-primary"  type="submit">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-crossorigin="anonymous"></script>
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
         integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
         crossorigin="anonymous"></script>
@@ -78,6 +114,6 @@ crossorigin="anonymous"></script>
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
 
-<script type="text/javascript" th:src="@{/js/nav.js}"></script>
+<!--<script type="text/javascript" th:src="@{/js/nav.js}"></script>-->
 </body>
 </html>

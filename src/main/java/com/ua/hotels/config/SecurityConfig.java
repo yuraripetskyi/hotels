@@ -65,8 +65,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/user/**").hasRole("USER")
+//                .antMatchers("/calendar/room/**").hasRole("HOTELADMIN")
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/hoteladmin/**").hasRole("HOTELADMIN")
+                .antMatchers("/hotel/**").hasRole("HOTELADMIN")
                 .and()
                 .formLogin()
                 .loginPage("/login")
@@ -75,14 +77,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable();
     }
-//    @Configuration
-//    public class DefaultView extends WebMvcConfigurerAdapter {
-//
-//        @Override
-//        public void addViewControllers( ViewControllerRegistry registry ) {
-//            registry.addViewController( "/" ).setViewName( "main" );
-//            registry.setOrder( Ordered.HIGHEST_PRECEDENCE );
-//            super.addViewControllers( registry );
-//        }
-//    }
+
+
+
+    
 }

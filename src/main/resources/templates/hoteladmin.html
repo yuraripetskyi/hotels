@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>User</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="/css/div-style.css" rel="stylesheet" type="text/css"/>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
@@ -12,8 +13,10 @@
 </head>
 <body>
 
-<nav class="navbar navbar navbar-expand-md navbar-light bg-light " id="for-header">
-    <a class="navbar-brand font-weight-bold ml-5" href="/"><span>Hotel</span><span class="text-warning">zzz</span></a>
+
+<nav class="navbar navbar navbar-expand-md navbar-light bg-light ns" id="for-header">
+    <a class="navbar-brand font-weight-bold ml-5" href="/"><h1><span>Hotel</span><span class="text-warning">zzz</span>
+    </h1></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -22,27 +25,27 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link font-weight-bold ml-5" href="/">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link font-weight-bold ml-5" href="/"><h4>Home</h4> <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
                 <div th:if="${user!=null}">
-                    <div th:if="${user.role==user_role}"><a class="nav-link font-weight-bold ml-5" href="/user">User
-                        cabinet <span class="sr-only">(current)</span></a>
+                    <div th:if="${user.role==user_role}"><h4><a class="nav-link  ml-5" href="/user">User
+                        cabinet <span class="sr-only">(current)</span></a></h4>
                     </div>
-                    <div th:if="${user.role==admin_role}"><a class="nav-link font-weight-bold ml-5" href="/admin">Admin
-                        cabinet <span class="sr-only">(current)</span></a>
+                    <div th:if="${user.role==admin_role}"><h4><a class="nav-link  ml-5" href="/admin">Admin
+                        cabinet <span class="sr-only">(current)</span></a></h4>
                     </div>
-                    <div th:if="${user.role==hoteladmin_role}"><a class="nav-link font-weight-bold ml-5"
-                                                                  href="/hoteladmin">Hotel admin cabinet <span
-                            class="sr-only">(current)</span></a>
+                    <div th:if="${user.role==hoteladmin_role}"><h4><a class="nav-link ml-5"
+                                                                      href="/hoteladmin">Hotel admin cabinet <span
+                            class="sr-only">(current)</span></a></h4>
                     </div>
                 </div>
             </li>
         </ul>
 
-        <div class="mr-3" th:if="${user==null}"><a href="/login">sing in</a></div>
-        <div class="mr-3" th:if="${user==null}"><a href="/registration">sing up</a></div>
-        <div class="mr-3" th:if="${user!=null}"><span th:text="${user.username}"></span></div>
+        <div class="mr-3" th:if="${user==null}"><h5><a href="/login">sing in</a></h5></div>
+        <div class="mr-3" th:if="${user==null}"><h5><a href="/registration">sing up</a></h5></div>
+        <div class="mr-3" th:if="${user!=null}"><h5><span th:text="${user.username}"></span></h5></div>
         <div class="mr-3" th:if="${user}!=null">
             <form th:action="@{/logout}" method="get">
                 <button class="btn btn-primary" type="submit" value="">Logout</button>
@@ -52,44 +55,49 @@
     </div>
 </nav>
 
-<div class="py-5 text-center ">
-    <div class="container py-5  loginBox  ">
-        <div>
-            <div class="container  ">
-                <div class="col-md-12 justify-content-center align-items-center row">
-                    <div class="container justify-content-center align-items-center text-center">
-                        <div class="h3 ">
-                            <span th:text="${user.name}"></span>
-                            <span th:text="${user.surname}"></span>
-                        </div>
-
-
-                        <form th:action="@{/change/user/}+${user.id}" method="get">
-                            <p class="h5">Edit information about yourself</p>
-                            <input class="btn btn-primary" type="submit">
-                        </form>
-                        </br>
-
-
-                        <form th:action="@{/create/hotel}" method="get">
-                            <input class="btn btn-primary" type="submit" value="Create Hotel">
-                        </form>
-                        </br>
-                        <ul th:each="hotel : ${hotels}">
-                            <li>
-                                <a th:href="'/hotel/'+${hotel.id}" th:text="'Name - ' + ${hotel.name} "></a>
-                                <form th:action="@{/delete/hotel/}+${hotel.id}" th:method="DELETE">
-                                    </br>
-                                    <input class="btn btn-primary" type="submit" value="Delete hotel">
-                                </form>
-                            </li>
-                        </ul>
+<div class="container p-2">
+    <div class="row">
+        <div class="col-5">
+            <div class="card bg-light" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Your info</h5>
+                    <div class="alert alert-success" role="alert">
+                        <h6 class="card-text" th:text="${user.username}"></h6>
                     </div>
+                    <div class="alert alert-success" role="alert">
+                        <h6 class="card-text" th:text="${user.surname}"></h6>
+                    </div>
+                    <form th:action="@{/change/user}" method="get">
+                        <button class="btn btn-primary" type="submit">Edit information</button>
+                    </form>
                 </div>
             </div>
         </div>
+
+        <div class="col-5">
+    <br>
+    <ul th:each="hotel : ${hotels}" class="p-0">
+        <li>
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${hotel.name}"></h5>
+                        <a th:href="'/hotel/'+${hotel.id}" class="alert-link">Edit info about Hotel</a>
+                    <form th:action="@{/delete/hotel/}+${hotel.id}" th:method="DELETE">
+                        <br>
+                        <input class="btn btn-primary" type="submit" value="Delete hotel">
+                    </form>
+                </div>
+            </div>
+        </li>
+    </ul>
+            <form th:action="@{/create/hotel}" method="get">
+                <button class="btn btn-primary" type="submit" value="">Create hotel</button>
+            </form>
+</div>
     </div>
 </div>
+<br>
+
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

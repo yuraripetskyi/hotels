@@ -1,10 +1,12 @@
 package com.ua.hotels.controllers;
 
+import com.ua.hotels.models.Book;
 import com.ua.hotels.models.Customer;
 import com.ua.hotels.models.Hotel;
 import com.ua.hotels.models.enums.Role;
 import com.ua.hotels.service.CustomerService;
 import com.ua.hotels.service.serv_impl.CustomerServiceImpl;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -13,6 +15,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,14 +38,14 @@ public class MainController {
     @GetMapping("/")
     public String index(Model model,
                         @AuthenticationPrincipal Customer user) {
-       userRole(user,model);
+        userRole(user, model);
         return "main";
     }
 
-    static void userRole(Customer user, Model model){
-        if(user!=null){
+    static void userRole(Customer user, Model model) {
+        if (user != null) {
             model.addAttribute("user", user);
-        }else {
+        } else {
             model.addAttribute("user", null);
         }
         model.addAttribute("admin_role", Role.ROLE_ADMIN);
@@ -50,27 +53,28 @@ public class MainController {
         model.addAttribute("hoteladmin_role", Role.ROLE_HOTELADMIN);
 
     }
+
     @PostMapping("/success")
     public String success(Model model,
                           @AuthenticationPrincipal Customer user) {
-        userRole(user,model);
+        userRole(user, model);
         return "redirect:/";
     }
 
     @GetMapping("/registration")
-    public String registration(){
+    public String registration() {
         return "registration";
     }
 
     @GetMapping("/unsuccess")
-    public String unsuccess(Model model){
-        model.addAttribute("error","login.error");
+    public String unsuccess(Model model) {
+        model.addAttribute("error", "login.error");
         return "login";
     }
 
     @GetMapping("/login")
-    public String login(Model model,@AuthenticationPrincipal Customer user) {
-        userRole(user,model);
+    public String login(Model model, @AuthenticationPrincipal Customer user) {
+        userRole(user, model);
 
         if (findActinveUserPage(model).equals("registration")) {
             return "login";
@@ -80,24 +84,29 @@ public class MainController {
 
     @GetMapping("/user")
     public String user(@AuthenticationPrincipal Customer user, Model model) {
+        Customer customer = (Customer) customerService.loadUserById(user.getId());
+        System.out.println(customer.getBooks());
+        model.addAttribute("books", customer.getBooks());
 
-        userRole(user,model);
+        userRole(user, model);
         return "user";
     }
 
     @GetMapping("/admin")
-    public String admin(@AuthenticationPrincipal Customer user,  Model model) {
-            model.addAttribute("user", user);
-            return "admin";
+    public String admin(@AuthenticationPrincipal Customer user, Model model) {
+        Customer userById = (Customer) customerService.loadUserById(user.getId());
+        model.addAttribute("user", userById);
+        return "admin";
 
     }
 
     @GetMapping("/hoteladmin")
     public String hoteladmin(@AuthenticationPrincipal Customer user, Model model) {
-            model.addAttribute("user", user);
-        System.out.println(user.getHotels());
-            model.addAttribute("hotels", user.getHotels());
-            return "hoteladmin";
+        Customer userById = (Customer) customerService.loadUserById(user.getId());
+        model.addAttribute("user", userById);
+        model.addAttribute("hotels", userById.getHotels());
+        System.out.println(userById.getHotels());
+        return "hoteladmin";
 
     }
 
@@ -143,8 +152,7 @@ public class MainController {
         }
     }
 
-    public String returnPath(Customer user)
-    {
+    public String returnPath(Customer user) {
         Role role = user.getRole();
         if (role.equals(Role.ROLE_USER)) {
             return "redirect:/user";

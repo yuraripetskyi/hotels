@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Hotel</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link href="/css/div-style.css" rel="stylesheet" type="text/css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <script>
+        $(function () {
+            $("#date1").datepicker({dateFormat: 'mm.dd.yy'});
+        });
+        $(function () {
+            $("#date2").datepicker({dateFormat: 'mm.dd.yy'});
+        });
+
+    </script>
+</head>
+<body>
+
+<nav class="navbar navbar navbar-expand-md navbar-light bg-light " id="for-header">
+    <a class="navbar-brand font-weight-bold ml-5" href="/"><span>Hotel</span><span class="text-warning">zzz</span></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link font-weight-bold ml-5" href="/">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <div th:if="${user!=null}">
+                    <div th:if="${user.role==user_role}"><a class="nav-link font-weight-bold ml-5" href="/user">User
+                        cabinet <span class="sr-only">(current)</span></a>
+                    </div>
+                    <div th:if="${user.role==admin_role}"><a class="nav-link font-weight-bold ml-5" href="/admin">Admin
+                        cabinet <span class="sr-only">(current)</span></a>
+                    </div>
+                    <div th:if="${user.role==hoteladmin_role}"><a class="nav-link font-weight-bold ml-5"
+                                                                  href="/hoteladmin">Hotel admin cabinet <span
+                            class="sr-only">(current)</span></a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+        <div class="mr-3" th:if="${user==null}"><a href="/login">sing in</a></div>
+        <div class="mr-3" th:if="${user==null}"><a href="/registration">sing up</a></div>
+        <div class="mr-3" th:if="${user!=null}"><span th:text="${user.username}"></span></div>
+        <div class="mr-3" th:if="${user}!=null">
+            <form th:action="@{/logout}" method="get">
+                <button class="btn btn-primary" type="submit" value="">Logout</button>
+            </form>
+
+        </div>
+    </div>
+</nav>
+<!-- Datapicker -->
+<div class="form-inline my-2">
+
+    <div class=" col-md-1 mr-4">
+        <input id="date1" class="form-control input-lg" name="from_date" type="text" size="8" required
+               placeholder="First date">
+    </div>
+    <div class=" col-md-1 mr-4">
+        <input id="date2" class="form-control input-lg" name="from_date" type="text" size="8" required
+               placeholder="Second date">
+    </div>
+    <input type="hidden" th:value="${room.id}" id="roomId">
+    <div class=" col-md-1  ">
+        <button class="btn btn-primary " type="submit" id="find">Find!</button>
+    </div>
+</div>
+        <div class="card-columns mx-3" id="commonBox">
+            <!--Here is found results of searching-->
+        </div>
+
+        <div class="container-fluid">
+            <ul class="list-group col-8 mt-2" th:each="book : ${bookings}">
+                <li class="list-group-item d-flex justify-content-between align-items-center"
+                    th:text="'{Date from : ' + ${book.date_from} + ' --- Date to : ' + ${book.date_to} + '}   @Name of a Guest : ' + ${book.guest.name} + ' @Surname of a Guest : ' + ${book.guest.surname}">
+                </li>
+                <a class="badge badge-primary"
+                   th:href="'/book/delete/' + ${book.id} + '/room/' + ${room.id}">Delete</a>
+            </ul>
+        </div>
+<!-- Script for datapicker-->
+<script type="text/javascript" th:src="@{/js/mainPage.js}"></script>
+
+<!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"-->
+<!--integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"-->
+<!--crossorigin="anonymous"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+
+<!--<script type="text/javascript" th:src="@{/js/nav.js}"></script>-->
+</body>
+</html>

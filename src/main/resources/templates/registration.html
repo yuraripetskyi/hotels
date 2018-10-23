@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Registration</title>
-    <link href="/css/index.css" rel="stylesheet" type="text/css"/>
+    <link href="/css/div-style.css" rel="stylesheet" type="text/css"/>
     <link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -13,8 +13,9 @@
 
 </head>
 <body>
-<nav class="navbar navbar navbar-expand-md navbar-light bg-light " id="for-header">
-    <a class="navbar-brand font-weight-bold ml-5" href="/"><span>Hotel</span><span class="text-warning">zzz</span></a>
+<nav class="navbar navbar navbar-expand-md navbar-light bg-light ns" id="for-header">
+    <a class="navbar-brand font-weight-bold ml-5" href="/"><h1><span>Hotel</span><span class="text-warning">zzz</span>
+    </h1></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -23,27 +24,27 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link font-weight-bold ml-5" href="/">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link font-weight-bold ml-5" href="/"><h4>Home</h4> <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
                 <div th:if="${user!=null}">
-                    <div th:if="${user.role==user_role}"><a class="nav-link font-weight-bold ml-5" href="/user">User
-                        cabinet <span class="sr-only">(current)</span></a>
+                    <div th:if="${user.role==user_role}"><h4><a class="nav-link  ml-5" href="/user">User
+                        cabinet <span class="sr-only">(current)</span></a></h4>
                     </div>
-                    <div th:if="${user.role==admin_role}"><a class="nav-link font-weight-bold ml-5" href="/admin">Admin
-                        cabinet <span class="sr-only">(current)</span></a>
+                    <div th:if="${user.role==admin_role}"><h4><a class="nav-link  ml-5" href="/admin">Admin
+                        cabinet <span class="sr-only">(current)</span></a></h4>
                     </div>
-                    <div th:if="${user.role==hoteladmin_role}"><a class="nav-link font-weight-bold ml-5"
-                                                                  href="/hoteladmin">Hotel admin cabinet <span
-                            class="sr-only">(current)</span></a>
+                    <div th:if="${user.role==hoteladmin_role}"><h4><a class="nav-link ml-5"
+                                                                      href="/hoteladmin">Hotel admin cabinet <span
+                            class="sr-only">(current)</span></a></h4>
                     </div>
                 </div>
             </li>
         </ul>
 
-        <div class="mr-3" th:if="${user==null}"><a href="/login">sing in</a></div>
-        <div class="mr-3" th:if="${user==null}"><a href="/registration">sing up</a></div>
-        <div class="mr-3" th:if="${user!=null}"><span th:text="${user.username}"></span></div>
+        <div class="mr-3" th:if="${user==null}"><h5><a href="/login">sing in</a></h5></div>
+        <div class="mr-3" th:if="${user==null}"><h5><a href="/registration">sing up</a></h5></div>
+        <div class="mr-3" th:if="${user!=null}"><h5><span th:text="${user.username}"></span></h5></div>
         <div class="mr-3" th:if="${user}!=null">
             <form th:action="@{/logout}" method="get">
                 <button class="btn btn-primary" type="submit" value="">Logout</button>
@@ -53,41 +54,59 @@
     </div>
 </nav>
 
-
-<div class="py-5 text-center ">
+<div class=" text-center ">
     <div class="container loginBox  ">
         <div>
             <div class="container  ">
-                <div class="col-md-6 justify-content-center align-items-center row">
+                <div class="justify-content-center align-items-center row">
                     <div class="container justify-content-center align-items-center text-center">
                         <div class="justify-content-center align-items-center p-3">
                             <p>
                             <h1 class="text-center">Registration form : </h1>
                             <form th:action="@{/registration}" method="post">
                                 <p class="text-center">Please enter your Login:</p>
-                                 <div class="mt-2"><input class="form-control input-lg" type="" name="username" placeholder="Login" required
-                                       oninvalid="setCustomValidity('Имя должно содержать 2-4 символов')"
-                                                         oninput="setCustomValidity('')"><br></div>
+                                <div class="col-md-12 justify-content-center align-items-center row">
+                                    <div class="mt-1 col-lg-4"><input class="form-control input-lg" type=""
+                                                                      name="username"
+                                                                      placeholder="Login" required
+                                                                      oninvalid="setCustomValidity('Имя должно содержать 2-4 символов')"
+                                                                      oninput="setCustomValidity('')"><br></div>
+                                </div>
                                 <p class="text-center">Please enter your Password:</p>
-                                <div class="mt-2"><input class="form-control input-lg" type="password" name="password" placeholder="Password"
-                                                          required
-                                       oninvalid="setCustomValidity('Пароль должен содержать минимум 6 символов')"
-                                                         oninput="setCustomValidity('')"><br></div>
+                                <div class="col-md-12 justify-content-center align-items-center row">
+                                    <div class="mt-1 col-lg-4"><input class="form-control input-lg" type="password"
+                                                                      name="password"
+                                                                      placeholder="Password"
+                                                                      required
+                                                                      oninvalid="setCustomValidity('Пароль должен содержать минимум 6 символов')"
+                                                                      oninput="setCustomValidity('')"><br></div>
+                                </div>
                                 <p class="text-center">Please enter your Name:</p>
-                                <div class="mt-2"><input class="form-control input-lg" type="" name="name" placeholder="Name" required
-                                       oninvalid="setCustomValidity('Введите свое Имя')"
-                                                         oninput="setCustomValidity('')"><br></div>
+                                <div class="col-md-12 justify-content-center align-items-center row">
+                                    <div class="mt-1 col-lg-4"><input class="form-control input-lg" type="" name="name"
+                                                                      placeholder="Name" required
+                                                                      oninvalid="setCustomValidity('Введите свое Имя')"
+                                                                      oninput="setCustomValidity('')"><br></div>
+                                </div>
                                 <p class="text-center">Please enter your Surname:</p>
-                                <div class="mt-2"><input class="form-control input-lg" type="" name="surname" placeholder="Surname" required
-                                       oninvalid="setCustomValidity('Ведите свою фамилию')"
-                                                         oninput="setCustomValidity('')"><br></div>
+                                <div class="col-md-12 justify-content-center align-items-center row">
+                                    <div class="mt-1 col-lg-4"><input class="form-control input-lg" type=""
+                                                                      name="surname"
+                                                                      placeholder="Surname" required
+                                                                      oninvalid="setCustomValidity('Ведите свою фамилию')"
+                                                                      oninput="setCustomValidity('')"><br></div>
+                                </div>
                                 <p class="text-center">Please enter your Email:</p>
-                                <div class="mt-2"><input class="form-control input-lg" type="email" name="email" placeholder="Email" required
-                                       oninvalid="setCustomValidity('Введите свою почту')"
-                                                         oninput="setCustomValidity('')"><br></div>
-                                <div class="mt-2"><input class="btn btn-primary" type="submit" value="Submit!"></div>
+                                <div class="col-md-12 justify-content-center align-items-center row">
+                                    <div class="mt-1 col-lg-4"><input class="form-control input-lg" type="email"
+                                                                      name="email"
+                                                                      placeholder="Email" required
+                                                                      oninvalid="setCustomValidity('Введите свою почту')"
+                                                                      oninput="setCustomValidity('')"><br></div>
+                                </div>
+                                <input class="btn btn-primary" type="submit" value="Submit!">
                             </form>
-                        <div><a href="/login">login</a></div>
+                            <div><a href="/login">login</a></div>
                             <div th:if="${error}" class="alert alert-danger">
                                 [[${error}]]
                             </div>
@@ -98,7 +117,6 @@
         </div>
     </div>
 </div>
-
 
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

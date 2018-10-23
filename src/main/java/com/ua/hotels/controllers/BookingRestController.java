@@ -30,11 +30,11 @@ public class BookingRestController {
         List<Room> list = new ArrayList<>();
         Date from = new SimpleDateFormat("MM.dd.yyyy").parse(from_date);
         Date to = new SimpleDateFormat("MM.dd.yyyy").parse(to_date);
-            if(from.compareTo(to) > 0){
+        if(from.compareTo(to) >= 0){
             return list;
-            }else{
-        LinkedList<Room> rooms =  roomDAO.findAllByRoominessAndHotelCityOrRoominessAndHotelName(countInt,finder,countInt,finder);
-        return compareDates(rooms, from_date, to_date);}
+        }else{
+            LinkedList<Room> rooms =  roomDAO.findAllByRoominessAndHotelCityOrRoominessAndHotelName(countInt,finder,countInt,finder);
+            return compareDates(rooms, from_date, to_date);}
     }
     @PostMapping("/sortBy")
     private List<Room> sortedRooms(@RequestBody String jsonObj) throws org.json.simple.parser.ParseException, ParseException {
@@ -49,7 +49,7 @@ public class BookingRestController {
         List<Room> list = new ArrayList<>();
         Date from = new SimpleDateFormat("MM.dd.yyyy").parse(from_date);
         Date to = new SimpleDateFormat("MM.dd.yyyy").parse(to_date);
-        if(from.compareTo(to) > 0){
+        if(from.compareTo(to) >= 0){
             return list;
         }else {
             LinkedList<Room> rooms = roomDAO.findAllByRoominessAndHotelCityOrRoominessAndHotelName(countInt, finder, countInt, finder);
@@ -64,6 +64,33 @@ public class BookingRestController {
             return sortedRooms;
         }
     }
+    @PostMapping("/findRoomsForAdmin")
+    private List<Book> findBooking(@RequestBody String jsonObj) throws org.json.simple.parser.ParseException {
+        Object parse = new JSONParser().parse(jsonObj);
+        JSONObject jo = (JSONObject)parse;
+        String from = (String)jo.get("date_from");
+        String to = (String)jo.get("date_to");
+        String string = (String)jo.get("roomId");
+        Integer roomId = Integer.valueOf(string);
+
+        Room room = roomDAO.findById(roomId).get();
+        List<Book> books = new ArrayList<>();
+        for (Book book1 : room.getBook()) {
+
+//            System.out.println(from.compareTo(book1.getDate_to() + " ===== " + from + " + " + book1.getDate_to()));
+//            System.out.println(from +" ++++ " + to);
+            if( (from.compareTo(book1.getDate_to()) > 0 || ((to.compareTo(book1.getDate_from()) < 0)) )) {
+//                System.out.println("first case");
+            }else {
+                books.add(book1);
+            }
+        }
+//        System.out.println("===============");
+//        System.out.println(books);
+//        System.out.println("===============");
+        return books;
+
+    }
     private List<Room> compareDates(List<Room> rooms, String from_date, String to_date) throws ParseException {
         System.out.println(rooms + " " + from_date + " " + to_date);
         Date from = new SimpleDateFormat("MM.dd.yyyy").parse(from_date);
@@ -74,11 +101,11 @@ public class BookingRestController {
             for (Book boo : books) {
                 Date book_from = new SimpleDateFormat("MM.dd.yyyy").parse(boo.getDate_from());
                 Date book_to = new SimpleDateFormat("MM.dd.yyyy").parse(boo.getDate_to());
-                if (from.compareTo(book_from) > 0 && from.compareTo(book_to) < 0) {
+                if (from.compareTo(book_from) >= 0 && from.compareTo(book_to) < 0) {
                     deleteRoomFromList(rooms);
                     break;
                 }
-                if (to.compareTo(book_from) > 0 && to.compareTo(book_to) < 0) {
+                if (to.compareTo(book_from) > 0 && to.compareTo(book_to) <= 0) {
                     deleteRoomFromList(rooms);
                     break;
                 }

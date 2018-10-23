@@ -69,7 +69,7 @@ public class Hotel {
     }
 //    @JsonIgnore
     @OneToMany(
-            fetch = FetchType.EAGER,
+            fetch = FetchType.LAZY,
             cascade = CascadeType.REMOVE,
             mappedBy = "hotel"
     )

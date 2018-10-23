@@ -2,6 +2,7 @@ package com.ua.hotels.controllers;
 
 
 import com.ua.hotels.models.Customer;
+import com.ua.hotels.models.enums.Role;
 import com.ua.hotels.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -45,6 +46,12 @@ public class CustomerController {
             customer.setEmail(email);
         }
         customerService.save(customer);
+        if(customer.getRole().equals(Role.ROLE_ADMIN)){
+            return "redirect/:admin";
+        }
+        if (customer.getRole().equals(Role.ROLE_HOTELADMIN)){
+            return "redirect:/hoteladmin";
+        }
         return "redirect:/user";
     }
 }

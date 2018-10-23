@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Hotelzzz</title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <link href="/css/div-style.css" rel="stylesheet" type="text/css"/>
@@ -25,9 +27,9 @@
 </head>
 <body>
 
-
-<nav class="navbar navbar navbar-expand-md navbar-light bg-light " id="for-header">
-    <a class="navbar-brand font-weight-bold ml-5" href="/"><span>Hotel</span><span class="text-warning">zzz</span></a>
+<div id="wrap">
+<nav class="navbar navbar navbar-expand-md navbar-light bg-light ns" id="for-header">
+    <a class="navbar-brand font-weight-bold ml-5" href="/"><h1><span>Hotel</span><span class="text-warning">zzz</span></h1></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -36,27 +38,27 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link font-weight-bold ml-5" href="/">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link font-weight-bold ml-5" href="/"><h4>Home</h4> <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
                 <div th:if="${user!=null}">
-                    <div th:if="${user.role==user_role}"><a class="nav-link font-weight-bold ml-5" href="/user">User
-                        cabinet <span class="sr-only">(current)</span></a>
+                    <div th:if="${user.role==user_role}"><h4><a class="nav-link  ml-5" href="/user">User
+                        cabinet <span class="sr-only">(current)</span></a></h4>
                     </div>
-                    <div th:if="${user.role==admin_role}"><a class="nav-link font-weight-bold ml-5" href="/admin">Admin
-                        cabinet <span class="sr-only">(current)</span></a>
+                    <div th:if="${user.role==admin_role}"><h4><a class="nav-link  ml-5" href="/admin">Admin
+                        cabinet <span class="sr-only">(current)</span></a></h4>
                     </div>
-                    <div th:if="${user.role==hoteladmin_role}"><a class="nav-link font-weight-bold ml-5"
+                    <div th:if="${user.role==hoteladmin_role}"><h4><a class="nav-link ml-5"
                                                                   href="/hoteladmin">Hotel admin cabinet <span
-                            class="sr-only">(current)</span></a>
+                            class="sr-only">(current)</span></a></h4>
                     </div>
                 </div>
             </li>
         </ul>
 
-        <div class="mr-3" th:if="${user==null}"><a href="/login">sing in</a></div>
-        <div class="mr-3" th:if="${user==null}"><a href="/registration">sing up</a></div>
-        <div class="mr-3" th:if="${user!=null}"><span th:text="${user.username}"></span></div>
+        <div class="mr-3" th:if="${user==null}"><h5><a href="/login">sing in</a></h5></div>
+        <div class="mr-3" th:if="${user==null}"><h5><a href="/registration">sing up</a></h5></div>
+        <div class="mr-3" th:if="${user!=null}"><h5><span th:text="${user.username}"></span></h5></div>
         <div class="mr-3" th:if="${user}!=null">
             <form th:action="@{/logout}" method="get">
                 <button class="btn btn-primary" type="submit" value="">Logout</button>
@@ -115,6 +117,8 @@
 <div class="card-columns" id="commonBox">
         <!--Here is found results of searching-->
 </div>
+
+<!--Message about incorrect data-->
 <div class="container mt-3">
     <div class="row justify-content-md-center">
         <div class="col col-lg-4" id ="alert">
@@ -122,179 +126,39 @@
         </div>
     </div>
 </div>
-<script>
+</div>
+<!--FOOTER-->
 
-    // 'Sorting found room' part
-     let $sortSubmit = $('#sortSubmit');
-
-        $sortSubmit.click(function () {
-         let $alert = $('#alert');
-         let $selector = $('.selector');
-         let $commonBox = $('#commonBox');
-        let $inlineFormCustomSelect = $('#inlineFormCustomSelect');
-         let $finder = $('.finder');
-         let $countOfGuests = $('.countOfGuests');
-         var $date1 = $('#date1');
-         var $date2= $('#date2');
-
-         var obj = {
-             finder:$finder.val(),
-             countOfGuests:$countOfGuests.val(),
-             from_date:$date1.val(),
-             to_date:$date2.val(),
-             sort:$inlineFormCustomSelect.val()
-         };
-         let jsonObj = JSON.stringify(obj);
-         $.ajax({
-             url: 'http://localhost:8080/sortBy',
-             method: 'POST',
-             contentType:'text/plain',
-             data: jsonObj,
-             success: function (result){
-                 if(!$commonBox.empty()){
-                     let $div = $('<div/>',{
-                         text: ''
-                     });
-                     $commonBox.append($div);
-                 }
-                 if(!$alert.empty()){
-                     let $div = $('<div/>',{
-                         text: ''
-                     });
-                     $alert.append($div);
-                 }
-                 if(result.length == 0) {
-                     let $div = $('<div/>', {
-                         class: 'alert alert-danger d-flex justify-content-center',
-                         text: 'Danger! You entered incorrect data'
-                     });
-                     $alert.append($div);
-                     $selector.removeClass('d-flex').addClass('d-none');
-                 }else {
-                 $(result).each(function (index,obj) {
-                     let $card = $('<div/>',{
-                         class:'card'
-                     });
-                     let $cardBody = $('<div/>',{
-                         class:'card-body'
-                     });
-                     let listImages = obj.hotel.images;
-                     let $img = $('<img/>',{
-                         class:'card-img-top',
-                         src:listImages[0].image
-                     });
-                     let $title = $('<h5/>',{
-                         class:'card-title',
-                         text:'Hotelname : '+ obj.hotel.name
-                     });
-                     let $description = $('<p/>',{
-                         class:'card-text',
-                         text:'City : ' + obj.hotel.city + ' '  + ' Count of room : ' + obj.roominess + ' Price : ' + obj.price
-                     });
-                     let $booking = $('<a/>',{
-                         class:'btn btn-primary',
-                         text:'Booking!',
-                         href:'/book/room/' + obj.id +'/'+ $date1.val().toString()+'/'+ $date2.val().toString()
-                     });
-                     $commonBox.append($card);
-                     $card.append($img,$cardBody);
-                     $cardBody.append($title,$description,$booking);
-                 });
-             }},
-             error : function (error) {
-                 console.log(error);
-             }
-         })
-     });
-
-    // 'Find room' Part
-
-    let $submit = $('#submit');
-    $submit.click(function () {
-        let $alert = $('#alert');
-        let $commonBox = $('#commonBox');
-        let $selector = $('.selector');
-        let $finder = $('.finder');
-        let $countOfGuests = $('.countOfGuests');
-        var $date1 = $('#date1');
-        var $date2= $('#date2');
+<div class="footer" id="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-4">
+                <p class="footer__name">© Hotelzzz.com 2018</p>
+                <p>Hotelzzz - the best site to search for hotels</p>
+            </div>
+            <div class="col-4">
+                <p class="footer__social">Our social networks:</p>
+                <p class="footer__social-icons">
+                    <a href="https://twitter.com" target="_blank">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://facebook.com" target="_blank">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://plus.google.com" target="_blank">
+                        <i class="fab fa-google-plus-g"></i>
+                    </a>
+                </p>
+            </div>
+            <div class="col-4">
+                <p class="feedback">Our email:</p>
+                <p class="feedback">projectcompany69@gmail.com</p>
+            </div>
+        </div>
+    </div>
+</div>
 
 
-        var obj = {
-            finder:$finder.val(),
-            countOfGuests:$countOfGuests.val(),
-            from_date:$date1.val(),
-            to_date:$date2.val()
-        };
-        let jsonObj = JSON.stringify(obj);
-        $.ajax({
-            url: 'http://localhost:8080/',
-            method: 'POST',
-            contentType:'text/plain',
-            data: jsonObj,
-            success: function (result) {
-                if(!$commonBox.empty()){
-                    let $div = $('<div/>',{
-                        text: ''
-                    });
-                    $commonBox.append($div);
-                }
-                if(!$alert.empty()){
-                    let $div = $('<div/>',{
-                        text: ''
-                    });
-                    $alert.append($div);
-                }
-                if(result.length == 0) {
-                    let $div = $('<div/>', {
-                        class: 'alert alert-danger d-flex justify-content-center',
-                        text: 'Danger!You entered incorrect data'
-                    });
-                    $alert.append($div);
-                    $selector.removeClass('d-flex').addClass('d-none');
-                }else {
-                    $selector.removeClass('d-none').addClass('d-flex');
-                $(result).each(function (index,obj) {
-                    let $card = $('<div/>',{
-                        class:'card'
-                    });
-                    let $cardBody = $('<div/>',{
-                        class:'card-body'
-                    });
-                    let listImages = obj.hotel.images;
-                        let $img = $('<img/>',{
-                            class:'card-img-top',
-                            src:listImages[0].image
-                    });
-                    let $title = $('<h5/>',{
-                        class:'card-title',
-                        text:'Hotelname : '+ obj.hotel.name
-                    });
-                    let $description = $('<p/>',{
-                        class:'card-text',
-                        text:'City : ' + obj.hotel.city + ' '  + ' Count of room : ' + obj.roominess + ' Price : ' + obj.price
-                    });
-                    let $booking = $('<a/>',{
-                        class:'btn btn-primary',
-                        text:'Booking!',
-                        href:'/book/room/' + obj.id +'/'+ $date1.val().toString()+'/'+ $date2.val().toString()
-                    });
-                    $commonBox.append($card);
-                    $card.append($img,$cardBody);
-                    $cardBody.append($title,$description,$booking);
-                })
-            }},
-            error : function (error) {
-                console.log(error);
-            }
-
-        });
-    });
-
-</script>
-<!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"-->
-<!--integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"-->
-<!--crossorigin="anonymous"></script>-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
         integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
         crossorigin="anonymous"></script>
@@ -303,5 +167,6 @@
         crossorigin="anonymous"></script>
 
 <script type="text/javascript" th:src="@{/js/nav.js}"></script>
+<script type="text/javascript" th:src="@{/js/mainPage.js}"></script>
 </body>
 </html>

@@ -36,15 +36,19 @@ public class BookingController {
                            @AuthenticationPrincipal Customer user,
                            Model model) {
         userRole(user,model);
-        Room room = roomDAO.findById(id).get();
+        Room room = roomDAO.findById(id);
         model.addAttribute("room", room);
         model.addAttribute("hotel", room.getHotel());
         model.addAttribute("from", date_from);
         model.addAttribute("to", date_to);
         return "book";
     }
-
-
+    @GetMapping("/book/delete/{bookId}/room/{roomId}")
+    public String deleteBook(@PathVariable int bookId,
+                             @PathVariable int roomId){
+        bookDAO.deleteById(bookId);
+        return "redirect:/calendar/room/"+roomId;
+    }
     @Autowired
     private GuestDAO guestDAO;
     @Autowired
@@ -59,7 +63,7 @@ public class BookingController {
                        @AuthenticationPrincipal Customer activeUser,
                        Model model
                        ) throws MessagingException {
-        Room room = roomDAO.findById(id).get();
+        Room room = roomDAO.findById(id);
         Guest guest = new Guest(name,surname,email);
         guestDAO.save(guest);
         Book book = new Book(from_date,to_date,room,guest);
@@ -71,9 +75,18 @@ public class BookingController {
                 "<a href='http://localhost:8080/'>Hotelzzz official</a>";
         loginForgetController.sendMail(email,"Hotelzzz",text);
         bookDAO.save(book);
+        userRole(activeUser,model);
         model.addAttribute("date_from",from_date);
         model.addAttribute("date_to",to_date);
         model.addAttribute("room",room);
         return "success";
+    }
+
+
+    @GetMapping("/book/remove/{id}")
+    public String removeBook(@PathVariable int id){
+        Book book = bookDAO.findById(id).get();
+        bookDAO.delete(book);
+        return "redirect:/user";
     }
 }

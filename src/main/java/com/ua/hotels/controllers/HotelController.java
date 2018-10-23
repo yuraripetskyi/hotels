@@ -1,6 +1,7 @@
 package com.ua.hotels.controllers;
 
 import com.ua.hotels.dao.HotelDAO;
+import com.ua.hotels.dao.ImageDAO;
 import com.ua.hotels.dao.PhoneDAO;
 import com.ua.hotels.dao.RoomDAO;
 import com.ua.hotels.models.*;
@@ -19,7 +20,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.ua.hotels.controllers.MainController.userRole;
 
@@ -44,6 +48,8 @@ public class HotelController {
     @Autowired
     private HotelDAO hotelDAO;
 
+    @Autowired
+    private ImageDAO imageDAO;
     @Autowired
     private PhoneDAO phoneDAO;
 
@@ -98,9 +104,22 @@ public class HotelController {
         userRole(user,model);
 
         Hotel hotel = hotelDAO.findById(Integer.parseInt(id)).get();
+        List<Room> rooms = hotel.getRooms();
+        List<Book> allBooks = new ArrayList<>();
+        for (Room room: rooms){
+            allBooks.addAll(room.getBook());
+        }
+        model.addAttribute("books", allBooks);
         model.addAttribute("hotel", hotel);
+        model.addAttribute("econom", Type.TYPE_ECONOM);
+         model.addAttribute("standart", Type.TYPE_STANDART);
+         model.addAttribute("luxe", Type.TYPE_LUXE);
         model.addAttribute("types", Type.values());
-        model.addAttribute("images", hotel.getImages());
+        if(!hotel.getImages().isEmpty()) {
+            model.addAttribute("images", hotel.getImages());
+        }else {
+            model.addAttribute("image", null);
+        }
         return "hotel";
     }
 
@@ -120,12 +139,13 @@ public class HotelController {
                                @RequestParam(value = "images") MultipartFile[] files,
                                Model model) throws IOException {
         Hotel hotel = hotelDAO.findById(id).get();
-        model.addAttribute("hotel", hotel);
         for (MultipartFile file : files) {
             imageService.createImage(file);
             imageService.save(new Image(file.getOriginalFilename(), hotel));
         }
-        return "hotel";
+        Hotel hotelzzz = hotelDAO.findById(id).get();
+        model.addAttribute("hotel", hotelzzz);
+        return "redirect:/hotel/"+id;
     }
 
     @GetMapping("/change/hotel/{id}")
@@ -172,12 +192,6 @@ public class HotelController {
                     Phone phonec = new Phone(phone);
                     phonec.setHotel(hotel);
                 }
-//        if(files != null){
-//            for (MultipartFile file : files) {
-//                imageService.createImage(file);
-//                imageService.save(new Image(file.getOriginalFilename(),hotel));
-//            }
-//        }
             }
         hotelDAO.save(hotel);
         model.addAttribute("hotel", hotel);
@@ -189,12 +203,29 @@ public class HotelController {
     ) {
        userRole(user,model);
 
-        Room room = roomDAO.findById(id).get();
+        Room room = roomDAO.findById(id);
         model.addAttribute("hotel", room.getHotel());
         model.addAttribute("room", room);
         return "changesRoom";
     }
-
+    @GetMapping("/delete/photo/{imageId}")
+    private String deleteImage(@PathVariable String imageId){
+        int imgId = Integer.parseInt(imageId);
+        Image image = imageDAO.findById(imgId).get();
+        File file = new File(ImageService.UPLOAD_PATH + image.getName());
+        file.delete();
+        imageDAO.deleteById(Integer.parseInt(imageId));
+        return "redirect:/hoteladmin";
+    }
+    @GetMapping("/calendar/room/{id}")
+    private String checkBookingRoom(@PathVariable int id, Model model, @AuthenticationPrincipal Customer user
+    ) {
+        userRole(user,model);
+        Room room = roomDAO.findById(id);
+        model.addAttribute("bookings", room.getBook());
+        model.addAttribute("room", room);
+        return "calendar";
+    }
     @PostMapping("/update/room/{id}")
     public String updateRoom(@PathVariable int id,
                              Model model,
@@ -202,7 +233,7 @@ public class HotelController {
                              @RequestParam int rooms,
                              @RequestParam Type type) {
 
-        Room room = roomDAO.findById(id).get();
+        Room room = roomDAO.findById(id);
         Hotel hotel = room.getHotel();
         room.setPrice(prices);
         room.setRoominess(rooms);
@@ -212,17 +243,7 @@ public class HotelController {
 
         return "hotel";
     }
-//    private void userRole(Customer user, Model model){
-//        if(user!=null){
-//            model.addAttribute("user", user);
-//        }else {
-//            model.addAttribute("user", null);
-//        }
-//        model.addAttribute("admin_role", Role.ROLE_ADMIN);
-//        model.addAttribute("user_role", Role.ROLE_USER);
-//        model.addAttribute("hoteladmin_role", Role.ROLE_HOTELADMIN);
-//
-//    }
+
     @PostMapping("/add/room")
     public String addRoom(
             @RequestParam("hotelId") Hotel hotel,

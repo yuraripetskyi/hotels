@@ -1,4 +1,4 @@
-.div-images{
+.div-images {
     height: 200px;
     width: 300px;
     border-color: bisque;
@@ -6,25 +6,111 @@
     border-width: 3px;
     border-style: solid;
 
-
 }
-.content{
+
+.content {
     width: 100%;
     height: 100%;
     /*overflow: auto;*/
 }
 
-.voc{
+.voc {
 
 }
 
-#forgotBox{
+#forgotBox {
     display: none;
 }
-.forgotBox{
-    display: none;
+.ns{
+    min-height: 60px;
 }
 #buttonForgotBox{
 
-
 }
+
+/****************************
+          FOOTER
+****************************/
+ul {
+    list-style: none;
+}
+
+.footer {
+    /*background-color: whitesmoke ;*/
+    color: rgba(0,0,0,.5);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: block;
+}
+
+.footer p {
+    margin-top: 0px;
+    margin-bottom: 10px;
+}
+
+p.footer__name {
+    font-size: 18px;
+    margin-bottom: 10px;
+    line-height: normal;
+}
+
+p.footer__social {
+    margin-left: 70px;
+}
+
+p.footer__social-icons{
+    font-size: 25px;
+    margin-left: 70px;
+}
+
+p.footer__social-icons a{
+    color:slategray;
+    text-decoration: none;
+    margin-right: 30px;
+}
+
+p.footer__social-icons a:hover {
+    color:darkorange;
+}
+
+.feedback {
+    margin-left: 40px;
+}
+
+html,
+body {
+    height: 92%; //ne_trogaty
+}
+#wrap {
+    min-height: 100%;
+}
+main {
+    padding-bottom: 100px;
+    /*Высота футера*/
+}
+footer {
+    margin-top: -100px;
+    /*Минус Высота футера*/
+    height: 100px;
+    /*Высота футера*/
+}
+
+/*******************
+    HOTEL_ADMIN
+*******************/
+
+/*.name-s {*/
+    /*padding-left: 20px;*/
+/*}*/
+
+
+/*.cr-h {*/
+    /*padding-left: 100px;*/
+/*}*/
+
+/*.edit-inf {*/
+    /*padding-left: 150px;*/
+/*}*/
+
+
+
