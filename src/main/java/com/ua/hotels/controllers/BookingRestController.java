@@ -76,18 +76,11 @@ public class BookingRestController {
         Room room = roomDAO.findById(roomId).get();
         List<Book> books = new ArrayList<>();
         for (Book book1 : room.getBook()) {
-
-//            System.out.println(from.compareTo(book1.getDate_to() + " ===== " + from + " + " + book1.getDate_to()));
-//            System.out.println(from +" ++++ " + to);
             if( (from.compareTo(book1.getDate_to()) > 0 || ((to.compareTo(book1.getDate_from()) < 0)) )) {
-//                System.out.println("first case");
             }else {
                 books.add(book1);
             }
         }
-//        System.out.println("===============");
-//        System.out.println(books);
-//        System.out.println("===============");
         return books;
 
     }
